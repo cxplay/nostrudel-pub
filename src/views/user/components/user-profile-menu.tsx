@@ -73,7 +73,7 @@ export const UserProfileMenu = ({
         </MenuItem>
         <MenuItem
           onClick={() => {
-            const text = "https://njump.me/" + sharableId;
+            const text = "https://nostr.cxplay.org/" + sharableId;
             if (navigator.clipboard) navigator.clipboard?.writeText(text);
             else toast({ description: text, isClosable: true, duration: null });
           }}
