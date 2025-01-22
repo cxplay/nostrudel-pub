@@ -14,7 +14,7 @@ export default function ShareLinkMenuItem({ event }: { event: NostrEvent }) {
 
   const handleClick = useCallback(async () => {
     const data: ShareData = {
-      url: "https://njump.me/" + address,
+      url: "https://nostr.cxplay.org/" + address,
       title: event.tags.find((t) => t[0] === "title")?.[1] || "Nostr note by " + getDisplayName(metadata, event.pubkey),
     };
 

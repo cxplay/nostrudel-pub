@@ -163,8 +163,8 @@ export default function AppHandlerModal({
           <FormControl px="4">
             <FormLabel>Share URL</FormLabel>
             <Flex gap="2" overflow="hidden">
-              <Input readOnly value={"https://njump.me/" + address} size="sm" />
-              <CopyIconButton value={"https://njump.me/" + address} size="sm" aria-label="Copy embed code" />
+              <Input readOnly value={"https://nostr.cxplay.org/" + address} size="sm" />
+              <CopyIconButton value={"https://nostr.cxplay.org/" + address} size="sm" aria-label="Copy embed code" />
             </Flex>
           </FormControl>
         </ModalBody>
