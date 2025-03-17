@@ -42,7 +42,7 @@ function DVMFeeds() {
       {favoriteFeeds.length > 0 && (
         <>
           <Heading size="md" mt="4">
-            Favorite Feeds
+            收藏的资讯源
           </Heading>
           <SimpleGrid columns={{ base: 1, md: 1, lg: 2, xl: 3, "2xl": 4 }} spacing="2">
             {favoriteFeeds.map((feed) => (
@@ -55,10 +55,10 @@ function DVMFeeds() {
       )}
 
       <Heading size="md" mt="4">
-        DVM Feeds
+        DVM 资讯源
       </Heading>
       <Text>
-        Learn more about data vending machines here:{" "}
+        了解更多有关 "数据自助贩卖机(DVM)" 的信息:{" "}
         <Link href="https://www.data-vending-machines.org/" isExternal color="blue.500">
           https://www.data-vending-machines.org/
         </Link>
@@ -85,10 +85,10 @@ function DiscoveryHomePage() {
           <Flex direction="column">
             <Heading size="md">
               <HoverLinkOverlay as={RouterLink} to="/discovery/blindspot">
-                Blind spots
+                盲点透视
               </HoverLinkOverlay>
             </Heading>
-            <Text>What are other users seeing that you are not?</Text>
+            <Text>你无法看见但其他用户能看见的东西?</Text>
           </Flex>
         </Card>
         <Card as={LinkBox} display="block" p="4">
@@ -96,10 +96,10 @@ function DiscoveryHomePage() {
           <Flex direction="column">
             <Heading size="md">
               <HoverLinkOverlay as={RouterLink} to="/discovery/relays">
-                Relays
+                中继
               </HoverLinkOverlay>
             </Heading>
-            <Text>See what notes are on relays and where they are</Text>
+            <Text>查看中继上的笔记以及笔记又存在于哪些中继</Text>
           </Flex>
         </Card>
       </SimpleGrid>

@@ -50,8 +50,8 @@ export default function ChannelMessageForm({
       draft = await factory.create(ChannelMessageBlueprint, channel, values.content, { emojis: customEmojis });
     }
 
-    setLoadingMessage("Signing...");
-    await publish("Send DM", draft, undefined, false);
+    setLoadingMessage("签名中...");
+    await publish("发送私信", draft, undefined, false);
     reset({ content: "" });
 
     // refocus input
@@ -84,11 +84,11 @@ export default function ChannelMessageForm({
           />
           <Flex gap="2" direction="column">
             <ButtonGroup size="sm">
-              <InsertImageButton onUploaded={insertText} aria-label="Upload image" />
-              <InsertGifButton onSelectURL={insertText} aria-label="Add gif" />
-              <InsertReactionButton onSelect={insertText} aria-label="Add emoji" />
+              <InsertImageButton onUploaded={insertText} aria-label="上传图片" />
+              <InsertGifButton onSelectURL={insertText} aria-label="添加 GIF" />
+              <InsertReactionButton onSelect={insertText} aria-label="添加表情" />
             </ButtonGroup>
-            <Button type="submit">Send</Button>
+            <Button type="submit">发送</Button>
           </Flex>
         </>
       )}

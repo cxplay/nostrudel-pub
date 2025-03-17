@@ -32,7 +32,7 @@ export default function EmbeddedUnknown({ event, ...props }: Omit<CardProps, "ch
           <ButtonGroup ml="auto" size="sm">
             {address && (
               <Button leftIcon={<ExternalLinkIcon />} onClick={() => openAddress(address)}>
-                Open
+                打开
               </Button>
             )}
             <IconButton icon={<QuestionIcon />} aria-label="Details" as={RouterLink} to={`/l/${address}`} />

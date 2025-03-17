@@ -70,44 +70,44 @@ function MuteModal({ pubkey, onClose, ...props }: Omit<ModalProps, "children"> &
     <Modal onClose={onClose} size="lg" {...props}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader p="4">Mute {getDisplayName(metadata, pubkey)} for:</ModalHeader>
+        <ModalHeader p="4">静音 {getDisplayName(metadata, pubkey)}:</ModalHeader>
         <ModalCloseButton />
         <ModalBody px="4" py="0">
           <SimpleGrid columns={3} spacing="2">
             <Button variant="outline" onClick={() => handleClick(dayjs().add(1, "minute").unix())}>
-              1 Minute
+              1 分钟
             </Button>
             <Button variant="outline" onClick={() => handleClick(dayjs().add(5, "minutes").unix())}>
-              5 Minutes
+              5 分钟
             </Button>
             <Button variant="outline" onClick={() => handleClick(dayjs().add(30, "minutes").unix())}>
-              30 Minutes
+              30 分钟
             </Button>
             <Button variant="outline" onClick={() => handleClick(dayjs().add(1, "hour").unix())}>
-              1 Hour
+              1 小时
             </Button>
             <Button variant="outline" onClick={() => handleClick(dayjs().add(5, "hours").unix())}>
-              5 Hours
+              5 小时
             </Button>
             <Button variant="outline" onClick={() => handleClick(dayjs().add(1, "day").unix())}>
-              1 Day
+              1 天
             </Button>
             <Button variant="outline" onClick={() => handleClick(dayjs().add(3, "days").unix())}>
-              3 Days
+              3 天
             </Button>
             <Button variant="outline" onClick={() => handleClick(dayjs().add(1, "week").unix())}>
-              1 Week
+              1 周
             </Button>
             <Button variant="outline" onClick={() => handleClick(dayjs().add(2, "weeks").unix())}>
-              2 Weeks
+              2 周
             </Button>
           </SimpleGrid>
           <Button variant="outline" onClick={() => handleClick(Infinity)} w="full" mt="2">
-            Forever
+            永久
           </Button>
         </ModalBody>
         <ModalFooter p="4">
-          <Button onClick={onClose}>Cancel</Button>
+          <Button onClick={onClose}>取消</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
@@ -202,7 +202,7 @@ function UnmuteModal({ onClose }: Omit<ModalProps, "children">) {
     <Modal onClose={onClose} isOpen size="xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader p="4">Unmute temporary muted users</ModalHeader>
+        <ModalHeader p="4">解除被临时静音用户的静音</ModalHeader>
         <ModalCloseButton />
         <ModalBody display="flex" flexDirection="column" gap="2" px="4" py="0">
           {expiredPubkeys.map((pubkey) => (
@@ -211,17 +211,17 @@ function UnmuteModal({ onClose }: Omit<ModalProps, "children">) {
               <UserLink pubkey={pubkey} fontWeight="bold" />
               <Menu>
                 <MenuButton as={Button} size="sm" ml="auto" rightIcon={<ChevronDownIcon />}>
-                  Extend
+                  延长
                 </MenuButton>
                 <MenuList>
-                  <MenuItem onClick={() => extendUser(pubkey, Infinity)}>Forever</MenuItem>
-                  <MenuItem onClick={() => extendUser(pubkey, dayjs().add(30, "minutes").unix())}>30 Minutes</MenuItem>
-                  <MenuItem onClick={() => extendUser(pubkey, dayjs().add(1, "day").unix())}>1 Day</MenuItem>
-                  <MenuItem onClick={() => extendUser(pubkey, dayjs().add(1, "week").unix())}>1 Week</MenuItem>
+                  <MenuItem onClick={() => extendUser(pubkey, Infinity)}>永久</MenuItem>
+                  <MenuItem onClick={() => extendUser(pubkey, dayjs().add(30, "minutes").unix())}>30 分钟</MenuItem>
+                  <MenuItem onClick={() => extendUser(pubkey, dayjs().add(1, "day").unix())}>1 天</MenuItem>
+                  <MenuItem onClick={() => extendUser(pubkey, dayjs().add(1, "week").unix())}>1 周</MenuItem>
                 </MenuList>
               </Menu>
               <Button onClick={() => unmuteUser(pubkey)} size="sm">
-                Unmute
+                解除静音
               </Button>
             </Flex>
           ))}
@@ -229,17 +229,17 @@ function UnmuteModal({ onClose }: Omit<ModalProps, "children">) {
         <ModalFooter p="4">
           <Menu>
             <MenuButton as={Button} mr="2" rightIcon={<ChevronDownIcon />}>
-              Extend
+              延长
             </MenuButton>
             <MenuList>
               <MenuItem onClick={() => extendAll(Infinity)}>Forever</MenuItem>
-              <MenuItem onClick={() => extendAll(dayjs().add(30, "minutes").unix())}>30 Minutes</MenuItem>
-              <MenuItem onClick={() => extendAll(dayjs().add(1, "day").unix())}>1 Day</MenuItem>
-              <MenuItem onClick={() => extendAll(dayjs().add(1, "week").unix())}>1 Week</MenuItem>
+              <MenuItem onClick={() => extendAll(dayjs().add(30, "minutes").unix())}>30 分钟</MenuItem>
+              <MenuItem onClick={() => extendAll(dayjs().add(1, "day").unix())}>1 天</MenuItem>
+              <MenuItem onClick={() => extendAll(dayjs().add(1, "week").unix())}>1 周</MenuItem>
             </MenuList>
           </Menu>
           <Button colorScheme="primary" onClick={unmuteAll}>
-            Unmute all
+            解除所有静音
           </Button>
         </ModalFooter>
       </ModalContent>

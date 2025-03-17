@@ -31,17 +31,17 @@ export default function WalletBalanceCard({ pubkey, ...props }: { pubkey: string
       <CardHeader gap="4" display="flex" justifyContent="center" alignItems="center" pt="10">
         <ECashIcon color="green.400" boxSize={12} />
         <Text fontWeight="bold" fontSize="4xl">
-          {balance ? Object.values(balance).reduce((t, v) => t + v, 0) : "--Locked--"}
+          {balance ? Object.values(balance).reduce((t, v) => t + v, 0) : "--已锁定--"}
         </Text>
       </CardHeader>
       <CardBody>
         <Flex gap="2" w="full">
           <Button as={RouterLink} w="full" size="lg" to="/wallet/send">
-            Send
+            发送
           </Button>
           <AnimatedQRCodeScannerButton onResult={handleScan} size="lg" />
           <Button as={RouterLink} w="full" size="lg" to="/wallet/receive">
-            Receive
+            接收
           </Button>
         </Flex>
       </CardBody>

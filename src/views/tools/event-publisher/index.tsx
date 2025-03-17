@@ -130,10 +130,10 @@ function EventPublisherPage({ initDraft }: { initDraft?: LooseEventTemplate }) {
   };
 
   return (
-    <SimpleView title="Event Publisher">
+    <SimpleView title="事件发布器">
       <Flex gap="2" alignItems="center" wrap="wrap">
         <Switch size="sm" isChecked={customRelay.isOpen} onChange={customRelay.onToggle}>
-          Publish to Relay
+          发布到中继
         </Switch>
         {customRelay.isOpen && (
           <RelayUrlInput
@@ -145,7 +145,7 @@ function EventPublisherPage({ initDraft }: { initDraft?: LooseEventTemplate }) {
         )}
         <ButtonGroup ml="auto">
           <Button colorScheme="primary" onClick={submitEvent} leftIcon={<Play />}>
-            Publish
+            发布
           </Button>
         </ButtonGroup>
       </Flex>
@@ -153,7 +153,7 @@ function EventPublisherPage({ initDraft }: { initDraft?: LooseEventTemplate }) {
       <Flex direction={{ base: "column", xl: "row" }} gap="2">
         <Flex direction="column" gap="2" flex={1} overflow="hidden">
           <Flex gap="2" alignItems="center">
-            <Text fontWeight="bold">Template</Text>
+            <Text fontWeight="bold">模板</Text>
             <Select onChange={(e) => selectTemplate(e.target.value)} w="auto">
               {TEMPLATES.map((template) => (
                 <option key={template.name} value={template.name}>
@@ -165,7 +165,7 @@ function EventPublisherPage({ initDraft }: { initDraft?: LooseEventTemplate }) {
             <ButtonGroup size="sm">
               {editor.isOpen && (
                 <Button onClick={editRaw.onToggle} colorScheme={editRaw.isOpen ? "primary" : undefined}>
-                  Raw
+                  原始
                 </Button>
               )}
               <Button
@@ -173,7 +173,7 @@ function EventPublisherPage({ initDraft }: { initDraft?: LooseEventTemplate }) {
                 colorScheme={editor.isOpen ? "primary" : undefined}
                 leftIcon={<EditIcon />}
               >
-                Edit
+                编辑
               </Button>
             </ButtonGroup>
           </Flex>
@@ -187,7 +187,7 @@ function EventPublisherPage({ initDraft }: { initDraft?: LooseEventTemplate }) {
 
           <Flex gap="2">
             <Heading size="md" mt="4">
-              Variables
+              详情
             </Heading>
           </Flex>
           <VariableEditor variables={variables} onChange={(v) => setVariables(v)} />
@@ -206,17 +206,17 @@ function EventPublisherPage({ initDraft }: { initDraft?: LooseEventTemplate }) {
         <Modal isOpen onClose={() => setFinalized(undefined)} size="2xl">
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader p="4">Publish Event</ModalHeader>
+            <ModalHeader p="4">发布事件</ModalHeader>
             <ModalCloseButton />
             <ModalBody px="4" pb="2" pt="0">
               <Heading size="md" mt="2">
-                1. Event ID
+                1. 事件 ID
               </Heading>
               <Code w="full" p="2" overflow="auto">
                 {(finalized as NostrEvent).id}
               </Code>
               <Heading size="md" mt="2">
-                2. Pubkey
+                2. 公钥
               </Heading>
               <Flex gap="2" alignItems="center">
                 <Code w="full" p="2" overflow="auto">
@@ -225,27 +225,27 @@ function EventPublisherPage({ initDraft }: { initDraft?: LooseEventTemplate }) {
                 <UserAvatar pubkey={(finalized as NostrEvent).pubkey} />
               </Flex>
               <Heading size="md" whiteSpace="pre" mt="2">
-                3. Signature
+                3. 签名
               </Heading>
               <Flex gap="2" alignItems="center">
                 <Code overflow="auto" whiteSpace="pre" w="full" p="2">
                   {(finalized as NostrEvent).sig}
                 </Code>
                 <Button leftIcon={<WritingIcon boxSize={5} />} flexShrink={0} onClick={sign} ml="auto">
-                  Sign
+                  签署
                 </Button>
               </Flex>
 
               {(finalized as NostrEvent).sig && (
                 <Button w="full" colorScheme="primary" mt="2" isLoading={loading} onClick={publishDraft}>
-                  Publish
+                  发布
                 </Button>
               )}
             </ModalBody>
 
             <ModalFooter>
               <Button mr={2} onClick={() => setFinalized(undefined)}>
-                Cancel
+                取消
               </Button>
             </ModalFooter>
           </ModalContent>

@@ -142,9 +142,9 @@ export default function ThreadDrawer({
       <DrawerContent bgColor="var(--chakra-colors-chakra-body-bg)">
         <DrawerCloseButton />
         <DrawerHeader p="2" display="flex" gap="4">
-          <Text>Threads</Text>
+          <Text>线程</Text>
           <Button size="sm" onClick={decryptAll} isLoading={loading}>
-            Decrypt All
+            解密所有
           </Button>
         </DrawerHeader>
 

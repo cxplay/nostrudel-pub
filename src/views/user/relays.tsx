@@ -74,10 +74,10 @@ const UserRelaysTab = () => {
   });
 
   return (
-    <SimpleView title="Relays">
+    <SimpleView title="中继">
       <IntersectionObserverProvider callback={callback}>
         <Heading size="lg" ml="2" mt="2">
-          Inboxes
+          收件箱
         </Heading>
         <VStack divider={<StackDivider />} py="2" align="stretch">
           {Array.from(mailboxes?.inboxes ?? []).map((url) => (
@@ -87,7 +87,7 @@ const UserRelaysTab = () => {
           ))}
         </VStack>
         <Heading size="lg" ml="2" mt="2">
-          Outboxes
+          发件箱
         </Heading>
         <VStack divider={<StackDivider />} py="2" align="stretch">
           {Array.from(mailboxes?.outboxes ?? []).map((url) => (
@@ -99,7 +99,7 @@ const UserRelaysTab = () => {
         {otherReviews.length > 0 && (
           <>
             <Heading size="lg" ml="2" mt="2">
-              Reviews
+              反馈
             </Heading>
             <Flex direction="column" gap="2" pb="8">
               {otherReviews.map((event) => (

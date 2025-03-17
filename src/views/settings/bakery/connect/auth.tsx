@@ -75,32 +75,32 @@ export function BakeryAuthPage() {
     <Flex direction="column" alignItems="center" justifyContent="center" h="full">
       <Panel as="form" label="AUTHENTICATE" minW="sm" onSubmit={submit}>
         {formState.isSubmitting ? (
-          <Text>Loading...</Text>
+          <Text>正在加载...</Text>
         ) : (
           <>
             <FormControl>
-              <FormLabel htmlFor="auth">Auth Code</FormLabel>
+              <FormLabel htmlFor="auth">认证代码</FormLabel>
               <Input id="auth" {...register("auth", { required: true })} isRequired autoComplete="off" />
             </FormControl>
 
             <Flex mt="2" justifyContent="space-between">
               <Checkbox isChecked={remember.isOpen} onChange={remember.onToggle}>
-                Remember Me
+                记住我
               </Checkbox>
               <Button type="submit" size="sm" colorScheme="primary">
-                Login
+                登录
               </Button>
             </Flex>
             {account && (
               <>
                 <Flex gap="2" alignItems="center" my="2">
                   <Divider />
-                  OR
+                  或
                   <Divider />
                 </Flex>
                 <Flex gap="2">
                   <Button type="button" onClick={authenticateWithNostr} colorScheme="purple" flex={1}>
-                    Login with Nostr
+                    使用 Nostr 登录
                   </Button>
                 </Flex>
               </>

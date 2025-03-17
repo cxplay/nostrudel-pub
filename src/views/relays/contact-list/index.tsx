@@ -21,7 +21,7 @@ export default function ContactListRelaysView() {
   const [loading, setLoading] = useState(false);
   const clearRelays = useCallback(async () => {
     if (!contacts) return;
-    if (confirm("Are you use you want to remove these relays? Other nostr apps might be effected") !== true) return;
+    if (confirm("你确定要移除这些中继吗? 其他的 Nostr 应用可能会因此受到影响") !== true) return;
 
     const draft: EventTemplate = {
       kind: contacts.kind,
@@ -31,7 +31,7 @@ export default function ContactListRelaysView() {
     };
 
     setLoading(true);
-    await publish("Clear Relays", draft);
+    await publish("清除中继", draft);
     setLoading(false);
   }, [setLoading, contacts, publish]);
 
@@ -39,32 +39,32 @@ export default function ContactListRelaysView() {
 
   return (
     <SimpleView
-      title="Contact list relays"
+      title="通讯录中继"
       actions={
         relays && (
           <Button colorScheme="red" onClick={clearRelays} isLoading={loading} ml="auto" size="sm">
-            Clear Relays
+            清除中继
           </Button>
         )
       }
     >
       <Text fontStyle="italic" mt="-2">
-        Some apps store relays in your contacts list (kind-3)
+        某些应用会在通讯录列表中存储中继配置 (kind:3)
         <br />
-        noStrudel does not use these relays, instead it uses your{" "}
+        noStrudel 不使用该配置, 而是使用{" "}
         <Link as={RouterLink} to="/relays/mailboxes" color="blue.500">
-          Mailbox Relays
+          信箱中继
         </Link>
       </Text>
 
       {relays === null ? (
         <Text color="green.500" fontSize="lg" mt="4">
-          <CheckIcon /> You don't have any relays stored in your contact list
+          <CheckIcon /> 你的通讯录列表中没有存储任何中继
         </Text>
       ) : (
         <>
           <Heading size="md" mt="2">
-            Read Relays
+            仅读中继
           </Heading>
           {relays.inbox.map((relay) => (
             <Flex key={relay} gap="2" alignItems="center" overflow="hidden">
@@ -76,7 +76,7 @@ export default function ContactListRelaysView() {
           ))}
 
           <Heading size="md" mt="2">
-            Write Relays
+            仅写中继
           </Heading>
           {relays.outbox.map((relay) => (
             <Flex key={relay} gap="2" alignItems="center" overflow="hidden">

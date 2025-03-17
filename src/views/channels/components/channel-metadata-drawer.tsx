@@ -83,15 +83,15 @@ export default function ChannelMetadataDrawer({
               rightIcon={<ExternalLinkIcon />}
               isExternal
             >
-              Open NostrChat
+              打开 NostrChat
             </Button>
           </ButtonGroup>
           <Heading size="sm" mt="2">
-            About
+            关于
           </Heading>
           <Text whiteSpace="pre">{metadata?.about}</Text>
           <Heading size="sm" mt="2">
-            Members
+            成员
           </Heading>
           <ChannelMembers channel={channel} relays={relays} />
         </DrawerBody>

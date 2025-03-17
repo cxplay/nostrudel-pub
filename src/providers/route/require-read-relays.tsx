@@ -15,15 +15,15 @@ export default function RequireReadRelays({ children }: PropsWithChildren) {
         <Alert status="warning" whiteSpace="pre-wrap" flexWrap="wrap">
           <AlertIcon />
           <Text>
-            Missing{" "}
+            未找到{" "}
             <Link as={RouterLink} to="/relays/app">
-              app relays
+              应用中继
             </Link>
-            ! Reading and publishing notes won't work very well!
+            配置! 阅读和发布笔记将无法使用!
           </Text>
           <Spacer />
           <Button as={RouterLink} to="/relays/app" size="sm" colorScheme="primary">
-            Setup Relays
+            设置中继
           </Button>
         </Alert>
         {children}

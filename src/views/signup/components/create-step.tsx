@@ -59,7 +59,7 @@ export default function CreateStep({
         key,
       );
 
-      await publish("Create Profile", kind0, [...relays, ...COMMON_CONTACT_RELAYS]);
+      await publish("创建用户资料", kind0, [...relays, ...COMMON_CONTACT_RELAYS]);
 
       // login
       const account = SimpleAccount.fromKey(key);
@@ -74,7 +74,7 @@ export default function CreateStep({
         created_at: unixNow(),
       };
       const signed = finalizeEvent(draft, key);
-      await publish("Set Mailbox Relays", signed, relays);
+      await publish("设置信箱中继", signed, relays);
 
       onSubmit(bytesToHex(key));
     } catch (e) {
@@ -91,10 +91,10 @@ export default function CreateStep({
         {metadata.about && <Text>{metadata.about}</Text>}
       </Flex>
       <Button w="full" colorScheme="primary" isLoading={loading} onClick={createProfile} autoFocus>
-        Create profile
+        创建用户资料
       </Button>
       <Button w="full" variant="link" onClick={onBack}>
-        Back
+        返回
       </Button>
     </Flex>
   );

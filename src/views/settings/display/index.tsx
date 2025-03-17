@@ -106,7 +106,7 @@ export default function DisplaySettings() {
           <Switch id="blurImages" {...register("blurImages")} />
         </Flex>
         <FormHelperText>
-          <span>启用: 你没有追随的用户发布的媒体文件会被添加模糊遮罩</span>
+          <span>启用: 你没有关注的用户发布的媒体文件会被添加模糊遮罩</span>
         </FormHelperText>
       </FormControl>
       <FormControl>

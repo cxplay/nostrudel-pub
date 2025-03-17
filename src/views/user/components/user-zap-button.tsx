@@ -19,8 +19,8 @@ export default function UserZapButton({ pubkey, ...props }: { pubkey: string } &
     <>
       <IconButton
         onClick={onOpen}
-        aria-label="Send Tip"
-        title="Send Tip"
+        aria-label="发送小费"
+        title="发送小费"
         icon={<LightningIcon />}
         color="yellow.400"
         {...props}

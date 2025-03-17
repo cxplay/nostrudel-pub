@@ -63,7 +63,7 @@ export default function SettingsView() {
         </>
       )}
 
-      <DividerHeader title="应用" />
+      <DividerHeader title="APP" />
       <SimpleNavItem to="/settings/display" leftIcon={<AppearanceIcon boxSize={5} />}>
         显示
       </SimpleNavItem>

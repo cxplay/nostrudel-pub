@@ -48,7 +48,7 @@ function MessagePreview({ message, pubkey }: { message: NostrEvent; pubkey: stri
   const { plaintext } = useKind4Decrypt(message);
   return (
     <Text isTruncated ref={ref}>
-      {plaintext || "<Encrypted>"}
+      {plaintext || "<已加密>"}
     </Text>
   );
 }
@@ -113,16 +113,16 @@ function MessagesHomePage() {
   const scroll = useScrollRestoreRef("chats");
 
   return (
-    <SimpleParentView path="/messages" width="md" title="Messages" scroll={false}>
+    <SimpleParentView path="/messages" width="md" title="消息" scroll={false}>
       <ButtonGroup p="2" size="sm" variant="outline">
         <Button onClick={() => setFilter("contacts")} variant={filter === "contacts" ? "solid" : "outline"}>
-          Contacts
+          联系人
         </Button>
         <Button onClick={() => setFilter("other")} variant={filter === "other" ? "solid" : "outline"}>
-          Other
+          其他
         </Button>
         <Button onClick={() => setFilter("muted")} variant={filter === "muted" ? "solid" : "outline"}>
-          Muted
+          已静音
         </Button>
       </ButtonGroup>
       <IntersectionObserverProvider callback={callback}>

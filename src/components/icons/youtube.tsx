@@ -1,7 +1,7 @@
 import { createIcon } from "@chakra-ui/icons";
 
 const Youtube = createIcon({
-  displayName: "Youtube",
+  displayName: "YouTube",
   viewBox: "0 0 24 24",
   path: [
     <path

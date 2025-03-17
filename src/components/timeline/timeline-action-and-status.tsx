@@ -10,7 +10,7 @@ export default function TimelineActionAndStatus({ loader }: { loader?: TimelineL
     return (
       <Alert status="info" flexShrink={0}>
         <AlertIcon />
-        No more events
+        没有更多事件了
       </Alert>
     );
   }
@@ -23,7 +23,7 @@ export default function TimelineActionAndStatus({ loader }: { loader?: TimelineL
 
   return (
     <Button onClick={() => loader?.next(-Infinity)} flexShrink={0} size="lg" mx="auto" colorScheme="primary" my="4">
-      Load More
+      加载更多
     </Button>
   );
 }

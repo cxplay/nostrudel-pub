@@ -44,7 +44,7 @@ export default function SendMessageForm({
   const userMailboxes = useUserMailboxes(pubkey);
   const sendMessage = handleSubmit(async (values) => {
     if (!values.content) return;
-    setLoadingMessage("Encrypting...");
+    setLoadingMessage("加密中...");
     const encrypted = await requestEncrypt(values.content, pubkey);
 
     const draft: DraftNostrEvent = {
@@ -58,8 +58,8 @@ export default function SendMessageForm({
       draft.tags.push(["e", rootId, "", "root"]);
     }
 
-    setLoadingMessage("Signing...");
-    const pub = await publish("Send DM", draft, userMailboxes?.inboxes);
+    setLoadingMessage("签名中...");
+    const pub = await publish("发送私信", draft, userMailboxes?.inboxes);
 
     if (pub) {
       clearCache();
@@ -101,11 +101,11 @@ export default function SendMessageForm({
           />
           <Flex gap="2" direction="column">
             <ButtonGroup size="sm">
-              <InsertGifButton onSelectURL={insertText} aria-label="Add gif" />
-              <InsertReactionButton onSelect={insertText} aria-label="Add emoji" />
+              <InsertGifButton onSelectURL={insertText} aria-label="添加 GIF" />
+              <InsertReactionButton onSelect={insertText} aria-label="添加表情" />
             </ButtonGroup>
             <Button type="submit" colorScheme="primary">
-              Send
+              发送
             </Button>
           </Flex>
         </>

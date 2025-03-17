@@ -17,7 +17,7 @@ function InitialConnectionOverlay() {
     <Flex w="full" h="full" alignItems="center" justifyContent="center" direction="column">
       <Flex gap="2" alignItems="center">
         <Spinner />
-        <Heading size="md">Connecting to...</Heading>
+        <Heading size="md">正在连接...</Heading>
       </Flex>
       <Code>{bakery?.url}</Code>
       {error && <Text color="red">{error.message}</Text>}
@@ -29,7 +29,7 @@ function InitialConnectionOverlay() {
         replace
         state={{ back: (location.state?.back ?? location) satisfies To }}
       >
-        Cancel
+        取消
       </Button>
     </Flex>
   );

@@ -25,8 +25,8 @@ function KindToggle({ kind }: { kind: number }) {
     <Flex gap="2" alignItems="center">
       <IconButton
         icon={<NotesIcon />}
-        aria-label={"Toggle " + name}
-        title={"Toggle " + name}
+        aria-label={"切换 " + name}
+        title={"切换 " + name}
         onClick={() => toggleKind(kind)}
         variant="outline"
         colorScheme={kinds.includes(kind) ? "primary" : undefined}
@@ -43,8 +43,8 @@ export function TimelineConfigButton({ availableKinds }: { availableKinds?: numb
     <>
       <IconButton
         icon={<SettingsIcon boxSize={5} />}
-        aria-label="Feed Options"
-        title="Feed Options"
+        aria-label="资讯源选项"
+        title="资讯源选项"
         onClick={modal.onOpen}
       />
       {modal.isOpen && <TimelineConfigModal availableKinds={availableKinds} isOpen onClose={modal.onClose} />}
@@ -61,10 +61,10 @@ export default function TimelineConfigModal({
     <Modal onClose={onClose} size="4xl" {...props}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader p="4">Feed Options</ModalHeader>
+        <ModalHeader p="4">资讯源选项</ModalHeader>
         <ModalCloseButton />
         <ModalBody display="flex" px="4" pt="0" pb="4" gap="2" flexDirection="column">
-          <Heading size="md">Kinds</Heading>
+          <Heading size="md">类型</Heading>
           <Divider />
           <Flex gap="4" wrap="wrap" alignItems="center">
             {availableKinds?.map((kind) => <KindToggle key={kind} kind={kind} />)}

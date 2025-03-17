@@ -91,11 +91,11 @@ export default function DMsCard({ ...props }: Omit<CardProps, "children">) {
       <CardHeader display="flex" justifyContent="space-between" alignItems="center">
         <Heading size="lg">
           <Link as={RouterLink} to="/messages">
-            Messages
+            消息
           </Link>
         </Heading>
         <Button variant="link" isLoading={loading} ml="auto" onClick={decrypt}>
-          Decrypt
+          解密
         </Button>
         <KeyboardShortcut letter="m" requireMeta onPress={() => navigate("/dm")} />
       </CardHeader>
@@ -104,7 +104,7 @@ export default function DMsCard({ ...props }: Omit<CardProps, "children">) {
           <Conversation key={conversation.pubkeys.join("-")} conversation={conversation} />
         ))}
         <Button as={RouterLink} to="/messages" flexShrink={0} variant="link" size="lg" py="4">
-          View More
+          查看更多
         </Button>
       </CardBody>
     </Card>

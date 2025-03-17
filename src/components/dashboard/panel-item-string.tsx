@@ -24,7 +24,7 @@ export default function PanelItemString({
       <FormLabel>{label}</FormLabel>
       <Flex gap="2">
         {isLoading ? (
-          "Loading..."
+          "正在加载..."
         ) : (
           <>
             <Code bg="none" userSelect="all" fontFamily="monospace" maxW="full" whiteSpace="pre" overflow="auto" p="1">

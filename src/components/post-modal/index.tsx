@@ -186,7 +186,7 @@ export default function PostModal({
           />
           {preview && preview.content.length > 0 && (
             <Box>
-              <Heading size="sm">Preview:</Heading>
+              <Heading size="sm">预览:</Heading>
               <Box borderWidth={1} borderRadius="md" p="2">
                 <ErrorBoundary>
                   <TrustProvider trust>
@@ -198,18 +198,18 @@ export default function PostModal({
           )}
           <Flex gap="2" alignItems="center" justifyContent="flex-end">
             <Flex mr="auto" gap="2">
-              <InsertImageButton onUploaded={insertText} aria-label="Upload image" />
-              <InsertGifButton onSelectURL={insertText} aria-label="Add gif" />
+              <InsertImageButton onUploaded={insertText} aria-label="上传图片" />
+              <InsertGifButton onSelectURL={insertText} aria-label="添加 GIF" />
               <Button
                 variant="link"
                 rightIcon={moreOptions.isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
                 onClick={moreOptions.onToggle}
               >
-                More Options
+                更多选项
               </Button>
             </Flex>
             <Button onClick={onClose} variant="ghost">
-              Cancel
+              取消
             </Button>
             <Button
               colorScheme="primary"
@@ -218,7 +218,7 @@ export default function PostModal({
               onClick={submit}
               isDisabled={!canSubmit}
             >
-              Post
+              发布
             </Button>
           </Flex>
           {moreOptions.isOpen && (
@@ -227,11 +227,11 @@ export default function PostModal({
                 <Flex gap="2" direction="column">
                   <Switch {...register("nsfw")}>NSFW</Switch>
                   {getValues().nsfw && (
-                    <Input {...register("nsfwReason", { required: true })} placeholder="Reason" isRequired />
+                    <Input {...register("nsfwReason", { required: true })} placeholder="原因" isRequired />
                   )}
                 </Flex>
                 <FormControl>
-                  <FormLabel>POW Difficulty ({getValues().difficulty})</FormLabel>
+                  <FormLabel>PoW 难度 ({getValues().difficulty})</FormLabel>
                   <Slider
                     aria-label="difficulty"
                     value={getValues("difficulty")}
@@ -246,7 +246,7 @@ export default function PostModal({
                     <SliderThumb />
                   </Slider>
                   <FormHelperText>
-                    The number of leading 0's in the event id. see{" "}
+                    事件 ID 中前导 0 的数量(字节). 详见{" "}
                     <Link href="https://github.com/nostr-protocol/nips/blob/master/13.md" isExternal>
                       NIP-13
                     </Link>
@@ -268,16 +268,16 @@ export default function PostModal({
           <Alert status="info" whiteSpace="pre-wrap" flexDirection={{ base: "column", lg: "row" }}>
             <AlertIcon hideBelow="lg" />
             <Text>
-              Enable{" "}
+              启用{" "}
               <Link isExternal href="https://github.com/nostr-protocol/nips/blob/master/89.md#client-tag">
                 NIP-89
               </Link>{" "}
-              client tags and let other users know what app you're using to write notes
+              客户端标签, 让其他用户知道你正在使用什么应用发帖
             </Text>
             <ButtonGroup ml="auto" size="sm" variant="ghost">
               <Button onClick={promptAddClientTag.onClose}>Close</Button>
               <Button colorScheme="primary" onClick={() => localSettings.addClientTag.next(true)}>
-                Enable
+                启用
               </Button>
             </ButtonGroup>
           </Alert>

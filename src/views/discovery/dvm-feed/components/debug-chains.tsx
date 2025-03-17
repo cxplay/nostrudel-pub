@@ -25,10 +25,10 @@ function JobResult({ result }: { result: NostrEvent }) {
   return (
     <>
       <Text isTruncated>
-        ID: {truncatedId(result.id)} <CopyIconButton size="xs" aria-label="copy id" value={result.id} />
+        ID: {truncatedId(result.id)} <CopyIconButton size="xs" aria-label="复制 ID" value={result.id} />
       </Text>
       <Flex gap="2" alignItems="center" overflow="hidden">
-        <Text isTruncated>Content: {result.content}</Text>{" "}
+        <Text isTruncated>内容: {result.content}</Text>{" "}
         <CopyIconButton size="xs" aria-label="copy content" value={result.content} />
       </Flex>
     </>
@@ -38,10 +38,10 @@ function JobStatus({ status }: { status: NostrEvent }) {
   return (
     <>
       <Text isTruncated>
-        ID: {truncatedId(status.id)} <CopyIconButton size="xs" aria-label="copy id" value={status.id} />
+        ID: {truncatedId(status.id)} <CopyIconButton size="xs" aria-label="复制 ID" value={status.id} />
       </Text>
-      <Text isTruncated>Status: {status.tags.find((t) => t[0] === "status")?.[1]}</Text>
-      <Text isTruncated>Content: {status.content}</Text>
+      <Text isTruncated>状态: {status.tags.find((t) => t[0] === "status")?.[1]}</Text>
+      <Text isTruncated>内容: {status.content}</Text>
     </>
   );
 }
@@ -54,14 +54,14 @@ function ChainedJob({ job }: { job: ChainedDVMJob }) {
   return (
     <Card p="2" variant="outline">
       <Text>
-        ID: {job.request.id} <CopyIconButton size="xs" aria-label="copy id" value={job.request.id} />
+        ID: {job.request.id} <CopyIconButton size="xs" aria-label="复制 ID" value={job.request.id} />
       </Text>
       {input && (
         <Text>
-          Input: {truncatedId(input.value)} ({input.type})
+          输入: {truncatedId(input.value)} ({input.type})
         </Text>
       )}
-      <Heading size="sm">Relays:</Heading>
+      <Heading size="sm">中继:</Heading>
       <Text>{getRequestRelays(job.request).join(", ")}</Text>
       <Divider my="2" />
       {job.responses.map((response) => (
@@ -69,10 +69,10 @@ function ChainedJob({ job }: { job: ChainedDVMJob }) {
           <Heading>
             <UserLink pubkey={response.pubkey} />
           </Heading>
-          <Heading size="sm">Status:</Heading>
+          <Heading size="sm">状态:</Heading>
           {response.status ? <JobStatus status={response.status} /> : <Spinner />}
           <Divider my="2" />
-          <Heading size="sm">Result:</Heading>
+          <Heading size="sm">结果:</Heading>
           {response.result ? <JobResult result={response.result} /> : <Spinner />}
         </>
       ))}
@@ -80,9 +80,9 @@ function ChainedJob({ job }: { job: ChainedDVMJob }) {
       {job.prev && (
         <>
           <Flex gap="2" alignItems="center">
-            <Heading size="sm">Previous ({truncatedId(job.prev.request.id)}):</Heading>
+            <Heading size="sm">上一个 ({truncatedId(job.prev.request.id)}):</Heading>
             <Button onClick={showPrev.onToggle} size="xs">
-              {showPrev.isOpen ? "Hide" : "Show"}
+              {showPrev.isOpen ? "隐藏" : "显示"}
             </Button>
           </Flex>
           {showPrev.isOpen && <ChainedJob job={job.prev} />}
@@ -92,9 +92,9 @@ function ChainedJob({ job }: { job: ChainedDVMJob }) {
       {job.next.length > 0 && (
         <>
           <Flex gap="2" alignItems="center">
-            <Heading size="sm">Next ({job.next.length}):</Heading>
+            <Heading size="sm">下一个 ({job.next.length}):</Heading>
             <Button onClick={showNext.onToggle} size="xs">
-              {showNext.isOpen ? "Hide" : "Show"}
+              {showNext.isOpen ? "隐藏" : "显示"}
             </Button>
           </Flex>
           {showNext.isOpen && (
@@ -118,9 +118,9 @@ function DebugChain({ chain }: { chain: ChainedDVMJob[] }) {
       <Text>Events: {getEventIdsFromJobs(chain).length}</Text>
 
       <Flex gap="2" alignItems="center">
-        <Heading size="sm">Pages ({chain.length}):</Heading>
+        <Heading size="sm">页面 ({chain.length}):</Heading>
         <Button size="xs" onClick={showPages.onToggle}>
-          {showPages.isOpen ? "Hide" : "Show"}
+          {showPages.isOpen ? "隐藏" : "显示"}
         </Button>
       </Flex>
       {showPages.isOpen && (

@@ -112,7 +112,7 @@ export default function BlindspotHomeView() {
             没有盲点!
           </AlertTitle>
           <AlertDescription maxWidth="sm">
-            没有找到任何盲点. 也许可以尝试追随一些人?
+            没有找到任何盲点. 也许可以尝试关注一些人?
           </AlertDescription>
         </Alert>
       )}

@@ -42,7 +42,7 @@ function BadgesPage() {
     <VerticalPageLayout>
       <Flex gap="2" wrap="wrap">
         <Button as={RouterLink} to="/badges/browse">
-          Browse Badges
+          浏览徽章
         </Button>
         <Spacer />
         <Button
@@ -52,11 +52,11 @@ function BadgesPage() {
           rightIcon={<ExternalLinkIcon />}
           leftIcon={<Image src="https://badges.page/favicon.ico" w="1.2em" />}
         >
-          Badges
+          徽章
         </Button>
       </Flex>
       <Flex gap="2" alignItems="center">
-        <Heading size="lg">Recent awards</Heading>
+        <Heading size="lg">最近获得</Heading>
         <PeopleListSelection />
       </Flex>
       <IntersectionObserverProvider callback={callback}>

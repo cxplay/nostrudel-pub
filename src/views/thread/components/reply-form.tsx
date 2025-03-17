@@ -109,9 +109,9 @@ export default function ReplyForm({ item, onCancel, onSubmitted, replyKind = kin
           </Button>
         </ButtonGroup>
         <ButtonGroup size="sm" ml="auto">
-          {onCancel && <Button onClick={onCancel}>Cancel</Button>}
+          {onCancel && <Button onClick={onCancel}>取消</Button>}
           <Button type="submit" colorScheme="primary" size="sm">
-            Submit
+            提交
           </Button>
         </ButtonGroup>
       </Flex>

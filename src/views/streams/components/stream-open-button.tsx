@@ -15,7 +15,7 @@ export type StreamOpenButtonProps = Omit<IconButtonProps, "onClick" | "aria-labe
 export default function StreamOpenButton({
   stream,
   "aria-label": ariaLabel,
-  title = "Open stream",
+  title = "打开串流",
   ...props
 }: StreamOpenButtonProps) {
   const { openAddress } = useContext(AppHandlerContext);
@@ -36,7 +36,7 @@ export default function StreamOpenButton({
       title={title}
       {...props}
     >
-      Share
+      分享
     </IconButton>
   );
 }

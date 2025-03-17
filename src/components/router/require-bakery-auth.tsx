@@ -37,7 +37,7 @@ export default function RequireBakeryAuth({ children }: PropsWithChildren) {
       <Flex direction="column" gap="2" alignItems="center" justifyContent="center" h="full">
         <Flex gap="2" alignItems="center">
           <Spinner />
-          <Heading size="md">Authenticating...</Heading>
+          <Heading size="md">正在认证...</Heading>
         </Flex>
         <Button
           mt="2"
@@ -46,7 +46,7 @@ export default function RequireBakeryAuth({ children }: PropsWithChildren) {
           to="/bakery/connect/auth"
           state={{ back: (location.state?.back ?? location) satisfies To }}
         >
-          Cancel
+          取消
         </Button>
       </Flex>
     );

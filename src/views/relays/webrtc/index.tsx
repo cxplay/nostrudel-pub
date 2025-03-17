@@ -24,27 +24,27 @@ export default function WebRtcRelaysView() {
 
   return (
     <SimpleView
-      title="WebRTC Relay"
+      title="WebRTC 中继"
       actions={
         <ButtonGroup size="sm" ml="auto">
           <Button as={RouterLink} to="/relays/webrtc/pair" leftIcon={<QrCodeIcon />}>
-            Pair{unanswered > 0 ? ` (${unanswered})` : ""}
+            配对{unanswered > 0 ? ` (${unanswered})` : ""}
           </Button>
           <Button as={RouterLink} to="/relays/webrtc/connect" colorScheme="primary">
-            Connect
+            连接
           </Button>
         </ButtonGroup>
       }
     >
       <Text fontStyle="italic" mt="-2">
-        WebRTC Relays are temporary relays that can be accessed over{" "}
+        WebRTC 中继是可以通过{" "}
         <Link href="https://webrtc.org/" target="_blank" color="blue.500">
           WebRTC
-        </Link>
+        </Link>{" "}访问的临时中继
       </Text>
 
       <Heading size="md" mt="2">
-        Connections:
+        连接:
       </Heading>
       {webRtcRelaysService.answered.length > 0 ? (
         webRtcRelaysService.answered.map(({ call, peer, pubkey }) => (
@@ -59,7 +59,7 @@ export default function WebRtcRelaysView() {
       ) : (
         <Alert status="info">
           <AlertIcon />
-          No connections yet, use the "Invite" or "Connect" buttons to connect to peer
+          还没有连接, 使用 "邀请" 或 "连接" 按钮进行对等连接
         </Alert>
       )}
     </SimpleView>

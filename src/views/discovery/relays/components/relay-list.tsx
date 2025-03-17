@@ -54,9 +54,9 @@ export default function RelayList({ events, ...props }: Omit<FlexProps, "childre
   return (
     <Flex direction="column" gap="2" overflow="hidden" {...props}>
       <Flex gap="2">
-        <Input type="search" placeholder="filter relays" value={filter} onChange={(e) => setFilter(e.target.value)} />
+        <Input type="search" placeholder="过滤中继" value={filter} onChange={(e) => setFilter(e.target.value)} />
       </Flex>
-      <Text fontSize="sm">{filtered.length} Relays</Text>
+      <Text fontSize="sm">{filtered.length} 中继</Text>
       <Flex direction="column" flex={1}>
         <AutoSizer>
           {({ height, width }) => (

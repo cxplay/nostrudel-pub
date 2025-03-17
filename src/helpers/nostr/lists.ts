@@ -34,7 +34,7 @@ export const SET_KINDS = [
 
 /** @deprecated this should be moved out to applesauce-list */
 export function getListName(event: NostrEvent) {
-  if (event.kind === kinds.Contacts) return "追随";
+  if (event.kind === kinds.Contacts) return "关注";
   if (event.kind === kinds.Mutelist) return "静音";
   if (event.kind === kinds.Pinlist) return "置顶";
   if (event.kind === kinds.BookmarkList) return "书签";

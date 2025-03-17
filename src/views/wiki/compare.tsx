@@ -44,9 +44,9 @@ function WikiComparePage({ base, diff }: { base: NostrEvent; diff: NostrEvent })
               as={RouterLink}
               to={`/wiki/page/${baseAddress}`}
               icon={<ExternalLinkIcon />}
-              aria-label="Open Page"
+              aria-label="打开页面"
             />
-            <WikiPageMenu page={base} aria-label="Page Optinos" />
+            <WikiPageMenu page={base} aria-label="页面选项" />
           </ButtonGroup>
           <Heading>
             <UserName pubkey={base.pubkey} />
@@ -61,9 +61,9 @@ function WikiComparePage({ base, diff }: { base: NostrEvent; diff: NostrEvent })
               as={RouterLink}
               to={`/wiki/page/${diffAddress}`}
               icon={<ExternalLinkIcon />}
-              aria-label="Open Page"
+              aria-label="打开页面"
             />
-            <WikiPageMenu page={diff} aria-label="Page Optinos" />
+            <WikiPageMenu page={diff} aria-label="页面选项" />
           </ButtonGroup>
           <Heading>
             <UserName pubkey={diff.pubkey} />
@@ -78,7 +78,7 @@ function WikiComparePage({ base, diff }: { base: NostrEvent; diff: NostrEvent })
         <>
           <Alert status="info">
             <AlertIcon />
-            Both versions are identical
+            两个版本完全相同
           </Alert>
           <MarkdownContent event={base} />
         </>

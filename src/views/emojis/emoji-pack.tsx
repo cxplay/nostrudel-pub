@@ -60,7 +60,7 @@ function AddEmojiForm({ onAdd }: { onAdd: (values: { shortcode: string; url: str
         {...register("shortcode", { required: true })}
         pattern="^[a-zA-Z0-9_-]+$"
         autoComplete="off"
-        title="emoji shortcode, cannot contain spaces"
+        title="表情短代码, 不能包含空格"
       />
       <Input placeholder="https://example.com/emoji.png" {...register("url", { required: true })} autoComplete="off" />
       {previewURL && <Image aspectRatio={1} h="10" src={previewURL} />}
@@ -149,7 +149,7 @@ function EmojiPackPage({ pack }: { pack: NostrEvent }) {
     <VerticalPageLayout>
       <Flex gap="2" alignItems="center">
         <Button onClick={() => navigate(-1)} leftIcon={<ChevronLeftIcon />}>
-          Back
+          返回
         </Button>
 
         <Spacer />
@@ -159,11 +159,11 @@ function EmojiPackPage({ pack }: { pack: NostrEvent }) {
             <>
               {!editing && (
                 <Button colorScheme="primary" onClick={startEdit}>
-                  Edit
+                  编辑
                 </Button>
               )}
               <Button colorScheme="red" onClick={() => deleteEvent(pack).then(() => navigate("/lists"))}>
-                Delete
+                删除
               </Button>
             </>
           )}
@@ -179,12 +179,12 @@ function EmojiPackPage({ pack }: { pack: NostrEvent }) {
       </Flex>
 
       <Flex gap="2" alignItems="center">
-        <Text>Created by:</Text>
+        <Text>创建者:</Text>
         <UserAvatarLink pubkey={pack.pubkey} size="sm" />
         <UserLink pubkey={pack.pubkey} fontWeight="bold" />
       </Flex>
       <Text>
-        Updated: <Timestamp timestamp={pack.created_at} />
+        更新于: <Timestamp timestamp={pack.created_at} />
       </Text>
 
       <ButtonGroup variant="ghost">
@@ -197,16 +197,16 @@ function EmojiPackPage({ pack }: { pack: NostrEvent }) {
         <>
           {!editing && (
             <Flex alignItems="flex-end">
-              <Heading size="md">Emojis</Heading>
+              <Heading size="md">表情</Heading>
               <ButtonGroup size="sm" isAttached ml="auto">
                 <Button variant={scale === 10 ? "solid" : "outline"} onClick={() => setScale(10)}>
-                  SM
+                  小
                 </Button>
                 <Button variant={scale === 16 ? "solid" : "outline"} onClick={() => setScale(16)}>
-                  MD
+                  中
                 </Button>
                 <Button variant={scale === 24 ? "solid" : "outline"} onClick={() => setScale(24)}>
-                  LG
+                  大
                 </Button>
               </ButtonGroup>
             </Flex>
@@ -229,10 +229,10 @@ function EmojiPackPage({ pack }: { pack: NostrEvent }) {
         <Flex gap="2">
           <AddEmojiForm onAdd={addEmoji} />
           <Button ml="auto" onClick={cancelEdit}>
-            Cancel
+            取消
           </Button>
           <Button colorScheme="primary" onClick={saveEdit}>
-            Save
+            保存
           </Button>
         </Flex>
       )}
@@ -247,7 +247,7 @@ export default function EmojiPackView() {
   if (!pack) {
     return (
       <>
-        Looking for pack "{coordinate.identifier}" created by <UserLink pubkey={coordinate.pubkey} />
+        查找用户 <UserLink pubkey={coordinate.pubkey} /> 创建的表情包 "{coordinate.identifier}"
       </>
     );
   }

@@ -39,43 +39,43 @@ export default function NotificationTypeToggles({
     <ButtonGroup variant="outline" {...props}>
       <ToggleIconButton
         icon={<ReplyIcon boxSize={5} />}
-        aria-label="Toggle replies"
-        title="Toggle replies"
+        aria-label="切换显示回复消息"
+        title="切换显示回复消息"
         toggle={showReplies}
         color="green.400"
       />
       <ToggleIconButton
         icon={<AtIcon boxSize={5} />}
-        aria-label="Toggle reposts"
-        title="Toggle reposts"
+        aria-label="切换显示转发消息"
+        title="切换显示转发消息"
         toggle={showMentions}
         color="purple.400"
       />
       <ToggleIconButton
         icon={<LightningIcon boxSize={5} />}
-        aria-label="Toggle zaps"
-        title="Toggle zaps"
+        aria-label="切换显示打闪消息"
+        title="切换显示打闪消息"
         toggle={showZaps}
         color="yellow.400"
       />
       <ToggleIconButton
         icon={<RepostIcon boxSize={5} />}
-        aria-label="Toggle reposts"
-        title="Toggle reposts"
+        aria-label="切换显示转发消息"
+        title="切换显示转发消息"
         toggle={showReposts}
         color="blue.400"
       />
       <ToggleIconButton
         icon={<Heart boxSize={5} />}
-        aria-label="Toggle reactions"
-        title="Toggle reactions"
+        aria-label="切换显示回应消息"
+        title="切换显示回应消息"
         toggle={showReactions}
         color="red.400"
       />
       <ToggleIconButton
         icon={<HelpCircle boxSize={5} />}
-        aria-label="Toggle unknown"
-        title="Toggle unknown"
+        aria-label="切换显示未知关联事件"
+        title="切换显示未知关联事件"
         toggle={showUnknown}
         color="gray.500"
       />

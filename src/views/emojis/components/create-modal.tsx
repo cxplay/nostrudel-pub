@@ -46,21 +46,21 @@ export default function EmojiPackCreateModal({ onClose, ...props }: Omit<ModalPr
     <Modal onClose={onClose} size="xl" {...props}>
       <ModalOverlay />
       <ModalContent as="form" onSubmit={submit}>
-        <ModalHeader p="4">Create Emoji pack</ModalHeader>
+        <ModalHeader p="4">创建表情包</ModalHeader>
         <ModalCloseButton />
         <ModalBody px="4" py="0">
           <FormControl isRequired>
-            <FormLabel>Pack name</FormLabel>
+            <FormLabel>名称</FormLabel>
             <Input type="name" {...register("title", { required: true })} autoComplete="off" />
           </FormControl>
         </ModalBody>
 
         <ModalFooter p="4">
           <Button mr="2" onClick={onClose}>
-            Cancel
+            取消
           </Button>
           <Button colorScheme="primary" type="submit">
-            Create
+            创建
           </Button>
         </ModalFooter>
       </ModalContent>
