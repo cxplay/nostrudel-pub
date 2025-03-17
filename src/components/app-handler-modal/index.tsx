@@ -135,7 +135,7 @@ export default function AppHandlerModal({
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader p="4">{kind === 0 ? `View profile in` : `View event (k:${kind}) in`}</ModalHeader>
+        <ModalHeader p="4">{kind === 0 ? `查看用户资料于...` : `查看 (k:${kind}) 事件于...`}</ModalHeader>
         <ModalCloseButton />
         <ModalBody display="flex" gap="2" flexDirection="column" p="0">
           {alt && (
@@ -147,7 +147,7 @@ export default function AppHandlerModal({
             <Box px="4">
               <Input
                 type="search"
-                placeholder="Search apps"
+                placeholder="搜索应用"
                 autoFocus={autofocus}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -164,23 +164,23 @@ export default function AppHandlerModal({
           </Flex>
 
           <FormControl px="4">
-            <FormLabel>Embed Code</FormLabel>
+            <FormLabel>嵌入代码</FormLabel>
             <Flex gap="2" overflow="hidden">
               <Input readOnly value={"nostr:" + address} size="sm" />
-              <CopyIconButton value={"nostr:" + address} size="sm" aria-label="Copy embed code" />
+              <CopyIconButton value={"nostr:" + address} size="sm" aria-label="复制嵌入代码" />
             </Flex>
           </FormControl>
           <FormControl px="4">
-            <FormLabel>Share URL</FormLabel>
+            <FormLabel>分享链接</FormLabel>
             <Flex gap="2" overflow="hidden">
-              <Input readOnly value={"https://njump.me/" + address} size="sm" />
-              <CopyIconButton value={"https://njump.me/" + address} size="sm" aria-label="Copy embed code" />
+              <Input readOnly value={"https://nostr.cxplay.org/" + address} size="sm" />
+              <CopyIconButton value={"https://nostr.cxplay.org/" + address} size="sm" aria-label="复制嵌入代码" />
             </Flex>
           </FormControl>
         </ModalBody>
 
         <ModalFooter display="flex" gap="2" p="4">
-          <Button onClick={onClose}>Cancel</Button>
+          <Button onClick={onClose}>取消</Button>
           <Button
             as={Link}
             variant="outline"

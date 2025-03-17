@@ -19,7 +19,7 @@ export default function MuteUserMenuItem({ event }: { event: NostrEvent }) {
       icon={isMuted ? <UnmuteIcon /> : <MuteIcon />}
       color="red.500"
     >
-      {isMuted ? "Unmute User" : "Mute User"}
+      {isMuted ? "解除静音" : "静音"}
     </MenuItem>
   );
 }

@@ -42,7 +42,7 @@ export default function LoginStartView() {
   const accounts = useAccounts();
 
   const extension = useAsyncAction(async () => {
-    if (!window.nostr) throw new Error("Missing NIP-07 signer extension");
+    if (!window.nostr) throw new Error("无法找到浏览器扩展签名器");
 
     const signer = new ExtensionSigner();
     const pubkey = await signer.getPublicKey();
@@ -53,7 +53,7 @@ export default function LoginStartView() {
   });
 
   const serial = useAsyncAction(async () => {
-    if (!SerialPortSigner.SUPPORTED) throw new Error("Serial is not supported");
+    if (!SerialPortSigner.SUPPORTED) throw new Error("不支持 Serial");
 
     const signer = new SerialPortSigner();
     const pubkey = await signer.getPublicKey();
@@ -91,7 +91,7 @@ export default function LoginStartView() {
         colorScheme="blue"
         leftIcon={<AtIcon boxSize={6} />}
       >
-        Nostr Address
+        Nostr 地址
       </Button>
       {SerialPortSigner.SUPPORTED && (
         <ButtonGroup colorScheme="purple">
@@ -100,8 +100,8 @@ export default function LoginStartView() {
           </Button>
           <IconButton
             as={Link}
-            aria-label="What is NSD?"
-            title="What is NSD?"
+            aria-label="什么是 NSD?"
+            title="什么是 NSD?"
             isExternal
             href="https://github.com/lnbits/nostr-signing-device"
             icon={<HelpCircle boxSize={5} />}
@@ -115,8 +115,8 @@ export default function LoginStartView() {
           </Button>
           <IconButton
             as={Link}
-            aria-label="What is Amber?"
-            title="What is Amber?"
+            aria-label="什么是 Amber?"
+            title="什么是 Amber?"
             isExternal
             href="https://github.com/greenart7c3/Amber"
             icon={<HelpCircle boxSize={5} />}
@@ -126,7 +126,7 @@ export default function LoginStartView() {
       {CAP_IS_ANDROID && <AndroidNativeSigners />}
       <Flex w="full" alignItems="center" gap="4">
         <Divider />
-        <Text fontWeight="bold">OR</Text>
+        <Text fontWeight="bold">或者</Text>
         <Divider />
       </Flex>
       <Flex gap="2">
@@ -152,7 +152,7 @@ export default function LoginStartView() {
           variant="outline"
         >
           <Key01 boxSize={12} />
-          Private key
+          私钥
         </Button>
         <Button
           flexDirection="column"
@@ -164,7 +164,7 @@ export default function LoginStartView() {
           variant="outline"
         >
           <Eye boxSize={12} />
-          Public key
+          公钥
         </Button>
       </Flex>
       {accounts.length > 0 && (
@@ -199,7 +199,7 @@ export default function LoginStartView() {
         </>
       )}
       <Text fontWeight="bold" mt="4">
-        Don't have an account?
+        还没有账户?
       </Text>
       <Button
         as={RouterLink}
@@ -210,7 +210,7 @@ export default function LoginStartView() {
         maxW="xs"
         w="full"
       >
-        Sign up
+        注册
       </Button>
     </>
   );

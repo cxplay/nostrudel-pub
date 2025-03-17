@@ -35,7 +35,7 @@ export default function PostSettings() {
     <SimpleView
       as="form"
       onSubmit={submit}
-      title="Post Settings"
+      title="贴文设置"
       actions={
         <Button
           ml="auto"
@@ -46,13 +46,13 @@ export default function PostSettings() {
           flexShrink={0}
           size="sm"
         >
-          Save
+          保存
         </Button>
       }
     >
       <FormControl>
         <FormLabel htmlFor="theme" mb="0">
-          Media upload service
+          媒体上传服务
         </FormLabel>
         <Select id="mediaUploadService" w="sm" {...register("mediaUploadService")}>
           <option value="nostr.build">nostr.build</option>
@@ -62,10 +62,11 @@ export default function PostSettings() {
         {getValues().mediaUploadService === "nostr.build" && (
           <>
             <FormHelperText>
-              Its a good idea to sign up and pay for an account on{" "}
+              去注册并使用{" "}
               <Link href="https://nostr.build/login/" target="_blank" color="blue.500">
                 nostr.build
               </Link>
+              {" "}的付费账户是个更好的选择
             </FormHelperText>
           </>
         )}
@@ -73,10 +74,10 @@ export default function PostSettings() {
         {getValues().mediaUploadService === "blossom" && (!mediaServers || mediaServers.length === 0) && (
           <Alert status="error" mt="2" flexWrap="wrap">
             <AlertIcon />
-            <AlertTitle>Missing media servers!</AlertTitle>
-            <AlertDescription>Looks like you don't have any media servers setup</AlertDescription>
+            <AlertTitle>没有媒体服务器!</AlertTitle>
+            <AlertDescription>看起来你没有设置任何媒体服务器</AlertDescription>
             <Button as={RouterLink} colorScheme="primary" ml="auto" size="sm" to="/relays/media-servers">
-              Setup servers
+              设置服务器
             </Button>
           </Alert>
         )}
@@ -84,7 +85,7 @@ export default function PostSettings() {
 
       <FormControl>
         <FormLabel htmlFor="noteDifficulty" mb="0">
-          Proof of work
+          工作量证明 (PoW)
         </FormLabel>
         <Input
           id="noteDifficulty"
@@ -93,14 +94,14 @@ export default function PostSettings() {
           maxW="sm"
         />
         <FormHelperText>
-          <span>How much Proof of work to mine when writing notes. setting this to 0 will disable it</span>
+          <span>发帖时需要计算的工作量证明尺度. 设置为 0 则表示禁用 PoW.</span>
         </FormHelperText>
       </FormControl>
 
       <FormControl>
         <Flex alignItems="center">
           <FormLabel htmlFor="addClientTag" mb="0">
-            Add client tag
+            添加客户端标签
           </FormLabel>
           <Switch
             id="addClientTag"
@@ -109,22 +110,22 @@ export default function PostSettings() {
           />
         </Flex>
         <FormHelperText>
-          Enabled: Attach the{" "}
+          启用: 附加{" "}
           <Link isExternal href="https://github.com/nostr-protocol/nips/blob/master/89.md#client-tag">
             NIP-89
           </Link>{" "}
-          client tags on events
+          客户端标签到事件中
         </FormHelperText>
       </FormControl>
 
       <FormControl>
         <Flex alignItems="center">
           <FormLabel htmlFor="mirrorBlobsOnShare" mb="0">
-            Always mirror media
+            总是镜像媒体附件
           </FormLabel>
           <Switch id="mirrorBlobsOnShare" {...register("mirrorBlobsOnShare")} />
         </Flex>
-        <FormHelperText>Copy all media to your personal blossom servers when sharing notes</FormHelperText>
+        <FormHelperText>分享笔记时将所有媒体复制到你的个人 Blossom 服务器上</FormHelperText>
       </FormControl>
     </SimpleView>
   );

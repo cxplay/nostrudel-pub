@@ -52,11 +52,11 @@ export const UserProfileMenu = ({
     <>
       <DotsMenuButton {...props}>
         <MenuItem onClick={() => openAddress(sharableId)} icon={<ExternalLinkIcon />}>
-          View in app...
+          在其他应用中查看...
         </MenuItem>
         {account?.pubkey !== pubkey && (
           <MenuItem onClick={isMuted ? unmute : mute} icon={isMuted ? <UnmuteIcon /> : <MuteIcon />} color="red.500">
-            {isMuted ? "Unmute User" : "Mute User"}
+            {isMuted ? "解除静音" : "静音"}
           </MenuItem>
         )}
         <MenuItem
@@ -64,17 +64,17 @@ export const UserProfileMenu = ({
           as={RouterLink}
           to={`/messages/${nip19.npubEncode(pubkey)}`}
         >
-          Direct messages
+          私信
         </MenuItem>
         <MenuItem
           icon={<Telescope fontSize="1.5em" />}
           as={RouterLink}
           to={`/discovery/blindspot/${nip19.npubEncode(pubkey)}`}
         >
-          Blind spot
+          盲点
         </MenuItem>
         <MenuItem icon={<SpyIcon fontSize="1.5em" />} onClick={() => loginAsUser()}>
-          Login as user
+          公钥登录
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -84,7 +84,7 @@ export const UserProfileMenu = ({
           }}
           icon={<ShareIcon />}
         >
-          Copy share link
+          复制分享链接
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -94,14 +94,14 @@ export const UserProfileMenu = ({
           }}
           icon={<CopyToClipboardIcon />}
         >
-          Copy Embed Code
+          复制嵌入代码
         </MenuItem>
         <MenuItem onClick={infoModal.onOpen} icon={<CodeIcon />}>
-          View Raw
+          查看原始数据
         </MenuItem>
         {showRelaySelectionModal && (
           <MenuItem icon={<RelayIcon />} onClick={showRelaySelectionModal}>
-            Relay selection
+            中继选择
           </MenuItem>
         )}
       </DotsMenuButton>

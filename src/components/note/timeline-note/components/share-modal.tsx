@@ -61,13 +61,13 @@ export default function ShareModal({
   const share = async () => {
     if (mirror && canMirror) {
       try {
-        setLoading("Requesting signature for mirroring...");
+        setLoading("正在请求 blob 镜像签名...");
         const auth = await BlossomClient.createUploadAuth(
           requestSignature,
           mediaAttachments.filter((m) => !!m.sha256).map((m) => m.sha256!),
         );
 
-        setLoading("Mirror blobs...");
+        setLoading("镜像 blobs...");
         for (const media of mediaAttachments) {
           // send mirror request to all servers
           await Promise.allSettled(
@@ -90,14 +90,14 @@ export default function ShareModal({
         }
       } catch (error) {
         if (error instanceof Error)
-          toast({ status: "error", title: `Failed to mirror media`, description: error.message });
+          toast({ status: "error", title: `镜像媒体失败`, description: error.message });
       }
     }
 
-    setLoading("Sharing...");
+    setLoading("正在分享...");
     const draft = await factory.share(event);
 
-    setLoading("Publishing...");
+    setLoading("正在发布...");
     await publish("Share", draft);
     setLoading("");
 
@@ -110,7 +110,7 @@ export default function ShareModal({
       <ModalOverlay />
       <ModalContent>
         <ModalHeader px="4" py="2">
-          Share Note
+          分享笔记
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody px="4" py="0">
@@ -125,10 +125,10 @@ export default function ShareModal({
               {canMirror && (
                 <>
                   <Checkbox isChecked={mirror} onChange={() => setMirror(!mirror)} mt="4">
-                    Mirror media ({mediaAttachments.length}) to blossom servers ({servers.length})
+                    镜像媒体 ({mediaAttachments.length}) 到 Blossom 服务器 ({servers.length})
                   </Checkbox>
                   <Text fontSize="sm" color="GrayText">
-                    Copy media to your blossom servers so it can be found later
+                    将媒体复制到你的 Blossom 服务器以便日后查找
                   </Text>
                 </>
               )}
@@ -138,7 +138,7 @@ export default function ShareModal({
 
         <ModalFooter px="4" py="4">
           <Button variant="ghost" size="md" mr="auto" onClick={onClose} flexShrink={0}>
-            Cancel
+            取消
           </Button>
           <Button
             colorScheme="primary"
@@ -148,7 +148,7 @@ export default function ShareModal({
             isLoading={!!loading}
             flexShrink={0}
           >
-            Share
+            分享
           </Button>
         </ModalFooter>
       </ModalContent>

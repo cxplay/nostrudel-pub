@@ -56,9 +56,9 @@ function ThreadPost({ post, initShowReplies, focusId, level = -1 }: ThreadItemPr
   const muteAlert = (
     <Alert status="warning">
       <AlertIcon />
-      Muted user or note
+        已静音的用户或笔记
       <Button size="xs" ml="auto" onClick={() => setAlwaysShow(true)}>
-        Show anyway
+        显示一次
       </Button>
     </Alert>
   );
@@ -86,8 +86,8 @@ function ThreadPost({ post, initShowReplies, focusId, level = -1 }: ThreadItemPr
             variant="ghost"
             onClick={expanded.onToggle}
             icon={expanded.isOpen ? <Minus /> : <Expand01 />}
-            aria-label={expanded.isOpen ? "Collapse" : "Expand"}
-            title={expanded.isOpen ? "Collapse" : "Expand"}
+            aria-label={expanded.isOpen ? "折叠" : "展开"}
+            title={expanded.isOpen ? "折叠" : "展开"}
           />
         ))}
     </Flex>
@@ -113,7 +113,7 @@ function ThreadPost({ post, initShowReplies, focusId, level = -1 }: ThreadItemPr
   const footer = (
     <Flex gap="2" alignItems="center">
       <ButtonGroup variant="ghost" size="sm">
-        <IconButton aria-label="Reply" title="Reply" onClick={replyForm.onToggle} icon={<ReplyIcon />} />
+        <IconButton aria-label="回复" title="回复" onClick={replyForm.onToggle} icon={<ReplyIcon />} />
         <EventShareButton event={post.event} />
         <EventQuoteButton event={post.event} />
         <EventZapButton event={post.event} />
@@ -122,8 +122,8 @@ function ThreadPost({ post, initShowReplies, focusId, level = -1 }: ThreadItemPr
       <Spacer />
       <ButtonGroup size="sm" variant="ghost">
         <NoteProxyLink event={post.event} />
-        <BookmarkEventButton event={post.event} aria-label="Bookmark" />
-        <NoteMenu event={post.event} aria-label="More Options" />
+        <BookmarkEventButton event={post.event} aria-label="书签" />
+        <NoteMenu event={post.event} aria-label="更多选项" />
       </ButtonGroup>
     </Flex>
   );

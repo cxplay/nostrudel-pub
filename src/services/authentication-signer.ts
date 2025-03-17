@@ -53,10 +53,10 @@ class AuthenticationSigner implements EventSigner {
     if (state?.status !== "requested") return;
 
     const signer = this.signer;
-    if (!signer) throw new Error("Missing signer");
+    if (!signer) throw new Error("找不到签名器");
 
     const log = this.log.extend(relay);
-    log(`Requesting signature`);
+    log(`正在请求签名`);
 
     const promise = createDefer<NostrEvent>();
     this.setRelayState(relay, { status: "signing", promise });
@@ -65,13 +65,13 @@ class AuthenticationSigner implements EventSigner {
     const request = state.promise;
     promise.then(
       (event) => {
-        log(`Authenticated with ${relay}`);
+        log(`与 ${relay} 进行认证`);
         this.setRelayState(relay, { status: "success" });
         request.resolve(event);
       },
       (err) => {
         if (err instanceof Error) {
-          log(`Failed ${err.message}`);
+          log(`失败 ${err.message}`);
           this.setRelayState(relay, { status: "rejected", reason: err.message });
         } else this.setRelayState(relay, { status: "rejected", reason: "Unknown" });
 
@@ -102,10 +102,10 @@ class AuthenticationSigner implements EventSigner {
     if (!state) return;
 
     const log = this.log.extend(relay);
-    log(`Canceling`);
+    log(`正在取消`);
 
     // reject the promise if it exists
-    if (state.status === "requested" || state.status === "signing") state.promise.reject(new Error("Canceled"));
+    if (state.status === "requested" || state.status === "signing") state.promise.reject(new Error("已取消"));
 
     this.clearRelayState(relay);
   }
@@ -136,28 +136,28 @@ class AuthenticationSigner implements EventSigner {
 
   /** intercept sign requests and save them for later */
   signEvent<K extends number>(draft: Nostr.EventParameters<K>): Promise<Nostr.Event<K>> {
-    if (!draft.tags) throw new Error("Missing tags");
+    if (!draft.tags) throw new Error("缺少标签");
 
     let relay = draft.tags.find((t) => t[0] === "relay" && t[1])?.[1];
-    if (!relay) throw new Error("Missing relay tag");
+    if (!relay) throw new Error("缺少中继标签");
 
     // fix relay formatting
     relay = new URL(relay).toString();
 
     const log = this.log.extend(relay);
 
-    log(`Got request for ${relay}`);
+    log(`从 ${relay} 获取请求`);
     const mode = this.getRelayAuthMode(relay);
 
     // throw if mode is set to "never"
     if (mode === "never") {
-      log(`Automatically rejecting`);
-      this.setRelayState(relay, { status: "rejected", reason: "Canceled" });
-      return Promise.reject(new Error("Authentication rejected"));
+      log(`自动拒绝中`);
+      this.setRelayState(relay, { status: "rejected", reason: "已取消" });
+      return Promise.reject(new Error("认证已拒绝"));
     }
 
     const challenge = draft.tags.find((t) => t[0] === "challenge" && t[1])?.[1];
-    if (!challenge) throw new Error("Missing challenge tag");
+    if (!challenge) throw new Error("缺少 challenge 标签");
 
     const promise = createDefer<NostrEvent>();
 
@@ -171,7 +171,7 @@ class AuthenticationSigner implements EventSigner {
 
     // start the authentication process imminently if set to "always"
     if (mode === "always") {
-      log(`Automatically authenticating`);
+      log(`自动认证中`);
       this.authenticate(relay);
     }
 
@@ -180,7 +180,7 @@ class AuthenticationSigner implements EventSigner {
   }
 
   async getPublicKey(): Promise<string> {
-    if (!this.signer) throw new Error("Missing signer");
+    if (!this.signer) throw new Error("找不到签名器");
     return await this.signer.getPublicKey();
   }
 }

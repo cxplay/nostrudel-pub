@@ -56,9 +56,9 @@ export default function AppRelaysView() {
   const sorted = useMemo(() => mergeRelaySets(readRelays, writeRelays).sort(), [readRelays, writeRelays]);
 
   return (
-    <SimpleView title="App Relays" maxW="6xl">
+    <SimpleView title="应用中继" maxW="6xl">
       <Text fontStyle="italic" px="2" mt="-2">
-        These relays are stored locally and are used for everything in the app
+        这部分中继保存在本地, 应用中的所有功能都会使用这组中继设置.
       </Text>
 
       {sorted.map((url) => (
@@ -72,12 +72,12 @@ export default function AppRelaysView() {
 
       {writeRelays.length === 0 && (
         <Text color="yellow.500">
-          <WarningIcon /> There are no write relays set, any note you create might not be saved
+          <WarningIcon /> 没有设置写入中继, 创建的笔记可能无法保存.
         </Text>
       )}
 
       <Heading size="md" mt="2">
-        Set from
+        读取预设
       </Heading>
       <Flex wrap="wrap" gap="2">
         {window.nostr && (
@@ -88,7 +88,7 @@ export default function AppRelaysView() {
               localSettings.writeRelays.next(Array.from(write));
             }}
           >
-            Extension
+            浏览器扩展
           </Button>
         )}
         {mailboxes && (
@@ -98,7 +98,7 @@ export default function AppRelaysView() {
               localSettings.writeRelays.next(mailboxes.outboxes);
             }}
           >
-            NIP-65 (Mailboxes)
+            NIP-65 (信箱模型)
           </Button>
         )}
         {nip05?.status === IdentityStatus.Found && (
@@ -119,17 +119,17 @@ export default function AppRelaysView() {
               localSettings.writeRelays.next(contactRelays.outbox);
             }}
           >
-            Contact List (Legacy)
+            通讯录中继 (Legacy)
           </Button>
         )}
       </Flex>
 
       <Heading size="md" mt="2">
-        Presets
+        预设
       </Heading>
       <SimpleGrid columns={{ base: 1, lg: 2, xl: 3 }} spacing="2">
-        <RelaySetCard label="Popular Relays" read={RECOMMENDED_READ_RELAYS} write={RECOMMENDED_WRITE_RELAYS} />
-        <RelaySetCard label="Japanese relays" read={JAPANESE_RELAYS} write={JAPANESE_RELAYS} />
+        <RelaySetCard label="推荐中继" read={RECOMMENDED_READ_RELAYS} write={RECOMMENDED_WRITE_RELAYS} />
+        <RelaySetCard label="日语中继" read={JAPANESE_RELAYS} write={JAPANESE_RELAYS} />
       </SimpleGrid>
     </SimpleView>
   );

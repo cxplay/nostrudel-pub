@@ -42,54 +42,54 @@ export default function SettingsView() {
   const bakery = useBakery();
 
   return (
-    <SimpleParentView title="Settings" path="/settings">
+    <SimpleParentView title="设置" path="/settings">
       {account && (
         <>
           <SimpleNavItem to="/settings/accounts" leftIcon={<UserAvatar size="xs" pubkey={account.pubkey} />}>
-            Accounts
+            账户
           </SimpleNavItem>
           <SimpleNavItem to="/settings/mailboxes" leftIcon={<Mail02 boxSize={6} />}>
-            Mailboxes
+            信箱
           </SimpleNavItem>
           <SimpleNavItem to="/settings/media-servers" leftIcon={<Image01 boxSize={6} />}>
-            Media Servers
+            媒体服务器
           </SimpleNavItem>
           <SimpleNavItem to="/settings/search-relays" leftIcon={<SearchIcon boxSize={6} />}>
-            Search
+            搜索
           </SimpleNavItem>
           <SimpleNavItem to="/settings/identity" leftIcon={<VerifiedIcon boxSize={6} />}>
-            DNS Identity
+            域名身份
           </SimpleNavItem>
         </>
       )}
 
-      <DividerHeader title="App" />
+      <DividerHeader title="应用" />
       <SimpleNavItem to="/settings/display" leftIcon={<AppearanceIcon boxSize={5} />}>
-        Display
+        显示
       </SimpleNavItem>
       <SimpleNavItem to="/settings/relays" leftIcon={<RelayIcon boxSize={5} />}>
-        Relays
+        中继
       </SimpleNavItem>
       <SimpleNavItem to="/settings/authentication" leftIcon={<CheckCircleBroken boxSize={5} />}>
-        Authentication
+        认证
       </SimpleNavItem>
       <SimpleNavItem to="/settings/cache" leftIcon={<Database01 boxSize={5} />}>
-        Cache
+        缓存
       </SimpleNavItem>
       <SimpleNavItem to="/settings/post" leftIcon={<NotesIcon boxSize={5} />}>
-        Posts
+        帖文
       </SimpleNavItem>
       <SimpleNavItem to="/settings/performance" leftIcon={<PerformanceIcon boxSize={5} />}>
-        Performance
+        性能
       </SimpleNavItem>
       <SimpleNavItem to="/settings/lightning" leftIcon={<LightningIcon boxSize={5} />}>
-        Lightning
+        闪电网络
       </SimpleNavItem>
       <SimpleNavItem to="/settings/privacy" leftIcon={<SpyIcon boxSize={5} />}>
-        Privacy
+        隐私
       </SimpleNavItem>
       <SimpleNavItem to="/relays/cache/database" leftIcon={<DatabaseIcon boxSize={5} />}>
-        Database Tools
+        数据库工具
       </SimpleNavItem>
 
       {bakery ? (
@@ -97,13 +97,13 @@ export default function SettingsView() {
           <DividerHeader title="Bakery" />
           <SimpleNavItem to="/settings/bakery">General</SimpleNavItem>
           <SimpleNavItem to="/settings/bakery/notifications" leftIcon={<Bell01 boxSize={5} />}>
-            Notifications
+            通知
           </SimpleNavItem>
           <SimpleNavItem to="/settings/bakery/network" leftIcon={<Share07 boxSize={5} />}>
-            Network
+            网络
           </SimpleNavItem>
           <SimpleNavItem to="/settings/bakery/logs" leftIcon={<Database01 />}>
-            Service Logs
+            服务日志
           </SimpleNavItem>
         </>
       ) : (

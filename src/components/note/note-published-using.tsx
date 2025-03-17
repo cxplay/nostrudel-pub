@@ -7,7 +7,7 @@ export default function NotePublishedUsing({ event }: { event: NostrEvent }) {
 
   return (
     <Text as="span" fontStyle="italic" fontSize="sm">
-      using {clientTag[1]}
+      使用 {clientTag[1]} 发布
     </Text>
   );
 }

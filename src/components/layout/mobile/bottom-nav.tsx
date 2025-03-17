@@ -32,11 +32,11 @@ export default function MobileBottomNav() {
         ) : (
           <Avatar size="sm" src="/apple-touch-icon.png" onClick={drawer.onOpen} cursor="pointer" />
         )}
-        <IconButton as={RouterLink} icon={<NotesIcon boxSize={6} />} aria-label="Home" flexGrow="1" size="md" to="/" />
+        <IconButton as={RouterLink} icon={<NotesIcon boxSize={6} />} aria-label="主页" flexGrow="1" size="md" to="/" />
         <IconButton
           as={RouterLink}
           icon={<SearchIcon boxSize={6} />}
-          aria-label="Search"
+          aria-label="搜索"
           flexGrow="1"
           size="md"
           to="/search"
@@ -44,8 +44,8 @@ export default function MobileBottomNav() {
         <IconButton
           as={RouterLink}
           icon={<PlusCircleIcon boxSize={6} />}
-          aria-label="Create new"
-          title="Create new"
+          aria-label="创建"
+          title="创建"
           variant="solid"
           colorScheme="primary"
           to="/new"
@@ -53,7 +53,7 @@ export default function MobileBottomNav() {
         <IconButton
           as={RouterLink}
           icon={<DirectMessagesIcon boxSize={6} />}
-          aria-label="Messages"
+          aria-label="消息"
           flexGrow="1"
           size="md"
           to="/messages"
@@ -61,12 +61,12 @@ export default function MobileBottomNav() {
         <IconButton
           as={RouterLink}
           icon={<NotificationsIcon boxSize={6} />}
-          aria-label="Notifications"
+          aria-label="通知"
           flexGrow="1"
           size="md"
           to="/notifications"
         />
-        <IconButton as={RouterLink} icon={<Rocket02 boxSize={6} />} aria-label="Launchpad" to="/launchpad" />
+        <IconButton as={RouterLink} icon={<Rocket02 boxSize={6} />} aria-label="开始" to="/launchpad" />
       </Flex>
       <NavDrawer isOpen={drawer.isOpen} onClose={drawer.onClose} />
     </>

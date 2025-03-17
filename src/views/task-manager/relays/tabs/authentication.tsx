@@ -12,7 +12,7 @@ export default function RelayAuthenticationTab() {
     <>
       <Flex gap="2" px="2" pt="2" alignItems="center">
         <Text as="label" htmlFor="defaultAuthenticationMode">
-          Default mode:
+          默认模式:
         </Text>
         <DefaultAuthModeSelect id="defaultAuthenticationMode" w="auto" />
       </Flex>

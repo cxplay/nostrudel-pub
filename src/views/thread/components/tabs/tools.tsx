@@ -16,9 +16,9 @@ const tools: {
   name: string;
   render: (event: NostrEvent) => ReactNode;
 }[] = [
-  { id: "translate", icon: Translate01, name: "Translate", render: (event) => <NoteTranslationsPage note={event} /> },
-  { id: "tts", icon: Recording02, name: "Text to speech", render: (event) => <NoteTextToSpeechPage note={event} /> },
-  { id: "summarize", icon: PenTool01, name: "Summarize", render: (event) => <EventSummarizePage event={event} /> },
+  { id: "translate", icon: Translate01, name: "翻译", render: (event) => <NoteTranslationsPage note={event} /> },
+  { id: "tts", icon: Recording02, name: "朗读", render: (event) => <NoteTextToSpeechPage note={event} /> },
+  { id: "summarize", icon: PenTool01, name: "总结", render: (event) => <EventSummarizePage event={event} /> },
 ];
 
 export default function ToolsTab({ event }: { event: NostrEvent }) {

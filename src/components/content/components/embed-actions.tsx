@@ -30,12 +30,12 @@ export default function EmbedActions({
       </Button>
       {navigator.clipboard && url && (
         <Button onClick={copy} zIndex={1}>
-          {copied ? "[ Copied ]" : "[ Copy ]"}
+          {copied ? "[ 已复制 ]" : "[ 复制 ]"}
         </Button>
       )}
       {open && url && (
         <Button as={Link} href={url.toString()} isExternal>
-          [ Open ]
+          [ 打开 ]
         </Button>
       )}
       {children}

@@ -11,14 +11,14 @@ export default function AuthenticationSettingsView() {
   const sortedRelays = Object.keys(connections).sort();
 
   return (
-    <SimpleView title="Authentication settings" maxW="6xl">
+    <SimpleView title="认证设置" maxW="6xl">
       <FormControl>
-        <FormLabel htmlFor="default-mode">Default mode</FormLabel>
+        <FormLabel htmlFor="default-mode">默认模式</FormLabel>
         <DefaultAuthModeSelect id="default-mode" w="auto" />
       </FormControl>
 
       <Heading size="md" mt="4">
-        Relay mode
+        中继模式
       </Heading>
       <SimpleGrid spacing="2" columns={{ base: 1, md: 2 }}>
         {sortedRelays.map((relay) => (

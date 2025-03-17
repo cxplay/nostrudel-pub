@@ -9,7 +9,7 @@ export default function RawJsonPage({ event }: { event: NostrEvent }) {
   return (
     <>
       <ButtonGroup size="sm" ml="auto">
-        <CopyButton value={JSON.stringify(event)}>Copy</CopyButton>
+        <CopyButton value={JSON.stringify(event)}>复制</CopyButton>
         <Button
           leftIcon={<EditIcon />}
           as={RouterLink}
@@ -17,7 +17,7 @@ export default function RawJsonPage({ event }: { event: NostrEvent }) {
           state={{ draft: event }}
           colorScheme="primary"
         >
-          Edit
+          编辑
         </Button>
       </ButtonGroup>
 

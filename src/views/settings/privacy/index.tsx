@@ -26,9 +26,9 @@ async function validateInvidiousUrl(url?: string) {
   if (!url) return true;
   try {
     const res = await fetch(new URL("/api/v1/stats", url));
-    return res.ok || "Cant reach instance";
+    return res.ok || "无法连接实例";
   } catch (e) {
-    return "Cant reach instance";
+    return "无法连接实例";
   }
 }
 
@@ -38,9 +38,9 @@ async function validateRequestProxy(url?: string) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 2000);
     const res = await fetch(createRequestProxyUrl("https://example.com", url), { signal: controller.signal });
-    return res.ok || "Cant reach instance";
+    return res.ok || "无法连接实例";
   } catch (e) {
-    return "Cant reach instance";
+    return "无法连接实例";
   }
 }
 
@@ -54,7 +54,7 @@ export default function PrivacySettings() {
     <SimpleView
       as="form"
       onSubmit={submit}
-      title="Privacy"
+      title="隐私"
       gap="4"
       actions={
         <Button
@@ -66,20 +66,20 @@ export default function PrivacySettings() {
           flexShrink={0}
           size="sm"
         >
-          Save
+          保存
         </Button>
       }
     >
       <FormControl>
-        <FormLabel>Default authorization behavior</FormLabel>
+        <FormLabel>默认认证行为</FormLabel>
         <DefaultAuthModeSelect w="xs" rounded="md" flexShrink={0} />
-        <FormHelperText>How should the app handle relays requesting identification</FormHelperText>
+        <FormHelperText>应用如何处理中继发起的身份认证请求</FormHelperText>
       </FormControl>
 
       <FormControl>
         <Flex alignItems="center">
           <FormLabel htmlFor="proactivelyAuthenticate" mb="0">
-            Proactively authenticate to relays
+            主动与中继进行身份认证
           </FormLabel>
           <Switch
             id="proactivelyAuthenticate"
@@ -88,12 +88,12 @@ export default function PrivacySettings() {
           />
         </Flex>
         <FormHelperText>
-          <span>Authenticate to relays as soon as they send the authentication challenge</span>
+          <span>一旦中继发起身份认证要求则立即进行身份认证</span>
         </FormHelperText>
       </FormControl>
 
       <FormControl isInvalid={!!formState.errors.twitterRedirect}>
-        <FormLabel>Nitter instance</FormLabel>
+        <FormLabel>Nitter 实例</FormLabel>
         <Input
           type="url"
           maxW="sm"
@@ -104,19 +104,19 @@ export default function PrivacySettings() {
           <FormErrorMessage>{formState.errors.twitterRedirect.message}</FormErrorMessage>
         )}
         <FormHelperText>
-          Nitter is a privacy focused UI for twitter.{" "}
+          Nitter 是一个专注于隐私的 Twitter 替代前端.{" "}
           <Link href="https://github.com/zedeus/nitter/wiki/Instances" isExternal color="blue.500">
-            Nitter instances
+            Nitter 实例清单
           </Link>
         </FormHelperText>
       </FormControl>
 
       <FormControl isInvalid={!!formState.errors.youtubeRedirect}>
-        <FormLabel>Invidious instance</FormLabel>
+        <FormLabel>Invidious 实例</FormLabel>
         <Input
           type="url"
           maxW="sm"
-          placeholder="Invidious instance url"
+          placeholder="Invidious 实例 URL"
           {...register("youtubeRedirect", {
             validate: validateInvidiousUrl,
             setValueAs: safeUrl,
@@ -126,15 +126,15 @@ export default function PrivacySettings() {
           <FormErrorMessage>{formState.errors.youtubeRedirect.message}</FormErrorMessage>
         )}
         <FormHelperText>
-          Invidious is a privacy focused UI for youtube.{" "}
+        Invidious 是一个专注于隐私的 YouTube 替代前端.{" "}
           <Link href="https://docs.invidious.io/instances" isExternal color="blue.500">
-            Invidious instances
+            Invidious 实例清单
           </Link>
         </FormHelperText>
       </FormControl>
 
       <FormControl isInvalid={!!formState.errors.redditRedirect}>
-        <FormLabel>Teddit / Libreddit instance</FormLabel>
+        <FormLabel>Teddit / Libreddit 实例</FormLabel>
         <Input
           type="url"
           placeholder="https://nitter.net/"
@@ -145,28 +145,28 @@ export default function PrivacySettings() {
           <FormErrorMessage>{formState.errors.redditRedirect.message}</FormErrorMessage>
         )}
         <FormHelperText>
-          Libreddit and Teddit are both privacy focused UIs for reddit.{" "}
+          Libreddit 和 Teddit 都是专注于隐私的 Reddit 替代前端.{" "}
           <Link
             href="https://github.com/libreddit/libreddit-instances/blob/master/instances.md"
             isExternal
             color="blue.500"
           >
-            Libreddit instances
+            Libreddit 清单
           </Link>
           {", "}
           <Link href="https://codeberg.org/teddit/teddit#instances" isExternal color="blue.500">
-            Teddit instances
+            Teddit 清单
           </Link>
         </FormHelperText>
       </FormControl>
 
       <FormControl isInvalid={!!formState.errors.corsProxy}>
-        <FormLabel>Request Proxy</FormLabel>
+        <FormLabel>请求代理</FormLabel>
         {window.REQUEST_PROXY ? (
           <>
             <Input type="url" value={window.REQUEST_PROXY} onChange={() => {}} readOnly isDisabled />
             <FormHelperText color="red.500">
-              This noStrudel version has the request proxy hard coded to <Code>{window.REQUEST_PROXY}</Code>
+              这个 noStrudel 版本已经将请求代理配置硬编码为 <Code>{window.REQUEST_PROXY}</Code>
             </FormHelperText>
           </>
         ) : (
@@ -179,43 +179,43 @@ export default function PrivacySettings() {
         )}
         {formState.errors.corsProxy && <FormErrorMessage>{formState.errors.corsProxy.message}</FormErrorMessage>}
         <FormHelperText>
-          This is used as a fallback ( to bypass CORS restrictions ) or to make requests to .onion and .i2p domains
+          用作后备 (绕过 CORS 限制) 或向 .onion 和 .i2p 域名发出请求.
           <br />
-          This can either point to an instance of{" "}
+          可指向{" "}
           <Link href="https://github.com/Rob--W/cors-anywhere" isExternal color="blue.500">
             cors-anywhere
           </Link>{" "}
-          or{" "}
+          或者{" "}
           <Link href="https://corsproxy.io/" isExternal color="blue.500">
             corsproxy.io
           </Link>{" "}
-          <br />
-          <Code fontSize="0.9em">{`<url>`}</Code> or <Code fontSize="0.9em">{`<encoded_url>`}</Code> can be used to
-          inject the raw or the encoded url into the proxy url ( example:{" "}
-          <Code fontSize="0.9em" userSelect="all">{`https://corsproxy.io/?<encoded_url>`}</Code> )
+          实例.<br />
+          可使用 <Code fontSize="0.9em">{`<url>`}</Code> 或者 <Code fontSize="0.9em">{`<encoded_url>`}</Code>
+          注入原始或被编码的 URL 到请求代理 URL 中 (例如:{" "}
+          <Code fontSize="0.9em" userSelect="all">{`https://corsproxy.io/?<encoded_url>`}</Code>)
         </FormHelperText>
       </FormControl>
       <FormControl>
         <Flex alignItems="center">
           <FormLabel htmlFor="loadOpenGraphData" mb="0">
-            Load Open Graph data
+            加载 Open Graph 数据
           </FormLabel>
           <Switch id="loadOpenGraphData" {...register("loadOpenGraphData")} />
         </Flex>
         <FormHelperText>
           <span>
-            Whether to load{" "}
+            是否加载链接的{" "}
             <Link href="https://ogp.me/" isExternal color="blue.500">
               Open Graph
             </Link>{" "}
-            data for links
+            数据
           </span>
         </FormHelperText>
       </FormControl>
       <FormControl>
         <Flex alignItems="center">
           <FormLabel htmlFor="debugApi" mb="0">
-            Enable debug api
+            启用 Debug API
           </FormLabel>
           <Switch
             id="debugApi"
@@ -225,17 +225,17 @@ export default function PrivacySettings() {
         </Flex>
         <FormHelperText>
           <Text>
-            Adds a window.noStrudel to the page with access to internal methods{" "}
+            在页面中添加 window.noStrudel 以访问内部方法{" "}
             <Link
               href="https://github.com/hzrd149/nostrudel/blob/master/src/services/page-api.ts"
               target="_blank"
               color="blue.500"
             >
-              see source
+              查看源代码
             </Link>
           </Text>
           <Text color="orange.500" mt="1">
-            WARNING: this can expose your secret keys and signer.
+            警告: 该选项会暴露你的私钥和签名器.
           </Text>
         </FormHelperText>
       </FormControl>

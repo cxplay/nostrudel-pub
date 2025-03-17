@@ -9,7 +9,7 @@ import { getSharableEventAddress } from "../../services/relay-hints";
 export default function EventQuoteButton({
   event,
   "aria-label": ariaLabel,
-  title = "Quote Event",
+  title = "引用事件",
   ...props
 }: Omit<IconButtonProps, "children" | "onClick" | "aria-label"> & {
   event: NostrEvent;

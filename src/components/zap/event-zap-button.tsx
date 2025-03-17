@@ -40,8 +40,8 @@ export default function EventZapButton({ event, allowComment, showEventPreview, 
       {total > 0 ? (
         <Button
           leftIcon={<LightningIcon verticalAlign="sub" />}
-          aria-label="Zap Note"
-          title="Zap Note"
+          aria-label="打闪笔记"
+          title="打闪笔记"
           colorScheme={hasZapped ? "primary" : undefined}
           {...props}
           onClick={onOpen}
@@ -52,8 +52,8 @@ export default function EventZapButton({ event, allowComment, showEventPreview, 
       ) : (
         <IconButton
           icon={<LightningIcon verticalAlign="sub" />}
-          aria-label="Zap Note"
-          title="Zap Note"
+          aria-label="打闪笔记"
+          title="打闪笔记"
           colorScheme={hasZapped ? "primary" : undefined}
           {...props}
           onClick={onOpen}

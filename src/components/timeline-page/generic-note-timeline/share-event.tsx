@@ -42,7 +42,7 @@ function ShareEvent({ event }: { event: NostrEvent }) {
             <UserLink pubkey={event.pubkey} />
           </Heading>
           <UserDnsIdentity pubkey={event.pubkey} onlyIcon />
-          <Text as="span">Shared</Text>
+          <Text as="span">已分享</Text>
           <NoteMenu event={event} size="sm" variant="ghost" aria-label="note options" ml="auto" />
         </Flex>
         {!note ? (
