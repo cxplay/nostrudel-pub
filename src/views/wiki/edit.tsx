@@ -70,19 +70,19 @@ function EditWikiPagePage({ page }: { page: NostrEvent }) {
 
   return (
     <VerticalPageLayout as="form" h="full" onSubmit={submit}>
-      <Heading>Edit Page</Heading>
+      <Heading>编辑 Wiki 页面</Heading>
       <Flex gap="2" wrap={{ base: "wrap", md: "nowrap" }}>
         <FormControl w={{ base: "full", md: "sm" }} isRequired flexShrink={0}>
-          <FormLabel>Topic</FormLabel>
+          <FormLabel>栏目</FormLabel>
           <Input readOnly value={topic} />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel>Title</FormLabel>
+          <FormLabel>标题</FormLabel>
           <Input {...register("title", { required: true })} autoComplete="off" />
         </FormControl>
       </Flex>
       <FormControl>
-        <FormLabel>Summary</FormLabel>
+        <FormLabel>概述</FormLabel>
         <Textarea {...register("summary", { required: true })} isRequired />
       </FormControl>
       <Flex gap="2">
@@ -91,9 +91,9 @@ function EditWikiPagePage({ page }: { page: NostrEvent }) {
           setValue={(content) => setValue("content", content, { shouldDirty: true })}
         />
         <Spacer />
-        <Button onClick={() => navigate(-1)}>Cancel</Button>
+        <Button onClick={() => navigate(-1)}>取消</Button>
         <Button colorScheme="primary" type="submit" isLoading={formState.isSubmitting}>
-          Publish
+          发布
         </Button>
       </Flex>
       <MarkdownEditor value={getValues().content} onChange={(v) => setValue("content", v)} />

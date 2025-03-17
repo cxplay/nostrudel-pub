@@ -18,8 +18,8 @@ export default function NoteProxyLink({
       icon={<ExternalLinkIcon />}
       href={externalLink}
       target="_blank"
-      aria-label="Open External"
-      title="Open External"
+      aria-label="打开外部链接"
+      title="打开外部链接"
       {...props}
     />
   );

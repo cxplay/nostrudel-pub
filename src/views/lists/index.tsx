@@ -29,16 +29,16 @@ function ListsHomePage() {
     <VerticalPageLayout>
       <Flex gap="2">
         <Button as={RouterLink} to="/lists/browse">
-          Browse Lists
+          浏览列表
         </Button>
         <Spacer />
         <Button leftIcon={<Plus boxSize={5} />} onClick={newList.onOpen} colorScheme="primary">
-          New List
+          新建列表
         </Button>
       </Flex>
 
       <Heading size="lg" mt="2">
-        Special lists
+        特殊列表
       </Heading>
       <SimpleGrid columns={columns} spacing="2">
         <ListCard cord={`${kinds.Contacts}:${account.pubkey}`} hideCreator />
@@ -50,7 +50,7 @@ function ListsHomePage() {
       {followSets.length > 0 && (
         <>
           <Heading size="lg" mt="2">
-            People lists
+            用户列表
           </Heading>
           <SimpleGrid columns={columns} spacing="2">
             {followSets.map((event) => (
@@ -62,7 +62,7 @@ function ListsHomePage() {
       {genericSets.length > 0 && (
         <>
           <Heading size="lg" mt="2">
-            Generic lists
+            通用列表
           </Heading>
           <SimpleGrid columns={columns} spacing="2">
             {genericSets.map((event) => (
@@ -74,7 +74,7 @@ function ListsHomePage() {
       {bookmarkSets.length > 0 && (
         <>
           <Heading size="lg" mt="2">
-            Bookmark lists
+            书签列表
           </Heading>
           <SimpleGrid columns={columns} spacing="2">
             {bookmarkSets.map((event) => (
@@ -86,7 +86,7 @@ function ListsHomePage() {
       {favoriteLists.length > 0 && (
         <>
           <Heading size="lg" mt="2">
-            Favorite lists
+            收藏列表
           </Heading>
           <SimpleGrid columns={columns} spacing="2">
             {favoriteLists.map((event) => (

@@ -32,11 +32,11 @@ function EditableControls() {
 
   return isEditing ? (
     <ButtonGroup justifyContent="center" size="md">
-      <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} aria-label="Save" />
-      <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} aria-label="Cancel" />
+      <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} aria-label="保存" />
+      <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} aria-label="取消" />
     </ButtonGroup>
   ) : (
-    <IconButton size="md" icon={<EditIcon />} {...getEditButtonProps()} aria-label="Edit" />
+    <IconButton size="md" icon={<EditIcon />} {...getEditButtonProps()} aria-label="编辑" />
   );
 }
 

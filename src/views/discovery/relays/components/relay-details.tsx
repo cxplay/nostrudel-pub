@@ -69,7 +69,7 @@ export default function RelayStatusDetails({ event, ...props }: Omit<FlexProps, 
               icon={<ExternalLinkIcon />}
               as={RouterLink}
               to={`/relays/${encodeURIComponent(identity)}`}
-              aria-label="Open"
+              aria-label="打开"
             />
           )}
           <DebugEventButton event={event} />
@@ -80,21 +80,21 @@ export default function RelayStatusDetails({ event, ...props }: Omit<FlexProps, 
         <AccordionItem>
           <AccordionButton px="2">
             <Box as="span" flex="1" textAlign="left">
-              Software info
+              软件信息
             </Box>
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel px="2" pb="2" pt="0" display="flex" flexDirection="column" gap="2">
             <Box>
-              <Text>NIPs:</Text>
+              <Text>NIP:</Text>
               <SupportedNIPs nips={nips} names />
             </Box>
             {software && (
               <Box>
-                <Text>Software:</Text>
+                <Text>软件:</Text>
                 <Code isTruncated>{software}</Code>
                 <Text>
-                  Version: <Code>{version}</Code>
+                  版本: <Code>{version}</Code>
                 </Text>
               </Box>
             )}
@@ -104,7 +104,7 @@ export default function RelayStatusDetails({ event, ...props }: Omit<FlexProps, 
           <AccordionItem>
             <AccordionButton px="2">
               <Box as="span" flex="1" textAlign="left">
-                Pubkeys
+                公钥
               </Box>
               <AccordionIcon />
             </AccordionButton>
@@ -121,7 +121,7 @@ export default function RelayStatusDetails({ event, ...props }: Omit<FlexProps, 
         <AccordionItem>
           <AccordionButton px="2">
             <Box as="span" flex="1" textAlign="left">
-              Miscellaneous info
+              杂项
             </Box>
             <AccordionIcon />
           </AccordionButton>

@@ -58,10 +58,10 @@ export default function ChatMessageForm({ stream, hideZapButton }: { stream: Nos
     <>
       <Box borderRadius="md" flexShrink={0} display="flex" gap="2" px="2" pb="2">
         <Flex as="form" onSubmit={sendMessage} gap="2" flex={1}>
-          <InsertGifButton onSelectURL={insertText} aria-label="Add gif" />
+          <InsertGifButton onSelectURL={insertText} aria-label="添加 GIF" />
           <MagicInput
             instanceRef={(inst) => (textAreaRef.current = inst)}
-            placeholder="Message"
+            placeholder="消息"
             autoComplete="off"
             isRequired
             value={getValues().content}
@@ -70,7 +70,7 @@ export default function ChatMessageForm({ stream, hideZapButton }: { stream: Nos
             onPaste={onPaste}
           />
           <Button colorScheme="primary" type="submit" isLoading={formState.isSubmitting}>
-            Send
+            发送
           </Button>
         </Flex>
         {!hideZapButton && <StreamZapButton stream={stream} onZap={reset} initComment={getValues().content} />}

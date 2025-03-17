@@ -117,16 +117,16 @@ export default function CreateWikiPageView() {
 
   return (
     <VerticalPageLayout as="form" h="full" onSubmit={submit}>
-      <Heading>Create Page</Heading>
+      <Heading>创建 Wiki 页面</Heading>
       {fork && (
         <Alert status="info">
           <AlertIcon />
-          Forking page from <UserName pubkey={fork.pubkey} ml="2" />
+          正在复刻页面自 <UserName pubkey={fork.pubkey} ml="2" />
         </Alert>
       )}
       <Flex gap="2" wrap={{ base: "wrap", md: "nowrap" }}>
         <FormControl w={{ base: "full", md: "sm" }} isRequired flexShrink={0}>
-          <FormLabel>Topic</FormLabel>
+          <FormLabel>栏目</FormLabel>
           <Input
             placeholder="banana"
             isRequired
@@ -140,12 +140,12 @@ export default function CreateWikiPageView() {
           />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel>Title</FormLabel>
+          <FormLabel>标题</FormLabel>
           <Input {...register("title", { required: true })} autoComplete="off" />
         </FormControl>
       </Flex>
       <FormControl>
-        <FormLabel>Summary</FormLabel>
+        <FormLabel>概述</FormLabel>
         <Textarea {...register("summary", { required: true })} isRequired />
       </FormControl>
       <Flex gap="2">
@@ -154,9 +154,9 @@ export default function CreateWikiPageView() {
           setValue={(content) => setValue("content", content, { shouldDirty: true })}
         />
         <Spacer />
-        <Button onClick={() => navigate(-1)}>Cancel</Button>
+        <Button onClick={() => navigate(-1)}>取消</Button>
         <Button colorScheme="primary" type="submit" isLoading={formState.isSubmitting}>
-          Publish
+          发布
         </Button>
       </Flex>
       <MarkdownEditor value={getValues().content} onChange={(v) => setValue("content", v)} />

@@ -40,8 +40,8 @@ export default function DesktopSideNav({ ...props }: Omit<FlexProps, "children">
         <NavItems />
         <ButtonGroup variant="ghost">
           <IconButton
-            aria-label={collapsed ? "Open" : "Close"}
-            title={collapsed ? "Open" : "Close"}
+            aria-label={collapsed ? "打开" : "关闭"}
+            title={collapsed ? "打开" : "关闭"}
             onClick={() => setCollapsed(!collapsed)}
             icon={collapsed ? <ChevronRightIcon boxSize={6} /> : <ChevronLeftIcon boxSize={6} />}
           />

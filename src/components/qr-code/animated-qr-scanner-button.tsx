@@ -79,7 +79,7 @@ export default function AnimatedQRCodeScannerButton({
 
   return (
     <>
-      <IconButton onClick={openModal} icon={<QrCodeIcon boxSize={6} />} aria-label="Qr Scanner" {...props} />
+      <IconButton onClick={openModal} icon={<QrCodeIcon boxSize={6} />} aria-label="二维码扫描器" {...props} />
       {modal.isOpen && (
         <Suspense fallback={null}>
           <Modal isOpen={modal.isOpen} onClose={closeModal}>
@@ -101,7 +101,7 @@ export default function AnimatedQRCodeScannerButton({
 
               <ModalFooter px="2" pb="2" pt="0" alignItems="center" gap="2">
                 {progress !== undefined && <Progress hasStripe value={progress * 100} w="full" />}
-                <Button onClick={closeModal}>Cancel</Button>
+                <Button onClick={closeModal}>取消</Button>
               </ModalFooter>
             </ModalContent>
           </Modal>

@@ -49,14 +49,14 @@ export default function DecryptPlaceholder({
         <AlertDescription>{error.message}</AlertDescription>
         <DebugEventButton event={message} size="sm" ml="auto" mr="2" />
         <Button isLoading={loading} leftIcon={<UnlockIcon />} onClick={decrypt} size="sm">
-          Try again
+          重试
         </Button>
       </Alert>
     );
   }
   return (
     <Button onClick={decrypt} isLoading={loading} leftIcon={<UnlockIcon />} width="full" {...props}>
-      Decrypt
+      解密
     </Button>
   );
 }

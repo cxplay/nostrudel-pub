@@ -130,7 +130,7 @@ function DirectMessageChatPage({ pubkey }: { pubkey: string }) {
             <ButtonGroup ml="auto">
               {!autoDecryptDMs && (
                 <Button onClick={decryptAll} isLoading={loading}>
-                  Decrypt All
+                  解密所有
                 </Button>
               )}
               <IconButton

@@ -24,10 +24,10 @@ export default function TaskManagerRelays() {
     <Tabs position="relative" variant="unstyled" index={tabIndex} onChange={(i) => setTab(TABS[i])} isLazy>
       <TabList>
         <Tab>
-          Relays ({connected}/{Object.keys(connections).length})
+          中继 ({connected}/{Object.keys(connections).length})
         </Tab>
-        <Tab>Authentication ({Object.keys(pending).length})</Tab>
-        <Tab>Notices ({notices.length})</Tab>
+        <Tab>认证 ({Object.keys(pending).length})</Tab>
+        <Tab>通知 ({notices.length})</Tab>
       </TabList>
       <TabIndicator mt="-1.5px" height="2px" bg="primary.500" borderRadius="1px" />
 

@@ -38,7 +38,7 @@ export default function MessageBubble({
     <>
       <EventZapButton event={message} />
       <AddReactionButton event={message} />
-      {showThreadButton && <IconThreadButton event={message} aria-label="Open Thread" />}
+      {showThreadButton && <IconThreadButton event={message} aria-label="打开线程" />}
     </>
   );
 

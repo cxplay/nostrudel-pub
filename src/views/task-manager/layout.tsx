@@ -25,8 +25,8 @@ export default function TaskManagerLayout() {
       onChange={(i) => navigate("/" + tabs[i], { replace: true })}
     >
       <TabList overflowX="auto" overflowY="hidden" flexShrink={0} mr="10">
-        <Tab>Publish Log</Tab>
-        <Tab>Relays</Tab>
+        <Tab>发布日志</Tab>
+        <Tab>中继</Tab>
       </TabList>
       <TabIndicator height="2px" bg="primary.500" borderRadius="1px" />
 
