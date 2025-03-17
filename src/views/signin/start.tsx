@@ -38,7 +38,7 @@ export default function LoginStartView() {
       }
       setLoading(false);
     } else {
-      toast({ status: "warning", title: "Cant find extension" });
+      toast({ status: "warning", title: "无法找到浏览器扩展" });
     }
   };
 
@@ -57,7 +57,7 @@ export default function LoginStartView() {
       }
       setLoading(false);
     } else {
-      toast({ status: "warning", title: "Serial is not supported" });
+      toast({ status: "warning", title: "不支持 Serial" });
     }
   };
 
@@ -79,7 +79,7 @@ export default function LoginStartView() {
     <>
       {window.nostr && (
         <Button onClick={signinWithExtension} leftIcon={<Key01 boxSize={6} />} w="full" colorScheme="primary">
-          Sign in with extension
+          使用浏览器扩展登录
         </Button>
       )}
       <Button
@@ -90,17 +90,17 @@ export default function LoginStartView() {
         colorScheme="blue"
         leftIcon={<AtIcon boxSize={6} />}
       >
-        Nostr Address
+        Nostr 地址
       </Button>
       {SerialPortSigner.SUPPORTED && (
         <ButtonGroup colorScheme="purple">
           <Button onClick={signinWithSerial} leftIcon={<UsbFlashDrive boxSize={6} />} w="xs">
-            Use Signing Device
+            使用签名设备
           </Button>
           <IconButton
             as={Link}
-            aria-label="What is NSD?"
-            title="What is NSD?"
+            aria-label="什么是 NSD?"
+            title="什么是 NSD?"
             isExternal
             href="https://github.com/lnbits/nostr-signing-device"
             icon={<HelpCircle boxSize={5} />}
@@ -110,12 +110,12 @@ export default function LoginStartView() {
       {CAP_IS_WEB && AmberClipboardSigner.SUPPORTED && (
         <ButtonGroup colorScheme="orange" w="full">
           <Button onClick={signinWithAmber} leftIcon={<Diamond01 boxSize={6} />} flex={1}>
-            Use Amber
+            使用 Amber
           </Button>
           <IconButton
             as={Link}
-            aria-label="What is Amber?"
-            title="What is Amber?"
+            aria-label="什么是 Amber?"
+            title="什么是 Amber?"
             isExternal
             href="https://github.com/greenart7c3/Amber"
             icon={<HelpCircle boxSize={5} />}
@@ -125,7 +125,7 @@ export default function LoginStartView() {
       {CAP_IS_ANDROID && <AndroidNativeSigners />}
       <Flex w="full" alignItems="center" gap="4">
         <Divider />
-        <Text fontWeight="bold">OR</Text>
+        <Text fontWeight="bold">或者</Text>
         <Divider />
       </Flex>
       <Flex gap="2">
@@ -151,7 +151,7 @@ export default function LoginStartView() {
           variant="outline"
         >
           <Key01 boxSize={12} />
-          Private key
+          私钥
         </Button>
         <Button
           flexDirection="column"
@@ -163,11 +163,11 @@ export default function LoginStartView() {
           variant="outline"
         >
           <Eye boxSize={12} />
-          Public key
+          公钥
         </Button>
       </Flex>
       <Text fontWeight="bold" mt="4">
-        Don't have an account?
+        还没有账户?
       </Text>
       <Button
         as={RouterLink}
@@ -178,7 +178,7 @@ export default function LoginStartView() {
         maxW="xs"
         w="full"
       >
-        Sign up
+        注册
       </Button>
     </>
   );

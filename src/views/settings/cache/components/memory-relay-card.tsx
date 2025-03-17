@@ -22,21 +22,21 @@ export default function MemoryRelayCard() {
   return (
     <Card borderColor={enabled ? "primary.500" : undefined} variant="outline">
       <CardHeader p="4" display="flex" gap="2" alignItems="center">
-        <Heading size="md">In-memory Cache</Heading>
+        <Heading size="md">内存缓存</Heading>
         <Button size="sm" colorScheme="primary" ml="auto" onClick={enable} isDisabled={enabled} isLoading={enabling}>
-          {enabled ? "Enabled" : "Enable"}
+          {enabled ? "已启用" : "启用"}
         </Button>
       </CardHeader>
       <CardBody p="4" pt="0">
-        <Text mb="2">Stores all events in memory</Text>
-        <Text>Maximum capacity: Unlimited, until your system freezes</Text>
-        <Text>Performance: Very fast</Text>
-        <Text color="yellow.500">NOTE: All events are forgotten when you close the app</Text>
+        <Text mb="2">在内存里面缓存所有事件</Text>
+        <Text>容量: 无限, 直到你的系统卡住</Text>
+        <Text>性能: 非常快</Text>
+        <Text color="yellow.500">注意: 所有的事件都会在你关闭本应用后消失</Text>
       </CardBody>
       {enabled && (
         <CardFooter p="4" pt="0">
           <Button size="sm" colorScheme="primary" ml="auto" as={RouterLink} to="/relays/cache/database">
-            Database Tools
+            数据库工具
           </Button>
         </CardFooter>
       )}

@@ -46,7 +46,7 @@ export default function OtherStuffView() {
         {recentApps.length > 0 && (
           <>
             <Heading size="md" my="2">
-              Recently Used
+              最近使用
             </Heading>
             <SimpleGrid spacing="2" columns={columns}>
               {recentApps.slice(0, 6).map((id) => {
@@ -106,12 +106,12 @@ export default function OtherStuffView() {
   return (
     <VerticalPageLayout>
       <Heading size="lg" my="2">
-        Tools and other stuff
+        工具和其他
       </Heading>
 
       <Input
         type="search"
-        placeholder="Search apps"
+        placeholder="搜索应用"
         maxW="sm"
         value={search}
         onChange={(e) => setSearch(e.target.value)}

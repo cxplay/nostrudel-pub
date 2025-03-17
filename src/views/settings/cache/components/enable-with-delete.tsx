@@ -38,13 +38,13 @@ export default function EnableWithDelete({
   return (
     <ButtonGroup isAttached {...props}>
       <Button colorScheme="primary" onClick={enable} isDisabled={enabled}>
-        {enabled ? "Enabled" : "Enable"}
+        {enabled ? "已启用" : "启用"}
       </Button>
       <Menu>
         <MenuButton as={IconButton} icon={<ChevronDownIcon />} aria-label="More options" isLoading={isLoading} />
         <MenuList>
           <MenuItem icon={<Trash01 />} color="red.500" onClick={wipeDatabase}>
-            Clear Database
+            清理数据库
           </MenuItem>
         </MenuList>
       </Menu>

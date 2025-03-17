@@ -105,7 +105,7 @@ function DVMFeedPage({ pointer }: { pointer: AddressPointer }) {
         <Button onClick={requestNewFeed} isLoading={requesting} colorScheme="primary">
           New Feed
         </Button>
-        <IconButton icon={<CodeIcon />} ml="auto" aria-label="View Raw" title="View Raw" onClick={debugModal.onOpen} />
+        <IconButton icon={<CodeIcon />} ml="auto" aria-label="查看原始" title="查看原始" onClick={debugModal.onOpen} />
       </Flex>
 
       {jobChains[0] && <Feed chain={jobChains[0]} pointer={pointer} />}

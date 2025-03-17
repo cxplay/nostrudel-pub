@@ -21,7 +21,7 @@ export default function AddFeedForm({ onAdded }: { onAdded?: (list: NostrEvent) 
     try {
       const url = new URL(values.url).toString();
       const xml = await xmlFeedsService.requestFeed(url);
-      if (!xml) throw new Error("Failed to fetch feed");
+      if (!xml) throw new Error("获取信息源失败");
 
       const guid = getPodcastGUID(xml);
 

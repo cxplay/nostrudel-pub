@@ -98,7 +98,7 @@ export default function PeopleListSelection({
       <Modal isOpen={modal.isOpen} onClose={modal.onClose} size="2xl">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader p="4">Select List</ModalHeader>
+          <ModalHeader p="4">选择列表</ModalHeader>
           <ModalCloseButton />
           <ModalBody px="4" pb="4" pt="0" display="flex" flexDirection="column" gap="2">
             <ButtonGroup>
@@ -109,7 +109,7 @@ export default function PeopleListSelection({
                     modal.onClose();
                   }}
                 >
-                  Following
+                  正在追随
                 </Button>
               )}
               {!hideGlobalOption && (
@@ -119,12 +119,12 @@ export default function PeopleListSelection({
                     modal.onClose();
                   }}
                 >
-                  Global
+                  全球
                 </Button>
               )}
             </ButtonGroup>
             <Heading mt="2" size="md">
-              Lists
+              列表
             </Heading>
             <SimpleGrid columns={2} spacing="2">
               {lists.map((list) => (
@@ -134,7 +134,7 @@ export default function PeopleListSelection({
             {favoriteLists.length > 0 && (
               <>
                 <Heading mt="2" size="md">
-                  Favorites
+                  收藏
                 </Heading>
                 <SimpleGrid columns={2} spacing="2">
                   {favoriteLists.map((list) => (

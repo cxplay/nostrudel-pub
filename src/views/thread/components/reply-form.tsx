@@ -82,7 +82,7 @@ export default function ReplyForm({ item, onCancel, onSubmitted, replyKind = kin
   return (
     <Flex as="form" direction="column" gap="2" pb="4" onSubmit={submit} ref={formRef}>
       <MagicTextArea
-        placeholder="Reply"
+        placeholder="回复"
         autoFocus
         mb="2"
         rows={4}
@@ -97,9 +97,9 @@ export default function ReplyForm({ item, onCancel, onSubmitted, replyKind = kin
       />
       <Flex gap="2" alignItems="center">
         <ButtonGroup size="sm">
-          <InsertImageButton onUploaded={insertText} aria-label="Upload image" />
-          <InsertGifButton onSelectURL={insertText} aria-label="Add gif" />
-          <InsertReactionButton onSelect={insertText} aria-label="Add emoji" />
+          <InsertImageButton onUploaded={insertText} aria-label="上传图片" />
+          <InsertGifButton onSelectURL={insertText} aria-label="添加 GIF" />
+          <InsertReactionButton onSelect={insertText} aria-label="添加表情" />
           <Button
             variant="link"
             rightIcon={advanced.isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
@@ -122,7 +122,7 @@ export default function ReplyForm({ item, onCancel, onSubmitted, replyKind = kin
             <Flex gap="2" direction="column">
               <Switch {...register("nsfw")}>NSFW</Switch>
               {getValues().nsfw && (
-                <Input {...register("nsfwReason", { required: true })} placeholder="Reason" isRequired />
+                <Input {...register("nsfwReason", { required: true })} placeholder="原因" isRequired />
               )}
             </Flex>
           </Flex>

@@ -34,13 +34,13 @@ export const SET_KINDS = [
 
 /** @deprecated this should be moved out to applesauce-list */
 export function getListName(event: NostrEvent) {
-  if (event.kind === kinds.Contacts) return "Following";
-  if (event.kind === kinds.Mutelist) return "Mute";
-  if (event.kind === kinds.Pinlist) return "Pins";
-  if (event.kind === kinds.BookmarkList) return "Bookmarks";
-  if (event.kind === kinds.CommunitiesList) return "Communities";
-  if (event.kind === kinds.InterestsList) return "Interests";
-  if (event.kind === kinds.PublicChatsList) return "Public Chats";
+  if (event.kind === kinds.Contacts) return "追随";
+  if (event.kind === kinds.Mutelist) return "静音";
+  if (event.kind === kinds.Pinlist) return "置顶";
+  if (event.kind === kinds.BookmarkList) return "书签";
+  if (event.kind === kinds.CommunitiesList) return "社区";
+  if (event.kind === kinds.InterestsList) return "兴趣列表";
+  if (event.kind === kinds.PublicChatsList) return "公共聊天";
 
   return (
     event.tags.find((t) => t[0] === "title")?.[1] ||

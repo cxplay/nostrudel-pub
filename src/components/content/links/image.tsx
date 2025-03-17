@@ -147,19 +147,19 @@ function VerifyImageButton({
         colorScheme={matches === undefined ? undefined : matches ? "green" : "red"}
         {...props}
       >
-        [ {matches === undefined ? "Verify" : matches ? "Valid" : "Invalid!"} ]
+        [ {matches === undefined ? "验证" : matches ? "有效" : "无效!"} ]
       </Button>
       {modal.isOpen && downloaded && (
         <Modal isOpen={modal.isOpen} onClose={modal.onClose} size="xl">
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader p="4">Invalid Hash</ModalHeader>
+            <ModalHeader p="4">无效的 Hash</ModalHeader>
             <ModalCloseButton />
             <ModalBody px="4" pb="4" pt="0">
-              <Text fontWeight="bold">Original:</Text>
+              <Text fontWeight="bold">原始:</Text>
               <Code>{original}</Code>
 
-              <Text fontWeight="bold">Downloaded:</Text>
+              <Text fontWeight="bold">已下载:</Text>
               <Code>{downloaded}</Code>
             </ModalBody>
           </ModalContent>
@@ -177,7 +177,7 @@ export function renderImageUrl(match: URL) {
 
   return (
     <ExpandableEmbed
-      label="Image"
+      label="图片"
       url={match}
       actions={hash ? <VerifyImageButton src={match} original={hash} zIndex={1} /> : undefined}
     >

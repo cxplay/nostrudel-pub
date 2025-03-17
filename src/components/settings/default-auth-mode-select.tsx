@@ -13,9 +13,9 @@ export default function DefaultAuthModeSelect({ ...props }: Omit<SelectProps, "c
       onChange={(e) => localSettings.defaultAuthenticationMode.next(e.target.value as RelayAuthMode)}
       {...props}
     >
-      <option value="always">Always authenticate</option>
-      <option value="ask">Ask every time</option>
-      <option value="never">Never authenticate</option>
+      <option value="always">总是认证 (always)</option>
+      <option value="ask">每次都询问 (ask)</option>
+      <option value="never">从不认证 (never)</option>
     </Select>
   );
 }

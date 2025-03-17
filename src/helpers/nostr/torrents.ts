@@ -18,12 +18,12 @@ export const Trackers = [
 
 export function getTorrentTitle(torrent: NostrEvent) {
   const title = torrent.tags.find((t) => t[0] === "title")?.[1];
-  if (!title) throw new Error("Missing title");
+  if (!title) throw new Error("缺少标题");
   return title;
 }
 export function getTorrentBtih(torrent: NostrEvent) {
   const btih = torrent.tags.find((a) => a[0] === "btih" || a[0] === "x")?.[1];
-  if (!btih) throw new Error("Missing btih");
+  if (!btih) throw new Error("缺少 btih");
   return btih;
 }
 export function getTorrentFiles(torrent: NostrEvent) {
@@ -77,89 +77,89 @@ export type Category = {
 
 export const torrentCatagories: Category[] = [
   {
-    name: "Video",
+    name: "视频",
     tag: "video",
     sub_category: [
       {
-        name: "Movies",
+        name: "电影",
         tag: "movie",
         sub_category: [
-          { name: "Movies DVDR", tag: "dvdr" },
-          { name: "HD Movies", tag: "hd" },
-          { name: "4k Movies", tag: "4k" },
+          { name: "DVDR 电影", tag: "dvdr" },
+          { name: "HD 电影", tag: "hd" },
+          { name: "4k 电影", tag: "4k" },
         ],
       },
       {
-        name: "TV",
+        name: "电视剧",
         tag: "tv",
         sub_category: [
-          { name: "HD TV", tag: "hd" },
-          { name: "4k TV", tag: "4k" },
+          { name: "HD 电视剧", tag: "hd" },
+          { name: "4k 电视剧", tag: "4k" },
         ],
       },
     ],
   },
   {
-    name: "Audio",
+    name: "音频",
     tag: "audio",
     sub_category: [
       {
-        name: "Music",
+        name: "音乐",
         tag: "music",
         sub_category: [{ name: "FLAC", tag: "flac" }],
       },
-      { name: "Audio Books", tag: "audio-book" },
+      { name: "有声书", tag: "audio-book" },
     ],
   },
   {
-    name: "Applications",
+    name: "应用",
     tag: "application",
     sub_category: [
       { name: "Windows", tag: "windows" },
-      { name: "Mac", tag: "mac" },
+      { name: "macOS", tag: "mac" },
       { name: "UNIX", tag: "unix" },
       { name: "iOS", tag: "ios" },
       { name: "Android", tag: "android" },
     ],
   },
   {
-    name: "Games",
+    name: "游戏",
     tag: "game",
     sub_category: [
       { name: "PC", tag: "pc" },
-      { name: "Mac", tag: "mac" },
-      { name: "PSx", tag: "psx" },
-      { name: "XBOX", tag: "xbox" },
+      { name: "macOS", tag: "mac" },
+      { name: "PlayStation", tag: "psx" },
+      { name: "Xbox", tag: "xbox" },
       { name: "Wii", tag: "wii" },
       { name: "iOS", tag: "ios" },
       { name: "Android", tag: "android" },
     ],
   },
   {
-    name: "Porn",
+    name: "色情",
     tag: "porn",
     sub_category: [
       {
-        name: "Movies",
+        name: "电影",
         tag: "movie",
         sub_category: [
-          { name: "Movies DVDR", tag: "dvdr" },
-          { name: "HD Movies", tag: "hd" },
-          { name: "4k Movies", tag: "4k" },
+          { name: "DVDR 电影", tag: "dvdr" },
+          { name: "HD 电影", tag: "hd" },
+          { name: "4k 电影", tag: "4k" },
         ],
       },
-      { name: "Pictures", tag: "picture" },
-      { name: "Games", tag: "game" },
+      { name: "图片", tag: "picture" },
+      { name: "游戏", tag: "game" },
     ],
   },
   {
-    name: "Other",
+    name: "其他",
     tag: "other",
     sub_category: [
-      { name: "Archives", tag: "archive" },
-      { name: "E-Books", tag: "e-book" },
-      { name: "Comics", tag: "comic" },
-      { name: "Pictures", tag: "picture" },
+      { name: "档案", tag: "archive" },
+      { name: "电子书", tag: "e-book" },
+      { name: "漫画", tag: "comic" },
+      { name: "图片", tag: "picture" },
     ],
   },
 ];

@@ -21,9 +21,9 @@ export default function SupportPaywall() {
       <Modal isOpen={!paid} onClose={dismiss} size="lg" closeOnOverlayClick={false}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Support the app</ModalHeader>
+          <ModalHeader>支持该应用</ModalHeader>
           <ModalBody>
-            {PAYWALL_MESSAGE || "If your enjoying this app consider supporting the developer by donating some sats"}
+            {PAYWALL_MESSAGE || "如果你喜欢这款应用, 请考虑通过捐赠一些聪(Sat)来支持开发者."}
           </ModalBody>
 
           <ModalFooter gap="2">
@@ -36,7 +36,7 @@ export default function SupportPaywall() {
               to="/support"
               leftIcon={<LightningIcon color="yellow.400" boxSize={5} />}
             >
-              Support
+              支持
             </Button>
           </ModalFooter>
         </ModalContent>

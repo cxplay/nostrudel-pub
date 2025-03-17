@@ -38,14 +38,14 @@ export default function NoteMenu({ event, ...props }: { event: NostrEvent } & Om
         <DeleteEventMenuItem event={event} />
 
         <MenuItem as={RouterLink} icon={<Recording02 />} to={`/tools/transform/${address}?tab=tts`}>
-          Text to speech
+          朗读
         </MenuItem>
         <MenuItem as={RouterLink} icon={<Translate01 />} to={`/tools/transform/${address}?tab=translation`}>
-          Translate
+          翻译
         </MenuItem>
 
         <MenuItem onClick={broadcast} icon={<BroadcastEventIcon />}>
-          Broadcast
+          广播
         </MenuItem>
         <PinEventMenuItem event={event} />
         <DebugEventMenuItem event={event} />

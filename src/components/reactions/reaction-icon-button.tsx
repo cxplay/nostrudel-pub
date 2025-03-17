@@ -43,7 +43,7 @@ export default function ReactionIconButton({
       fallback={
         <Flex p="4" gap="2">
           <Spinner />
-          <Text>Loading emojis...</Text>
+          <Text>正在加载表情...</Text>
         </Flex>
       }
     >
@@ -56,8 +56,8 @@ export default function ReactionIconButton({
       <>
         <IconButton
           icon={<AddReactionIcon boxSize="1.3em" />}
-          aria-label="Add Reaction"
-          title="Add Reaction"
+          aria-label="添加回应"
+          title="添加回应"
           onClick={open.on}
           {...props}
         />
@@ -74,8 +74,8 @@ export default function ReactionIconButton({
         <PopoverTrigger>
           <IconButton
             icon={<AddReactionIcon boxSize="1.3em" />}
-            aria-label="Add Reaction"
-            title="Add Reaction"
+            aria-label="添加回应"
+            title="添加回应"
             {...props}
           />
         </PopoverTrigger>

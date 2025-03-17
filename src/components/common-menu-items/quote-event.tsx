@@ -31,7 +31,7 @@ export default function QuoteEventMenuItem({ event }: { event: NostrEvent }) {
   return (
     address && (
       <MenuItem onClick={share} icon={<QuoteEventIcon />}>
-        Quote Event
+        引用事件
       </MenuItem>
     )
   );

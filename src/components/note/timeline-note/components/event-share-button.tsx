@@ -7,7 +7,7 @@ import { RepostIcon } from "../../../icons";
 import useEventCount from "../../../../hooks/use-event-count";
 import ShareModal from "./share-modal";
 
-export default function EventShareButton({ event, title = "Share Event" }: { event: NostrEvent; title?: string }) {
+export default function EventShareButton({ event, title = "分享事件" }: { event: NostrEvent; title?: string }) {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const account = useActiveAccount();

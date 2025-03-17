@@ -42,11 +42,11 @@ function EditableControls() {
 
   return isEditing ? (
     <ButtonGroup justifyContent="center" size="sm">
-      <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} aria-label="save" />
-      <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} aria-label="Cancel" />
+      <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} aria-label="保存" />
+      <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} aria-label="取消" />
     </ButtonGroup>
   ) : (
-    <IconButton size="sm" icon={<EditIcon />} {...getEditButtonProps()} aria-label="Edit" />
+    <IconButton size="sm" icon={<EditIcon />} {...getEditButtonProps()} aria-label="编辑" />
   );
 }
 
@@ -65,14 +65,14 @@ function EditableIdentity() {
     if (!account) return;
     try {
       const metadata = eventStore.getReplaceable(kinds.Metadata, account.pubkey);
-      if (!metadata) throw new Error("Failed to find profile");
+      if (!metadata) throw new Error("无法找到用户资料");
 
       const profile = getProfileContent(metadata);
       const newProfile = { ...profile, nip05: value };
       const draft = await factory.modify(metadata, setContent(JSON.stringify(newProfile)));
       const signed = await account.signEvent(draft);
 
-      await publish("Update NIP-05", signed, mergeRelaySets(publishRelays, mailboxes?.outboxes, COMMON_CONTACT_RELAYS));
+      await publish("更新 NIP-05", signed, mergeRelaySets(publishRelays, mailboxes?.outboxes, COMMON_CONTACT_RELAYS));
     } catch (error) {
       if (error instanceof Error) toast({ status: "error", description: error.message });
     }
@@ -107,11 +107,11 @@ function IdentityDetails({ pubkey, profile }: { pubkey: string; profile: Profile
 
     switch (identity.status) {
       case IdentityStatus.Missing:
-        return <Text color="red.500">Unable to find DNS Identity in nostr.json file</Text>;
+        return <Text color="red.500">无法在域名的 nostr.json 文件中找到身份</Text>;
       case IdentityStatus.Error:
         return (
           <Text color="yellow.500">
-            Unable to check DNS identity due to CORS error{" "}
+            由于 CORS 错误无法检查域名身份{" "}
             <Link
               color="blue.500"
               href={`https://cors-test.codehappy.dev/?url=${encodeURIComponent(`https://${identity.domain}/.well-known/nostr.json?name=${identity.name}`)}&method=get`}
@@ -126,13 +126,13 @@ function IdentityDetails({ pubkey, profile }: { pubkey: string; profile: Profile
         if (identity.pubkey !== pubkey)
           return (
             <Text color="red.500" fontWeight="bold">
-              Invalid DNS Identity! <CloseIcon />
+              无效的域名身份! <CloseIcon />
             </Text>
           );
         else
           return (
             <Text color="green.500" fontWeight="bold">
-              DNS identity matches pubkey <CheckIcon />
+              域名身份与公钥匹配 <CheckIcon />
             </Text>
           );
       default:
@@ -145,15 +145,15 @@ function IdentityDetails({ pubkey, profile }: { pubkey: string; profile: Profile
       <EditableIdentity />
       {renderDetails()}
       {loading && <Spinner />}
-      <RawValue heading="Your pubkey" value={pubkey} />
+      <RawValue heading="你的公钥" value={pubkey} />
 
       {identity?.status === IdentityStatus.Found && (
         <>
           <Heading size="md" mt="4">
-            Relays
+            中继
           </Heading>
           <Text fontStyle="italic" mt="-2">
-            You have {identity.relays?.length ?? 0} relays set in your DNS identity
+            你的域名身份中设置了 {identity.relays?.length ?? 0} 个中继
           </Text>
 
           {identity?.relays?.map((url) => (
@@ -178,15 +178,15 @@ export default function DnsIdentityView() {
 
   return (
     <SimpleView
-      title="DNS Identity"
+      title="域名身份"
       actions={
         <Link
-          href="https://nostr.how/en/guides/get-verified#self-hosted"
+          href="https://nostr.how/zh/guides/get-verified#self-hosted"
           isExternal
           color="blue.500"
           fontStyle="initial"
         >
-          What is this?
+          这是什么?
         </Link>
       }
     >
@@ -194,10 +194,10 @@ export default function DnsIdentityView() {
         <IdentityDetails pubkey={account.pubkey} profile={profile} />
       ) : (
         <>
-          <Heading>No DNS identity setup</Heading>
-          <RawValue heading="Your pubkey" value={account.pubkey} />
+          <Heading>没有设置域名身份</Heading>
+          <RawValue heading="你的公钥" value={account.pubkey} />
           <Text>
-            or read the details on the wiki: <WikiLink topic="nip-05">NIP-05</WikiLink>
+            或在百科上阅读详细信息: <WikiLink topic="nip-05">NIP-05</WikiLink>
           </Text>
         </>
       )}

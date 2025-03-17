@@ -33,7 +33,7 @@ export default function AccountSettings() {
 
   return (
     <SimpleView
-      title="Account settings"
+      title="账户设置"
       maxW="6xl"
       actions={
         <Button
@@ -45,7 +45,7 @@ export default function AccountSettings() {
             navigate("/signin", { state: { from: location.pathname } });
           }}
         >
-          Add Account
+          添加账户
         </Button>
       }
     >
@@ -60,7 +60,7 @@ export default function AccountSettings() {
         <AccountTypeBadge account={account} ml="4" />
 
         <Button onClick={() => manager.clearActive()} ml="auto">
-          Logout
+          注销
         </Button>
       </Flex>
 
@@ -69,7 +69,7 @@ export default function AccountSettings() {
       <Flex gap="2" px="4" alignItems="Center" mt="4">
         <Divider />
         <Text fontWeight="bold" fontSize="md" whiteSpace="pre">
-          Other Accounts
+          其他账户
         </Text>
         <Divider />
       </Flex>

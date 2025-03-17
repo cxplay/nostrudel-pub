@@ -52,15 +52,15 @@ function AccountItem({ account, onClick }: { account: IAccount; onClick?: () => 
         </Flex>
       </Flex>
       <ButtonGroup size="sm" variant="ghost">
-        <Button onClick={handleClick} aria-label="Switch account">
-          Switch
+        <Button onClick={handleClick} aria-label="切换账户">
+          切换
         </Button>
         <IconButton
           icon={<CloseIcon />}
-          aria-label="Remove account"
+          aria-label="移除账户"
           onClick={(e) => {
             e.stopPropagation();
-            if (confirm("Remove this account?")) manager.removeAccount(account);
+            if (confirm("移除这个账户吗?")) manager.removeAccount(account);
           }}
           colorScheme="red"
         />
@@ -93,7 +93,7 @@ export default function AccountSwitcher() {
               </Flex>
               <IconButton
                 ms="auto"
-                aria-label="Switch account"
+                aria-label="切换账户"
                 onClick={modal.onToggle}
                 flexShrink={0}
                 size="md"
@@ -104,14 +104,14 @@ export default function AccountSwitcher() {
           )}
         </Flex>
       ) : (
-        <NavItem label="Login" icon={LogIn01} to="/signin" colorScheme="primary" variant="solid" />
+        <NavItem label="登录" icon={LogIn01} to="/signin" colorScheme="primary" variant="solid" />
       )}
 
       <Modal isOpen={modal.isOpen} onClose={modal.onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader py="2" px="4">
-            Accounts
+            账户
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb="2" pt="0" px="2" display="flex" flexDirection="column" gap="2">
@@ -120,15 +120,15 @@ export default function AccountSwitcher() {
             ))}
             <ButtonGroup w="full">
               <Button as={RouterLink} to="/settings/accounts" w="full" onClick={modal.onClose} variant="link">
-                Manage accounts
+                管理账户
               </Button>
               <Button
                 leftIcon={<LogoutIcon boxSize={5} />}
-                aria-label="Logout"
+                aria-label="注销"
                 onClick={() => manager.clearActive()}
                 flexShrink={0}
               >
-                Logout
+                注销
               </Button>
             </ButtonGroup>
           </ModalBody>

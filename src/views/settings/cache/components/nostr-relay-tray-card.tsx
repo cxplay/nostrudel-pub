@@ -23,7 +23,7 @@ export default function NostrRelayTrayCard() {
   return (
     <Card borderColor={enabled ? "primary.500" : undefined} variant="outline">
       <CardHeader p="4" display="flex" gap="2" alignItems="center">
-        <Heading size="md">Nostr Relay Tray</Heading>
+        <Heading size="md">托盘中继</Heading>
         <Link color="blue.500" href="https://github.com/CodyTseng/nostr-relay-tray" isExternal>
           GitHub
         </Link>
@@ -36,7 +36,7 @@ export default function NostrRelayTrayCard() {
             onClick={enable}
             isDisabled={enabled}
           >
-            {enabled ? "Enabled" : "Enable"}
+            {enabled ? "已启用" : "启用"}
           </Button>
         ) : (
           <Button
@@ -47,18 +47,17 @@ export default function NostrRelayTrayCard() {
             size="sm"
             ml="auto"
           >
-            Get the app
+            获得该应用
           </Button>
         )}
       </CardHeader>
       <CardBody p="4" pt="0">
-        <Text mb="2">A cool little app that runs a local relay in your systems tray</Text>
-        <Text>Maximum capacity: Unlimited</Text>
-        <Text>Performance: As fast as your computer</Text>
+        <Text mb="2">一个很酷的应用, 允许你在系统托盘上运行本地中继</Text>
+        <Text>容量: 无限</Text>
+        <Text>性能: 和你的电脑一样快</Text>
         {!available && (
           <Text color="yellow.500">
-            If the app is running and the button still says "Get the app" the browser is probably blocking access to the
-            relay
+            如果该应用已经在运行, 但此处仍然显示 "获取该应用" 那么很可能是浏览器正在阻止访问这个本地中继
           </Text>
         )}
       </CardBody>

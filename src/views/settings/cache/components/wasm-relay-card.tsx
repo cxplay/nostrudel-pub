@@ -24,7 +24,7 @@ export default function WasmRelayCard() {
       await cacheRelay.wipe();
     } else {
       // import and delete database
-      console.log("Importing worker to wipe database");
+      console.log("正在将 Worker 导入以清除数据库");
       const { default: worker } = await import("../../../../services/wasm-relay/worker");
       await worker.wipe();
     }
@@ -33,12 +33,12 @@ export default function WasmRelayCard() {
   return (
     <Card borderColor={enabled ? "primary.500" : undefined} variant="outline">
       <CardHeader p="4" display="flex" gap="2" alignItems="center">
-        <Heading size="md">Internal SQLite Cache</Heading>
+        <Heading size="md">内部 SQLite 缓存</Heading>
         <EnableWithDelete size="sm" ml="auto" enable={enable} enabled={enabled} wipe={wipe} isLoading={enabling} />
       </CardHeader>
       <CardBody p="4" pt="0">
         <Text mb="2">
-          Use{" "}
+          使用{" "}
           <Link
             href="https://git.v0l.io/Kieran/snort/src/branch/main/packages/worker-relay"
             isExternal
@@ -46,17 +46,17 @@ export default function WasmRelayCard() {
           >
             @snort/worker-relay
           </Link>{" "}
-          with SQLite running in the browser.
+          在浏览器里运行 SQLite.
         </Text>
-        <Text>Maximum capacity: Unlimited</Text>
-        <Text>Performance: Slightly slower than Browser Cache</Text>
-        <Text color="yellow.500">NOTE: Can increase the initial load time of the app by ~2 seconds</Text>
-        <Text color="yellow.500">NOTE: Does not work well with multiple tabs</Text>
+        <Text>容量: 无限</Text>
+        <Text>性能: 比浏览器缓存稍慢</Text>
+        <Text color="yellow.500">注意: 会将应用的初始化时间延长大约 2 秒</Text>
+        <Text color="yellow.500">注意: 在多窗口下运行效果不太良好</Text>
       </CardBody>
       {enabled && (
         <CardFooter p="4" pt="0">
           <Button size="sm" colorScheme="primary" ml="auto" as={RouterLink} to="/relays/cache/database">
-            Database Tools
+            数据库工具
           </Button>
         </CardFooter>
       )}

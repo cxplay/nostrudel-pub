@@ -47,7 +47,7 @@ function ArticlesHomePage() {
   return (
     <VerticalPageLayout maxW={maxWidth} mx="auto">
       <Flex gap="2">
-        <Heading>Articles</Heading>
+        <Heading>文章</Heading>
         <PeopleListSelection />
         <Spacer />
         {/* <Button as={RouterLink} to="/articles/new" colorScheme="primary" leftIcon={<Plus boxSize={6} />}>

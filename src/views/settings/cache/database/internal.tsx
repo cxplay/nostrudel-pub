@@ -61,21 +61,21 @@ export default function InternalDatabasePage() {
 
   return (
     <>
-      <Text>Total events: {count ?? "Loading..."}</Text>
+      <Text>总事件: {count ?? "加载中..."}</Text>
       <ButtonGroup flexWrap="wrap">
         <ImportEventsButton onLoad={importEvents} />
         <ExportEventsButton getEvents={exportEvents} />
       </ButtonGroup>
       <ButtonGroup flexWrap="wrap">
         <Button onClick={handleClearData} isLoading={clearing} colorScheme="primary" variant="outline">
-          Clear cache
+          清除缓存
         </Button>
         <Button colorScheme="red" onClick={handleDeleteDatabase} isLoading={deleting}>
-          Delete database
+          删除数据库
         </Button>
       </ButtonGroup>
       <FormControl>
-        <FormLabel>Maximum number of events</FormLabel>
+        <FormLabel>最大事件数量</FormLabel>
         <NumberInput
           maxW="xs"
           value={maxEvents}
@@ -96,7 +96,7 @@ export default function InternalDatabasePage() {
         {kinds && (
           <>
             <Card p="2" minW="sm" maxW="lg" flex={1}>
-              <Heading size="sm">Events by kind</Heading>
+              <Heading size="sm">事件类型</Heading>
               <EventKindsPieChart kinds={kinds} />
             </Card>
             <Card p="2" minW="sm" maxW="md" flex={1}>
