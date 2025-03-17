@@ -13,8 +13,25 @@ import {
 import { LocalStorageEntry } from "../classes/local-settings/entry";
 
 // relays
-const readRelays = new ArrayLocalStorageEntry<string>("read-relays", []);
-const writeRelays = new ArrayLocalStorageEntry<string>("write-relays", []);
+const readRelays = new ArrayLocalStorageEntry<string>("read-relays", [
+  "wss://relay.cxplay.org/",
+  "wss://ditto.pub/relay",
+  "wss://nostr-relay.app/",
+  "wss://relay.damus.io/",
+  "wss://relay.momostr.pink/",
+  "wss://relay.mostr.pub/",
+  "wss://relay.nostr.band/",
+  "wss://relay.westernbtc.com/",
+  "wss://us.nostr.wine/"
+]);
+const writeRelays = new ArrayLocalStorageEntry<string>("write-relays", [
+  "wss://relay.damus.io/",
+  "wss://nos.lol/",
+  "wss://purplerelay.com/",
+  "wss://relay.nostr.band/",
+  "wss://nostr-relay.app/",
+  "wss://ditto.pub/relay",
+]);
 
 // local relay
 const idbMaxEvents = new NumberLocalStorageEntry("nostr-idb-max-events", 10_000);
