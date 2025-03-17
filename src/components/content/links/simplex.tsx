@@ -15,7 +15,7 @@ export function renderSimpleXLink(match: URL) {
       variant="outline"
       colorScheme="blue"
     >
-      SimpleX Invite
+      SimpleX 邀请
     </Button>
   );
 }

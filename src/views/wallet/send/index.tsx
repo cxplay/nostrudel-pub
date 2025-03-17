@@ -7,7 +7,7 @@ import RouterLink from "../../../components/router-link";
 
 export default function WalletSendView() {
   return (
-    <SimpleView title="Send" maxW="xl" center>
+    <SimpleView title="发送" maxW="xl" center>
       <Card as={LinkBox} p="4" gap="4" display="flex" flexDirection="row" alignItems="center">
         <ECashIcon boxSize={10} />
         <HoverLinkOverlay as={RouterLink} to="/wallet/send/cashu" replace>
@@ -20,12 +20,12 @@ export default function WalletSendView() {
         <LightningIcon boxSize={10} color="yellow.400" />
         <HoverLinkOverlay as={RouterLink} to="/wallet/pay/lightning" replace>
           <Text fontWeight="bold" fontSize="xl">
-            Lightning
+            闪电网络
           </Text>
         </HoverLinkOverlay>
       </Card>
       <Button as={RouterLink} to="/wallet" me="auto">
-        Back
+        返回
       </Button>
     </SimpleView>
   );

@@ -16,7 +16,7 @@ export default function RelaysView() {
   const nip05 = useUserDNSIdentity(account?.pubkey);
 
   return (
-    <SimpleParentView title="Relays" path="/relays">
+    <SimpleParentView title="中继" path="/relays">
       <SimpleNavItem to="/relays/app" leftIcon={<RelayIcon boxSize={6} />}>
         应用中继
       </SimpleNavItem>

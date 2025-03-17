@@ -76,26 +76,26 @@ export default function Connection({
         <UserName pubkey={call.pubkey} />
         <Text>{peer.connection?.connectionState ?? "Unknown"}</Text>
         <Button size="sm" ml="auto" colorScheme="red" isDisabled>
-          Close
+          关闭
         </Button>
       </Flex>
-      <Heading size="sm">Server:</Heading>
+      <Heading size="sm">服务器:</Heading>
       <SimpleGrid spacing="2" columns={{ base: 2, md: 3, lg: 4, xl: 5 }}>
-        <Text>Sent: {server.stats.events.sent}</Text>
-        <Text>Received: {server.stats.events.received}</Text>
+        <Text>已发送: {server.stats.events.sent}</Text>
+        <Text>已接收: {server.stats.events.received}</Text>
       </SimpleGrid>
-      <Heading size="sm">Client:</Heading>
+      <Heading size="sm">客户端:</Heading>
       <SimpleGrid spacing="2" columns={{ base: 2, md: 3, lg: 4, xl: 5 }}>
-        <Text>Published: {client.stats.events.published}</Text>
-        <Text>Received: {client.stats.events.received}</Text>
+        <Text>已发布: {client.stats.events.published}</Text>
+        <Text>已接收: {client.stats.events.received}</Text>
       </SimpleGrid>
       {account && (
         <ButtonGroup ml="auto" size="sm">
           <Button onClick={sendEvents} isLoading={sending}>
-            Send events
+            发送事件
           </Button>
           <Button onClick={requestEvents} isLoading={requesting}>
-            Requests contacts
+            请求联系
           </Button>
         </ButtonGroup>
       )}

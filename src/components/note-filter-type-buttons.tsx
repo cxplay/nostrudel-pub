@@ -13,15 +13,15 @@ export default function NoteFilterTypeButtons({
       <IconButton
         icon={<ReplyIcon boxSize={5} />}
         colorScheme={showReplies.isOpen ? "primary" : undefined}
-        aria-label="Toggle replies"
-        title="Toggle replies"
+        aria-label="切换显示回复消息"
+        title="切换显示回复消息"
         onClick={showReplies.onToggle}
       />
       <IconButton
         icon={<RepostIcon boxSize={5} />}
         colorScheme={showReposts.isOpen ? "primary" : undefined}
-        aria-label="Toggle reposts"
-        title="Toggle reposts"
+        aria-label="切换显示转发消息"
+        title="切换显示转发消息"
         onClick={showReposts.onToggle}
       />
     </ButtonGroup>

@@ -24,18 +24,18 @@ export default function NIP05RelaysView() {
   const nip05 = useUserDNSIdentity(account?.pubkey);
 
   return (
-    <SimpleView title="NIP-05 Relays">
+    <SimpleView title="NIP-05 中继">
       <Text fontStyle="italic" mt="-2">
-        These relays cant be modified by noStrudel, they must be set manually on your{" "}
-        <Code>/.well-known/nostr.json</Code> file or by your identity provider
+        这些中继无法通过 noStrudel 修改, 它们必须要在你的域名身份提供方手动配置{" "}
+        <Code>/.well-known/nostr.json</Code> 文件
         <br />
         <Link
-          href="https://nostr.how/en/guides/get-verified#self-hosted"
+          href="https://nostr.how/zh/guides/get-verified#self-hosted"
           isExternal
           color="blue.500"
           fontStyle="initial"
         >
-          Read more about nip-05
+          阅读更多有关 NIP-05 的信息
         </Link>
       </Text>
 

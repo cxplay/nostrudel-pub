@@ -70,26 +70,26 @@ export default function NewSetModal({
             <FormControl isRequired>
               <FormLabel>List kind</FormLabel>
               <Select {...register("kind", { valueAsNumber: true, required: true })}>
-                <option value={kinds.Followsets}>People List</option>
-                <option value={kinds.Genericlists}>Generic List</option>
-                <option value={kinds.Bookmarksets}>Bookmark set</option>
+                <option value={kinds.Followsets}>用户列表</option>
+                <option value={kinds.Genericlists}>通用列表</option>
+                <option value={kinds.Bookmarksets}>书签合集(列表)</option>
               </Select>
             </FormControl>
           )}
           <FormControl isRequired>
-            <FormLabel>Name</FormLabel>
+            <FormLabel>名称</FormLabel>
             <Input
               type="text"
               {...register("name", { required: true })}
               autoComplete="off"
-              placeholder="List name"
+              placeholder="列表名称"
               autoFocus
             />
           </FormControl>
           <ButtonGroup ml="auto">
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={onClose}>取消</Button>
             <Button colorScheme="primary" type="submit" isLoading={formState.isSubmitting}>
-              Create
+              创建
             </Button>
           </ButtonGroup>
         </ModalBody>

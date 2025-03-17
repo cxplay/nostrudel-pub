@@ -93,7 +93,7 @@ export default function PeopleListSelection({
   return (
     <>
       <Button onClick={modal.onOpen} {...props}>
-        {listEvent ? getListName(listEvent) : selected === "global" ? "Global" : "Loading..."}
+        {listEvent ? getListName(listEvent) : selected === "global" ? "全球" : "加载中..."}
       </Button>
       <Modal isOpen={modal.isOpen} onClose={modal.onClose} size="2xl">
         <ModalOverlay />
@@ -109,7 +109,7 @@ export default function PeopleListSelection({
                     modal.onClose();
                   }}
                 >
-                  正在追随
+                  正在关注
                 </Button>
               )}
               {!hideGlobalOption && (

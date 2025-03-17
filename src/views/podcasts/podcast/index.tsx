@@ -53,12 +53,12 @@ function PodcastPage({ pointer, xml }: { pointer: FeedPointer; xml: Document }) 
             </AvatarGroup>
           )}
           <ButtonGroup variant="ghost" size="sm">
-            <IconButton as={Link} href={pointer.url.toString()} isExternal icon={<Rss01 />} aria-label="Open RSS" />
+            <IconButton as={Link} href={pointer.url.toString()} isExternal icon={<Rss01 />} aria-label="打开 RSS" />
           </ButtonGroup>
         </Box>
       </Flex>
 
-      <Heading size="md">Episodes</Heading>
+      <Heading size="md">剧集</Heading>
       {episodes.map((episode, i) => (
         <EpisodeCard key={getXPathString(episode, "guid", true) || i} episode={episode} />
       ))}
@@ -85,7 +85,7 @@ export default function PodcastView() {
       <Alert status="error">
         <AlertIcon />
         <Box>
-          <AlertTitle>Error!</AlertTitle>
+          <AlertTitle>错误!</AlertTitle>
           <AlertDescription>{error.message}</AlertDescription>
         </Box>
       </Alert>
@@ -96,7 +96,7 @@ export default function PodcastView() {
       <Alert status="info">
         <Spinner mr="4" />
         <Box>
-          <AlertTitle>Loading...</AlertTitle>
+          <AlertTitle>正在加载...</AlertTitle>
           <AlertDescription>{url}</AlertDescription>
         </Box>
       </Alert>

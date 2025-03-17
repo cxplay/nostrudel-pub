@@ -45,7 +45,7 @@ function TimeMarker({ date, ids }: { date: Dayjs; ids: string[] }) {
       <Text whiteSpace="pre">{date.fromNow()}</Text>
       <Divider />
       <Button variant="link" ml="2" onClick={readAll} flexShrink={0}>
-        Mark Read
+        标为已读
       </Button>
     </Flex>
   );
@@ -124,7 +124,7 @@ const NotificationsTimeline = memo(
     if (filtered.length === 0)
       return (
         <Flex alignItems="center" justifyContent="center" minH="25vh" fontWeight="bold" fontSize="4xl">
-          Loading...
+          正在加载...
         </Flex>
       );
 

@@ -41,23 +41,23 @@ export default function WebRtcConnectView() {
     .filter(({ pubkey }) => !webRtcRelaysService.broker.peers.has(pubkey));
 
   return (
-    <SimpleView title="Connect to WebRTC Relay">
+    <SimpleView title="连接 WebRTC 中继">
       <Text fontStyle="italic" mt="-2">
-        Scan or paste the WebRTC Connection URI of the relay you wish to connect to
+        扫描或粘贴你要连接的 WebRTC 中继 URI
       </Text>
 
       <Flex as="form" gap="2" onSubmit={connect}>
         <Input placeholder="webrtc+nostr:npub1..." {...register("uri")} autoComplete="off" />
         <QRCodeScannerButton onResult={(data) => setValue("uri", data)} />
         <Button colorScheme="primary" type="submit" isLoading={formState.isSubmitting}>
-          Connect
+          连接
         </Button>
       </Flex>
 
       {recent.length > 0 && (
         <>
           <Heading size="md" mt="2">
-            Recent Peers:
+            最近连接:
           </Heading>
           {recent.map(({ pubkey, uri }) => (
             <Flex key={pubkey} borderWidth="1px" rounded="md" p="2" alignItems="center" gap="2">
@@ -72,7 +72,7 @@ export default function WebRtcConnectView() {
                   update();
                 }}
               >
-                Connect
+                连接
               </Button>
               <CloseButton
                 onClick={() =>
@@ -87,7 +87,7 @@ export default function WebRtcConnectView() {
       )}
 
       <Heading size="md" mt="4">
-        Pending Connection Requests:
+        正在连接中的请求:
       </Heading>
       {webRtcRelaysService.pendingOutgoing.length > 0 ? (
         <>
@@ -106,7 +106,7 @@ export default function WebRtcConnectView() {
       ) : (
         <Alert status="info">
           <AlertIcon />
-          No connections requests
+          没有连接请求
         </Alert>
       )}
     </SimpleView>

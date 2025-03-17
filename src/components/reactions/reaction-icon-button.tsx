@@ -56,8 +56,8 @@ export default function ReactionIconButton({
       <>
         <IconButton
           icon={<AddReactionIcon boxSize="1.3em" />}
-          aria-label="添加回应"
-          title="添加回应"
+          aria-label="添加表情"
+          title="添加表情"
           onClick={open.on}
           {...props}
         />
@@ -74,8 +74,8 @@ export default function ReactionIconButton({
         <PopoverTrigger>
           <IconButton
             icon={<AddReactionIcon boxSize="1.3em" />}
-            aria-label="添加回应"
-            title="添加回应"
+            aria-label="添加表情"
+            title="添加表情"
             {...props}
           />
         </PopoverTrigger>

@@ -44,7 +44,7 @@ export default function useAppSettings() {
 
       if (!(account instanceof ReadonlyAccount)) {
         const draft = buildAppSettingsEvent(updated);
-        await publish("Update Settings", draft);
+        await publish("应用配置更新", draft);
       }
     },
     [syncedSettings, account, publish],
