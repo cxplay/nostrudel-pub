@@ -48,7 +48,7 @@ export default function RelaysView() {
           </>
         )}
         <SimpleNavItem to="/relays/webrtc" leftIcon={<Server05 boxSize={6} />}>
-          ebRTC 中继
+          WebRTC 中继
         </SimpleNavItem>
         {nip05?.exists && (
           <SimpleNavItem to="/relays/nip05" leftIcon={<AtIcon boxSize={6} />}>
