@@ -22,7 +22,7 @@ export default function SelectRelaySet({
     <Select
       size="sm"
       borderRadius="md"
-      placeholder="Select set"
+      placeholder="选择中继组合"
       value={value}
       onChange={(e) =>
         onChange(

@@ -9,9 +9,9 @@ export default function RequireActiveAccount({ children }: { children: JSX.Eleme
   if (!account)
     return (
       <Flex direction="column" w="full" h="full" alignItems="center" justifyContent="center" gap="4">
-        <Heading size="md">You must be signed in to use this view</Heading>
+        <Heading size="md">使用该应用视图必须先登录账户</Heading>
         <Button as={Link} to="/signin" state={{ from: location.pathname }} colorScheme="primary">
-          Sign in
+          登录
         </Button>
       </Flex>
     );

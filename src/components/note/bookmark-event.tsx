@@ -80,7 +80,7 @@ export default function BookmarkEventButton({
             isDisabled={readonly || loadingBookmark}
             onClick={toggleBookmark}
           >
-            Bookmark
+            书签
           </MenuItem>
           <MenuDivider />
           {bookmarkSets.length > 0 && (
@@ -104,7 +104,7 @@ export default function BookmarkEventButton({
           )}
           <MenuDivider />
           <MenuItem icon={<PlusCircleIcon />} onClick={newSetModal.onOpen}>
-            New list
+            新列表
           </MenuItem>
         </MenuList>
       </Menu>

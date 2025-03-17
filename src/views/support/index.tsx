@@ -89,8 +89,8 @@ export default function SupportView() {
       <VerticalPageLayout alignItems="center">
         <IntersectionObserverProvider callback={callback}>
           <Box textAlign="center">
-            <Heading>Top Supporters</Heading>
-            <Text color="GrayText">In the last month</Text>
+            <Heading>顶级支持者</Heading>
+            <Text color="GrayText">最近一个月</Text>
           </Box>
           {support?.[0] && <TopZap zap={support[0]} />}
           {support && support.length > 1 && (
@@ -124,7 +124,7 @@ export default function SupportView() {
               maxW="sm"
               onClick={form.onOpen}
             >
-              Support
+             支持
             </Button>
           )}
 

@@ -45,7 +45,7 @@ export default function ShareLinkMenuItem({ event }: { event: NostrEvent }) {
   return (
     address && (
       <MenuItem onClick={handleClick} icon={<ShareIcon />}>
-        Share Link
+        分享链接
       </MenuItem>
     )
   );

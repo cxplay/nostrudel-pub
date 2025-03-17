@@ -13,7 +13,7 @@ export default function PostRepostsTab({ post, reposts }: { post: ThreadItem; re
         <Flex key={repost.id} gap="2" alignItems="center">
           <UserAvatarLink pubkey={repost.pubkey} size="sm" />
           <UserLink pubkey={repost.pubkey} fontWeight="bold" />
-          <Text>Shared</Text>
+          <Text>已分享</Text>
           <Timestamp timestamp={repost.created_at} />
         </Flex>
       ))}

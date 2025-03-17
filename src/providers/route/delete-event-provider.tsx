@@ -111,7 +111,7 @@ export default function DeleteEventProvider({ children }: PropsWithChildren) {
           <ModalOverlay />
           <ModalContent>
             <ModalHeader px="4" py="2">
-              Delete Event?
+              删除事件?
             </ModalHeader>
             <ModalCloseButton />
             <ModalBody px="4" py="0">
@@ -127,7 +127,7 @@ export default function DeleteEventProvider({ children }: PropsWithChildren) {
               <Accordion allowToggle my="2">
                 <AccordionItem>
                   <AccordionButton>
-                    Deleting from relays
+                    正在从中继删除
                     <AccordionIcon />
                   </AccordionButton>
                   <AccordionPanel>
@@ -157,10 +157,10 @@ export default function DeleteEventProvider({ children }: PropsWithChildren) {
                 Nostr Event Deletion
               </Button>
               <Button variant="ghost" size="sm" mr={2} onClick={onClose}>
-                Cancel
+                取消
               </Button>
               <Button colorScheme="red" variant="solid" onClick={confirm} size="sm" isLoading={isLoading}>
-                Delete
+                删除
               </Button>
             </ModalFooter>
           </ModalContent>

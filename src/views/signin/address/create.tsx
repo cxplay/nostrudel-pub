@@ -82,20 +82,20 @@ export default function LoginNostrAddressCreate() {
     if (!selected || !name) return;
 
     try {
-      setLoading("Creating...");
+      setLoading("创建中...");
       const metadata: ProfileContent = { ...userMetadata, ...providerMetadata };
-      if (!metadata.nip05) throw new Error("Provider missing nip05 address");
+      if (!metadata.nip05) throw new Error("提供方缺失 NIP-05 地址");
       const { name, domain } = parseNIP05Address(metadata.nip05) || {};
-      if (!name || !domain) throw new Error("Invalid DNS identity");
+      if (!name || !domain) throw new Error("无效域名身份");
       const identity = await dnsIdentityLoader.requestIdentity(name, domain);
-      if (identity.status === IdentityStatus.Error) throw new Error("Failed to fetch identity");
-      if (identity.status === IdentityStatus.Missing) throw new Error("Cant find identity");
-      if (identity.pubkey !== selected.pubkey) throw new Error("Invalid provider");
+      if (identity.status === IdentityStatus.Error) throw new Error("获取身份失败");
+      if (identity.status === IdentityStatus.Missing) throw new Error("无法找到身份");
+      if (identity.pubkey !== selected.pubkey) throw new Error("无效提供方");
 
-      if (identity.name !== "_") throw new Error("Provider does not own the domain");
-      if (!identity.hasNip46) throw new Error("Provider does not support NIP-46");
+      if (identity.name !== "_") throw new Error("提供方未拥有该域名");
+      if (!identity.hasNip46) throw new Error("提供方不支持 NIP-46");
       const relays = mergeRelaySets(identity.nip46Relays || identity.relays || []);
-      if (relays.length === 0) throw new Error("Cant find providers relays");
+      if (relays.length === 0) throw new Error("无法找到提供方中继");
 
       const signer = new NostrConnectSigner({ relays, remote: identity.pubkey });
 
@@ -158,10 +158,10 @@ export default function LoginNostrAddressCreate() {
       {renderContent()}
       <Flex justifyContent="space-between" gap="2" mt="2">
         <Button variant="link" onClick={() => navigate("../")}>
-          Back
+          返回
         </Button>
         <Button colorScheme="primary" ml="auto" type="submit" isLoading={!!loading} isDisabled={!selected}>
-          Create Account
+          创建账户
         </Button>
       </Flex>
     </Flex>

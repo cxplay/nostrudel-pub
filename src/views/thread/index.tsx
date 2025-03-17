@@ -154,7 +154,7 @@ export default function ThreadView() {
       {!focusedEvent && (
         <>
           <Heading my="4">
-            <Spinner /> Loading note
+            <Spinner /> 正在加载笔记
           </Heading>
           <LoadingNostrLink link={{ type: "nevent", data: pointer }} />
         </>

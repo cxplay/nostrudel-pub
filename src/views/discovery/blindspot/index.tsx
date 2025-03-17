@@ -32,7 +32,7 @@ const UserCard = memo(({ pubkey, blindspot }: { pubkey: string; blindspot: strin
           <UserName pubkey={pubkey} />
         </HoverLinkOverlay>
       </Heading>
-      <Text>Following {blindspot.length} users you don't follow</Text>
+      <Text>关注了你还没有关注的 {blindspot.length} 个用户</Text>
     </Card>
   );
 });
@@ -83,8 +83,8 @@ export default function BlindspotHomeView() {
   return (
     <VerticalPageLayout>
       <Box>
-        <Heading>Blind spots</Heading>
-        <Text fontStyle="italic">Pick another user and see what they are seeing that your not.</Text>
+        <Heading>盲点透视</Heading>
+        <Text fontStyle="italic">选择另一个用户查看他看到了什么你没有看到的东西.</Text>
       </Box>
       <Select ml="auto" maxW="48" value={sort} onChange={(e) => setSort(e.target.value)}>
         <option value="quality">Quality</option>
@@ -109,10 +109,10 @@ export default function BlindspotHomeView() {
         >
           <AlertIcon boxSize="40px" mr={0} />
           <AlertTitle mt={4} mb={1} fontSize="lg">
-            No blind spots!
+            没有盲点!
           </AlertTitle>
           <AlertDescription maxWidth="sm">
-            Unable to find any blind spots. maybe try following some people?
+            没有找到任何盲点. 也许可以尝试追随一些人?
           </AlertDescription>
         </Alert>
       )}

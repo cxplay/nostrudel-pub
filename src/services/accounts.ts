@@ -13,7 +13,7 @@ import { nostrConnectPublish, nostrConnectSubscription } from "../helpers/apples
 NostrConnectSigner.subscriptionMethod = nostrConnectSubscription;
 NostrConnectSigner.publishMethod = nostrConnectPublish;
 
-const log = logger.extend("Accounts");
+const log = logger.extend("账户");
 
 const accounts = new AccountManager();
 registerCommonAccountTypes(accounts);
@@ -23,7 +23,7 @@ accounts.registerType(AmberClipboardAccount);
 if (CAP_IS_NATIVE) accounts.registerType(AndroidSignerAccount);
 
 // load all accounts
-log("Loading accounts...");
+log("正在加载账户...");
 accounts.fromJSON(await db.getAll("accounts"), true);
 
 // save accounts to database when they change

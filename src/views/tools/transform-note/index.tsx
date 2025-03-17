@@ -26,9 +26,9 @@ function TransformNotePage({ note }: { note: NostrEvent }) {
       onChange={(v) => tab.setValue(tabs[v])}
     >
       <TabList>
-        <Tab>Original</Tab>
-        <Tab>Translation</Tab>
-        <Tab>Text to speech</Tab>
+        <Tab>原始</Tab>
+        <Tab>翻译</Tab>
+        <Tab>朗读</Tab>
       </TabList>
 
       <TabPanels>

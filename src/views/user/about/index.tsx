@@ -123,16 +123,16 @@ export default function UserAboutTab() {
               as={RouterLink}
               size="sm"
               icon={<ChatIcon />}
-              aria-label="Message"
+              aria-label="消息"
               to={`/messages/${npub ?? pubkey}`}
             />
             <UserFollowButton pubkey={pubkey} size="sm" showLists />
-            <UserProfileMenu pubkey={pubkey} aria-label="More Options" size="sm" />
+            <UserProfileMenu pubkey={pubkey} aria-label="更多选项" size="sm" />
           </Flex>
         </Flex>
         <IconButton
           icon={expanded.isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
-          aria-label="expand"
+          aria-label="展开"
           onClick={expanded.onToggle}
           top="2"
           right="2"
@@ -145,7 +145,7 @@ export default function UserAboutTab() {
       <Flex gap="2" px="2" direction="column">
         <Flex gap="2">
           <Box w="5" h="5" backgroundColor={pubkeyColor} rounded="full" />
-          <Text>Public key color</Text>
+          <Text>公钥颜色</Text>
           <Link color="blue.500" onClick={colorModal.onOpen}>
             {pubkeyColor}
           </Link>
@@ -182,15 +182,15 @@ export default function UserAboutTab() {
           <Flex gap="2">
             <KeyIcon boxSize="1.2em" />
             <Text>{truncatedId(npub, 10)}</Text>
-            <CopyIconButton value={npub} title="Copy npub" aria-label="Copy npub" size="xs" />
-            <QrIconButton pubkey={pubkey} title="Show QrCode" aria-label="Show QrCode" size="xs" />
+            <CopyIconButton value={npub} title="复制 npub 公钥" aria-label="复制 npub 公钥" size="xs" />
+            <QrIconButton pubkey={pubkey} title="显示二维码" aria-label="显示二维码" size="xs" />
           </Flex>
         )}
 
         {settings?.primaryColor && (
           <Flex gap="2">
             <Box w="5" h="5" backgroundColor={settings.primaryColor} rounded="full" />
-            <Text>noStrudel theme color</Text>
+            <Text>noStrudel 主题色</Text>
           </Flex>
         )}
       </Flex>
@@ -198,7 +198,7 @@ export default function UserAboutTab() {
       <UserProfileBadges pubkey={pubkey} px="2" />
       <UserPinnedEvents pubkey={pubkey} />
       <Box px="2">
-        <Heading size="md">Recent events:</Heading>
+        <Heading size="md">最近事件:</Heading>
         <UserRecentEvents pubkey={pubkey} />
       </Box>
       <UserStatsAccordion pubkey={pubkey} />
@@ -211,7 +211,7 @@ export default function UserAboutTab() {
           rightIcon={<ExternalLinkIcon />}
           isExternal
         >
-          Nosta.me page
+          Nosta.me
         </Button>
         <Button
           as={Link}
@@ -229,7 +229,7 @@ export default function UserAboutTab() {
           rightIcon={<ExternalLinkIcon />}
           isExternal
         >
-          Nostree page
+          Nostree
         </Button>
       </Flex>
       <UserJoinedGroups pubkey={pubkey} />
@@ -238,7 +238,7 @@ export default function UserAboutTab() {
       <Modal isOpen={colorModal.isOpen} onClose={colorModal.onClose} size="2xl">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader p="4">Public Key Color</ModalHeader>
+          <ModalHeader p="4">公钥颜色</ModalHeader>
           <ModalCloseButton />
           <ModalBody display="flex" flexDirection="column" px="4" pt="0" pb="4" alignItems="center">
             <Input value={pubkey} readOnly />
@@ -271,9 +271,9 @@ export default function UserAboutTab() {
             </Box>
 
             <Text mt="4">
-              The public key color is a hex color code created by taking the first 6 digits of a users pubkey.
+              公钥颜色是通过用户公钥前六位得出的十六进制颜色代码.
               <br />
-              It can be used to help users identify fake accounts or impersonators
+              它能帮助用户识别虚假和仿冒账号.
             </Text>
           </ModalBody>
         </ModalContent>

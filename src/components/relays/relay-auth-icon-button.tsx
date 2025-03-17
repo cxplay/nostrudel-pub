@@ -16,7 +16,7 @@ export function RelayAuthIconButton({
   const authenticate = useCallback(async () => {
     try {
       await authenticationSigner.authenticate(relay);
-      toast({ description: "Success", status: "success" });
+      toast({ description: "成功", status: "success" });
     } catch (error) {
       if (error instanceof Error) toast({ status: "error", description: error.message });
     }
@@ -27,8 +27,8 @@ export function RelayAuthIconButton({
       return (
         <IconButton
           icon={<CheckCircleBroken boxSize={6} />}
-          aria-label="Authenticated"
-          title="Authenticated"
+          aria-label="已认证"
+          title="已认证"
           colorScheme="green"
           {...props}
         />
@@ -40,8 +40,8 @@ export function RelayAuthIconButton({
           icon={<PasscodeLock boxSize={6} />}
           onClick={authenticate}
           isLoading={authState.status === "signing"}
-          aria-label="Authenticate with relay"
-          title="Authenticate"
+          aria-label="进行中继认证"
+          title="认证"
           {...props}
         />
       );

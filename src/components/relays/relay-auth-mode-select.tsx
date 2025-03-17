@@ -27,10 +27,10 @@ export default function RelayAuthModeSelect({
 
   return (
     <Select value={authMode} onChange={(e) => setAuthMode(e.target.value as RelayAuthMode)} {...props}>
-      <option value="">Default ({defaultMode})</option>
-      <option value="always">Always</option>
-      <option value="ask">Ask</option>
-      <option value="never">Never</option>
+      <option value="">默认 ({defaultMode})</option>
+      <option value="always">总是</option>
+      <option value="ask">询问</option>
+      <option value="never">从不</option>
     </Select>
   );
 }

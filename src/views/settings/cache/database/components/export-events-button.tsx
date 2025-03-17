@@ -20,7 +20,7 @@ export default function ExportEventsButton({ getEvents }: { getEvents: () => Pro
 
   return (
     <Button onClick={exportDatabase} isLoading={loading} leftIcon={<Upload01 />}>
-      Export database
+      导出数据库
     </Button>
   );
 }

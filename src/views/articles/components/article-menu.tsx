@@ -44,7 +44,7 @@ export default function ArticleMenu({
           Translate
         </MenuItem> */}
         <MenuItem onClick={broadcast} icon={<BroadcastEventIcon />}>
-          Broadcast
+          广播
         </MenuItem>
         <DebugEventMenuItem event={article} />
       </DotsMenuButton>

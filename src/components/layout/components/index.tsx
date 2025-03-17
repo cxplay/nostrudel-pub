@@ -35,12 +35,12 @@ export default function NavItems() {
   return (
     <>
       {account && !(account instanceof ReadonlyAccount) && (
-        <NavItem icon={Plus} label="Create new" colorScheme="primary" to="/new" variant="solid" />
+        <NavItem icon={Plus} label="创建" colorScheme="primary" to="/new" variant="solid" />
       )}
       {favoriteApps.map((app) => (
         <NavItem key={app.id} to={app.to} icon={app.icon || QuestionIcon} label={app.title} />
       ))}
-      <NavItem to="/other-stuff" icon={Package} label="All Apps" />
+      <NavItem to="/other-stuff" icon={Package} label="所有应用" />
       {recentApps.length > 0 && (
         <>
           <Divider />
@@ -50,8 +50,8 @@ export default function NavItems() {
         </>
       )}
       <Spacer />
-      <NavItem to="/support" icon={LightningIcon} label="Support" />
-      <NavItem label="Settings" icon={SettingsIcon} to="/settings" />
+      <NavItem to="/support" icon={LightningIcon} label="支持开发" />
+      <NavItem label="设置" icon={SettingsIcon} to="/settings" />
     </>
   );
 }

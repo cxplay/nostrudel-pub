@@ -22,7 +22,7 @@ export default function ImportEventsButton({ onLoad }: { onLoad: (events: NostrE
         } catch (e) {}
       }
       await onLoad(events);
-      alert(`Imported ${events.length} events`);
+      alert(`已导入 ${events.length} 个事件`);
       setLoading(false);
     };
   };
@@ -30,7 +30,7 @@ export default function ImportEventsButton({ onLoad }: { onLoad: (events: NostrE
   return (
     <>
       <Button onClick={() => ref.current?.click()} isLoading={loading} leftIcon={<Download01 />}>
-        Import events
+        导入事件
       </Button>
       <Input
         hidden

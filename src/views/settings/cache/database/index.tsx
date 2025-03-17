@@ -17,7 +17,7 @@ export default function DatabaseView() {
 
   let content = (
     <Text>
-      noStrudel does not have access to the selected cache relays database{" "}
+      noStrudel 无法访问所选缓存中继的数据库{" "}
       <Link as={RouterLink} to="/relays/cache" color="blue.500">
         Change cache relay
       </Link>
@@ -28,5 +28,5 @@ export default function DatabaseView() {
   else if (cacheRelay instanceof CacheRelay) content = <InternalDatabasePage />;
   else if (cacheRelay instanceof MemoryRelay) content = <MemoryDatabasePage />;
 
-  return <SimpleView title="Event Cache">{content}</SimpleView>;
+  return <SimpleView title="事件缓存">{content}</SimpleView>;
 }

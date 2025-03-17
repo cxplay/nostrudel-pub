@@ -60,7 +60,7 @@ const Comment = memo(({ comment, level = 0 }: { comment: NostrEvent; level?: num
         <CardFooter p="2" gap="2" display="flex">
           {!reply.isOpen && (
             <Button leftIcon={<ReplyIcon />} variant="ghost" size="sm" onClick={reply.onOpen}>
-              reply
+              回复
             </Button>
           )}
           <NoteReactions event={comment} size="sm" variant="ghost" />
@@ -68,7 +68,7 @@ const Comment = memo(({ comment, level = 0 }: { comment: NostrEvent; level?: num
             <IconButton
               ms="auto"
               icon={expand.isOpen ? <ChevronUpIcon boxSize={5} /> : <ChevronDownIcon boxSize={5} />}
-              aria-label="Expand"
+              aria-label="展开"
               size="sm"
               variant="ghost"
               onClick={expand.onToggle}
@@ -79,7 +79,7 @@ const Comment = memo(({ comment, level = 0 }: { comment: NostrEvent; level?: num
       {reply.isOpen && <GenericCommentForm event={comment} onCancel={reply.onClose} onSubmitted={reply.onClose} />}
       {replies && replies.length > 2 && expand.isOpen && !all.isOpen && (
         <Button w="full" variant="link" p="2" onClick={all.onOpen}>
-          Show more replies ({replies.length - 2})
+          显示更多回复 ({replies.length - 2})
         </Button>
       )}
       {replies && replies.length > 0 && expand.isOpen && (

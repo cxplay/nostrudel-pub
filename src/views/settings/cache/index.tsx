@@ -17,9 +17,9 @@ export default function CacheRelayView() {
   const showAdvanced = useDisclosure({ defaultIsOpen: cacheRelay?.url === ":none:" || cacheRelay?.url === ":memory:" });
 
   return (
-    <SimpleView title="Cache Relay" maxW="4xl">
+    <SimpleView title="缓存中继" maxW="4xl">
       <Text fontStyle="italic" mt="-2" px={{ base: "2", lg: 0 }}>
-        The cache relay is used to cache events locally so they can be loaded quickly
+        缓存中继用于本地缓存事件以便于快速加载
       </Text>
       <InternalRelayCard />
       {WasmRelay.SUPPORTED && <WasmRelayCard />}

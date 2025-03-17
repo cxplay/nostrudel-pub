@@ -67,7 +67,7 @@ export default function DetailsTabs({ post }: { post: ThreadItem }) {
   const tabs: { id: string; name: string; element: ReactNode; visible: boolean; right?: boolean }[] = [
     {
       id: "replies",
-      name: `Replies (${post.replies.size})`,
+      name: `回复 (${post.replies.size})`,
       visible: true,
       element: (
         <TabPanel key="replies" display="flex" flexDirection="column" gap="2" py="2" pr="0" pl={{ base: 2, md: 4 }}>
@@ -79,7 +79,7 @@ export default function DetailsTabs({ post }: { post: ThreadItem }) {
     },
     {
       id: "quotes",
-      name: `Quotes (${quotes.length})`,
+      name: `引用 (${quotes.length})`,
       visible: quotes.length > 0,
       element: (
         <TabPanel key="quotes" p="0" py="2">
@@ -89,7 +89,7 @@ export default function DetailsTabs({ post }: { post: ThreadItem }) {
     },
     {
       id: "zaps",
-      name: `Zaps (${zaps.length})`,
+      name: `打闪 (${zaps.length})`,
       visible: zaps.length > 0,
       element: (
         <TabPanel key="zaps" p="0" py="2">
@@ -99,7 +99,7 @@ export default function DetailsTabs({ post }: { post: ThreadItem }) {
     },
     {
       id: "reposts",
-      name: `Reposts (${reposts.length})`,
+      name: `转发 (${reposts.length})`,
       visible: reposts.length > 0,
       element: (
         <TabPanel key="reposts" p="0" py="2">
@@ -109,7 +109,7 @@ export default function DetailsTabs({ post }: { post: ThreadItem }) {
     },
     {
       id: "reactions",
-      name: `Reactions (${reactions.length})`,
+      name: `回应 (${reactions.length})`,
       visible: reactions.length > 0,
       element: (
         <TabPanel key="reactions" p="0">
@@ -119,7 +119,7 @@ export default function DetailsTabs({ post }: { post: ThreadItem }) {
     },
     {
       id: "corrections",
-      name: `Corrections (${corrections.length})`,
+      name: `订正 (${corrections.length})`,
       visible: corrections.length > 0,
       element: (
         <TabPanel key="corrections" p="0">
@@ -129,7 +129,7 @@ export default function DetailsTabs({ post }: { post: ThreadItem }) {
     },
     {
       id: "tools",
-      name: "Tools",
+      name: "工具",
       visible: true,
       right: true,
       element: (
@@ -140,7 +140,7 @@ export default function DetailsTabs({ post }: { post: ThreadItem }) {
     },
     {
       id: "unknown",
-      name: `Unknown (${unknown.length})`,
+      name: `未知 (${unknown.length})`,
       visible: unknown.length > 0,
       element: (
         <TabPanel key="unknown" p="0" py="2">

@@ -14,7 +14,7 @@ export default function OpenInAppMenuItem({ event }: { event: NostrEvent }) {
   if (!address) return null;
   return (
     <MenuItem icon={<ExternalLinkIcon />} onClick={open}>
-      View in app...
+      在其他应用中查看...
     </MenuItem>
   );
 }

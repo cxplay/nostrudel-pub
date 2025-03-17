@@ -29,9 +29,9 @@ function RelayCard({ relay, mode, list }: { relay: string; mode: RelayMode; list
 
   const remove = useAsyncAction(async () => {
     if (mode === RelayMode.READ) {
-      await actions.exec(RemoveInboxRelay, relay).forEach((e) => publish("Remove inbox relay", e));
+      await actions.exec(RemoveInboxRelay, relay).forEach((e) => publish("删除收件箱中继", e));
     } else if (mode === RelayMode.WRITE) {
-      await actions.exec(RemoveOutboxRelay, relay).forEach((e) => publish("Remove outbox relay", e));
+      await actions.exec(RemoveOutboxRelay, relay).forEach((e) => publish("删除发件箱中继", e));
     }
   });
 
@@ -42,7 +42,7 @@ function RelayCard({ relay, mode, list }: { relay: string; mode: RelayMode; list
         {relay}
       </Link>
       <IconButton
-        aria-label="Remove Relay"
+        aria-label="删除中继"
         icon={<CloseIcon />}
         size="xs"
         ml="auto"
@@ -63,17 +63,17 @@ function MailboxesPage() {
   const actions = useActionHub();
 
   const addInboxRelay = useAsyncAction(async (relay: string) => {
-    await actions.exec(AddInboxRelay, relay).forEach((e) => publish("Add inbox relay", e));
+    await actions.exec(AddInboxRelay, relay).forEach((e) => publish("添加收件箱中继", e));
   });
 
   const addOutboxRelay = useAsyncAction(async (relay: string) => {
-    await actions.exec(AddOutboxRelay, relay).forEach((e) => publish("Add outbox relay", e));
+    await actions.exec(AddOutboxRelay, relay).forEach((e) => publish("添加发件箱中继", e));
   });
 
   return (
-    <SimpleView title="Mailboxes" actions={event && <DebugEventButton event={event} size="sm" ml="auto" />} maxW="4xl">
+    <SimpleView title="信箱" actions={event && <DebugEventButton event={event} size="sm" ml="auto" />} maxW="4xl">
       <Text fontStyle="italic" mt="-2">
-        Mailbox relays are a way for other users to find your events, or send you events. they are defined in{" "}
+        信箱中继是其他用户查找和发送事件给你的账户的一种方式, 它定义于 {" "}
         <Link
           color="blue.500"
           isExternal
@@ -86,10 +86,10 @@ function MailboxesPage() {
 
       <Flex gap="2" mt="2">
         <InboxIcon boxSize={5} />
-        <Heading size="md">Inbox</Heading>
+        <Heading size="md">收件箱</Heading>
       </Flex>
       <Text fontStyle="italic" mt="-2">
-        These relays are used by other users to send DMs and notes to you
+        这些中继用于声明其他用户(代理)应该将私信和笔记通过哪些中继发送给你
       </Text>
       {Array.from(mailboxes?.inboxes ?? [])
         .sort()
@@ -100,10 +100,10 @@ function MailboxesPage() {
 
       <Flex gap="2" mt="4">
         <OutboxIcon boxSize={5} />
-        <Heading size="md">Outbox</Heading>
+        <Heading size="md">发件箱</Heading>
       </Flex>
       <Text fontStyle="italic" mt="-2">
-        noStrudel will always publish to these relays so other users can find your notes
+        这些中继定义客户端(noStrudel)应该将你的内容发布至哪些中继, 以便于其他用户通过这些中继找到你的笔记
       </Text>
       {Array.from(mailboxes?.outboxes ?? [])
         .sort()

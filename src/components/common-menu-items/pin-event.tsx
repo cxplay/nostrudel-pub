@@ -18,13 +18,13 @@ export default function PinEventMenuItem({ event }: { event: NostrEvent }) {
 
   const isPinned = isEventInList(list, event);
 
-  let type = "Note";
+  let type = "笔记";
   switch (event.kind) {
     case kinds.LongFormArticle:
-      type = "Article";
+      type = "文章";
       break;
   }
-  const label = isPinned ? `Unpin ${type}` : `Pin ${type}`;
+  const label = isPinned ? `取消置顶${type}` : `置顶${type}`;
 
   const [loading, setLoading] = useState(false);
   const togglePin = useCallback(async () => {

@@ -13,7 +13,7 @@ export default function DebugEventMenuItem({
 
   return (
     <MenuItem onClick={() => open(event)} icon={<CodeIcon />} {...props}>
-      View Raw
+      查看原始
     </MenuItem>
   );
 }

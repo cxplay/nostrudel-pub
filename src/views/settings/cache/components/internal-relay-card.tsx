@@ -27,18 +27,18 @@ export default function InternalRelayCard() {
   return (
     <Card borderColor={enabled ? "primary.500" : undefined} variant="outline">
       <CardHeader p="4" display="flex" gap="2" alignItems="center">
-        <Heading size="md">Browser Cache</Heading>
+        <Heading size="md">浏览器缓存</Heading>
         <EnableWithDelete size="sm" ml="auto" enable={enable} enabled={enabled} wipe={wipe} isLoading={enabling} />
       </CardHeader>
       <CardBody p="4" pt="0">
-        <Text mb="2">Use the browsers built-in database to cache events.</Text>
-        <Text>Maximum capacity: 10k events</Text>
-        <Text>Performance: Usable, but limited by the browser</Text>
+        <Text mb="2">使用浏览器内置的数据库去缓存事件.</Text>
+        <Text>容量: 10k 事件</Text>
+        <Text>性能: 可用, 但受制于你的浏览器</Text>
       </CardBody>
       {enabled && (
         <CardFooter p="4" pt="0">
           <Button size="sm" colorScheme="primary" ml="auto" as={RouterLink} to="/relays/cache/database">
-            Database Tools
+            数据库工具
           </Button>
         </CardFooter>
       )}

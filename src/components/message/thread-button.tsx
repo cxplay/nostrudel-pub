@@ -42,8 +42,8 @@ export function IconThreadButton({
     <IconButton
       icon={<ThreadIcon />}
       onClick={onClick}
-      aria-label="Reply in thread"
-      title="Reply in thread"
+      aria-label="在线程中回复"
+      title="在线程中回复"
       {...props}
     />
   );

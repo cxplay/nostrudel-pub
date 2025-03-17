@@ -49,7 +49,7 @@ export default function MemoryDatabasePage() {
 
   return (
     <>
-      <Text>Total events: {count ?? "Loading..."}</Text>
+      <Text>总事件: {count ?? "加载中..."}</Text>
       <ButtonGroup flexWrap="wrap">
         <ImportEventsButton onLoad={importEvents} />
         <ExportEventsButton getEvents={exportEvents} />
@@ -58,7 +58,7 @@ export default function MemoryDatabasePage() {
         {kinds && (
           <>
             <Card p="2" minW="sm" maxW="lg" flex={1}>
-              <Heading size="sm">Events by kind</Heading>
+              <Heading size="sm">事件类型</Heading>
               <EventKindsPieChart kinds={kinds} />
             </Card>
             <Card p="2" minW="sm" maxW="md" flex={1}>

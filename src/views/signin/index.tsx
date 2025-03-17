@@ -14,7 +14,7 @@ export default function LoginView() {
         <Flex direction="column" alignItems="center" gap="2" maxW="md" w="full" px="4" py="10">
           <Avatar src="/apple-touch-icon.png" size="lg" flexShrink={0} />
           <Heading size="lg" mb="2">
-            Sign in
+            登录
           </Heading>
           <Outlet />
         </Flex>

@@ -36,7 +36,7 @@ export default function CitrineRelayCard() {
             onClick={enable}
             isDisabled={enabled}
           >
-            {enabled ? "Enabled" : "Enable"}
+            {enabled ? "已启用" : "启用"}
           </Button>
         ) : (
           <Button
@@ -47,14 +47,14 @@ export default function CitrineRelayCard() {
             size="sm"
             ml="auto"
           >
-            Get the app
+            获得该应用
           </Button>
         )}
       </CardHeader>
       <CardBody p="4" pt="0">
-        <Text mb="2">A cool little app that runs a local relay in your phone</Text>
-        <Text>Maximum capacity: Unlimited</Text>
-        <Text>Performance: As fast as your phone</Text>
+        <Text mb="2">一款很酷的小软件, 可在手机上运行本地中继</Text>
+        <Text>容量: 无限制</Text>
+        <Text>性能: 和你的手机一样快</Text>
       </CardBody>
     </Card>
   );

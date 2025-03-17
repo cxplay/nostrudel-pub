@@ -12,7 +12,7 @@ export default function DebugTagsPage({ event }: { event: NostrEvent }) {
       <ErrorBoundary>
         <DebugEventTags event={event} />
       </ErrorBoundary>
-      <RawJson heading="Tags referenced in content" json={getContentTagRefs(event.content, event.tags)} />
+      <RawJson heading="内容中引用的标签" json={getContentTagRefs(event.content, event.tags)} />
     </Flex>
   );
 }

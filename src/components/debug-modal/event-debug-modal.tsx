@@ -38,20 +38,20 @@ type DebugTool = {
 };
 
 const tools: DebugTool[] = [
-  { id: "content", name: "Content", icon: PenTool01, component: DebugContentPage },
+  { id: "content", name: "内容", icon: PenTool01, component: DebugContentPage },
   { id: "json", name: "JSON", icon: CodeIcon, component: RawJsonPage },
-  { id: "threading", name: "Threading", icon: ThreadIcon, component: DebugThreadingPage },
-  { id: "tags", name: "Tags", icon: Tag01, component: DebugTagsPage },
-  { id: "relays", name: "Relays", icon: RelayIcon, component: DebugEventRelaysPage },
-  { id: "cache", name: "Cache", icon: Database01, component: DebugEventCachePage },
+  { id: "threading", name: "线程", icon: ThreadIcon, component: DebugThreadingPage },
+  { id: "tags", name: "标签", icon: Tag01, component: DebugTagsPage },
+  { id: "relays", name: "回复", icon: RelayIcon, component: DebugEventRelaysPage },
+  { id: "cache", name: "缓存", icon: Database01, component: DebugEventCachePage },
 ];
 
 function DefaultPage({ event, setSelected }: { setSelected: (id: string) => void; event: NostrEvent }) {
   return (
     <>
-      <RawValue heading="Event Id" value={event.id} />
-      <RawValue heading="NIP-19 Encoded Id" value={nip19.noteEncode(event.id)} />
-      <RawValue heading="NIP-19 Pointer" value={getSharableEventAddress(event)} />
+      <RawValue heading="事件 ID" value={event.id} />
+      <RawValue heading="NIP-19 编码 ID" value={nip19.noteEncode(event.id)} />
+      <RawValue heading="NIP-19 实体指针" value={getSharableEventAddress(event)} />
       <Flex gap="2" flexWrap="wrap">
         {tools.map(({ icon: Icon, name, id }) => (
           <Button
@@ -84,7 +84,7 @@ export default function EventDebugModal({ event, ...props }: { event: NostrEvent
       <ModalContent>
         <ModalHeader px="4" pt="4" pb="2" display="flex" alignItems="center" gap="2">
           {tool && IconComponent && (
-            <IconButton icon={<IconComponent boxSize={6} />} aria-label="Select Tool" onClick={() => setSelected("")} />
+            <IconButton icon={<IconComponent boxSize={6} />} aria-label="选择工具" onClick={() => setSelected("")} />
           )}
           <Text as="span">{tool?.name || event.id}</Text>
         </ModalHeader>
@@ -93,8 +93,8 @@ export default function EventDebugModal({ event, ...props }: { event: NostrEvent
           {Page ? <Page event={event} /> : <DefaultPage setSelected={setSelected} event={event} />}
 
           {tool && (
-            <Button aria-label="Back" onClick={() => setSelected("")}>
-              Back
+            <Button aria-label="返回" onClick={() => setSelected("")}>
+              返回
             </Button>
           )}
         </ModalBody>

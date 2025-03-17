@@ -59,7 +59,7 @@ export default function NotificationsCard({ ...props }: Omit<CardProps, "childre
       <CardHeader display="flex" justifyContent="space-between" alignItems="center" pb="2">
         <Heading size="lg">
           <Link as={RouterLink} to="/notifications">
-            Notifications
+            通知
           </Link>
         </Heading>
         <KeyboardShortcut letter="i" requireMeta ml="auto" onPress={() => navigate("/notifications")} />
@@ -71,7 +71,7 @@ export default function NotificationsCard({ ...props }: Omit<CardProps, "childre
           </ErrorBoundary>
         ))}
         <Button as={RouterLink} to="/notifications" flexShrink={0} variant="link" size="lg" py="4">
-          View More
+          查看更多
         </Button>
       </CardBody>
     </Card>
