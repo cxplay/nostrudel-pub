@@ -95,20 +95,20 @@ export default function GifPickerModal({ onClose, isOpen, onSelect, ...props }: 
                 onChange={(e) => setSearch(e.target.value)}
               />
               <SearchRelayPicker value={searchRelay} onChange={(e) => setSearchRelay(e.target.value)} />
-              <Button type="submit">Search</Button>
+              <Button type="submit">搜索</Button>
             </Flex>
             <ButtonGroup size="xs">
               <Button colorScheme={selected === "global" ? "primary" : undefined} onClick={() => setSelected("global")}>
-                Global
+                全球
               </Button>
               <Button
                 colorScheme={selected === "following" ? "primary" : undefined}
                 onClick={() => setSelected("following")}
               >
-                Follows
+                关注的人
               </Button>
               <Button colorScheme={selected === "self" ? "primary" : undefined} onClick={() => setSelected("self")}>
-                Personal
+                自己
               </Button>
             </ButtonGroup>
           </ModalHeader>

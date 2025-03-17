@@ -88,7 +88,7 @@ export default function LoginNostrAddressView() {
             <Image w="7" h="7" src={`//${nip05.domain}/favicon.ico`} />
             <Text fontWeight="bold">{address}</Text>
             <Text color="green.500" ml="auto">
-              Found provider <CheckIcon boxSize={5} />
+              发现提供方 <CheckIcon boxSize={5} />
             </Text>
           </Card>
         );
@@ -97,7 +97,7 @@ export default function LoginNostrAddressView() {
           <Card {...cardProps}>
             <Text fontWeight="bold">{address}</Text>
             <Text color="yellow.500" ml="auto">
-              Read-only
+              只读
             </Text>
           </Card>
         );
@@ -106,7 +106,7 @@ export default function LoginNostrAddressView() {
         <Card {...cardProps}>
           <Text fontWeight="bold">{address}</Text>
           <Text color="red.500" ml="auto">
-            Cant find identity
+            无法找到身份
           </Text>
         </Card>
       );
@@ -121,7 +121,7 @@ export default function LoginNostrAddressView() {
       {!loading && (
         <>
           <FormControl>
-            <FormLabel htmlFor="address">Nostr Address</FormLabel>
+            <FormLabel htmlFor="address">Nostr 地址</FormLabel>
             <Flex gap="2">
               <Input
                 id="address"
@@ -139,15 +139,15 @@ export default function LoginNostrAddressView() {
       )}
       <Flex gap="2" mt="2">
         <Button variant="link" onClick={() => navigate("../")} mr="auto">
-          Back
+          返回
         </Button>
         {!loading && (
           <Button colorScheme="primary" as={RouterLink} to="/signin/address/create" variant="link" p="2">
-            Find Provider
+            查找提供方
           </Button>
         )}
         <Button colorScheme="primary" type="submit" isLoading={!!loading} isDisabled={!nip05}>
-          Connect
+          连接
         </Button>
       </Flex>
     </Flex>

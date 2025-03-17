@@ -35,7 +35,7 @@ const tabs = [
   { label: "表情", path: "emojis" },
   { label: "Torrent", path: "torrents" },
   { label: "举报", path: "reports" },
-  { label: "追随者", path: "followers" },
+  { label: "关注者", path: "followers" },
   { label: "被静音", path: "muted-by" },
 ];
 

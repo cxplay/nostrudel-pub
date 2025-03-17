@@ -84,31 +84,31 @@ export default function WalletSendTokenView() {
             colorScheme={speed === ANIMATED_QR_INTERVAL.SLOW ? "primary" : undefined}
             onClick={() => setSpeed(ANIMATED_QR_INTERVAL.SLOW)}
           >
-            Slow
+            慢速
           </Button>
           <Button
             colorScheme={speed === ANIMATED_QR_INTERVAL.MEDIUM ? "primary" : undefined}
             onClick={() => setSpeed(ANIMATED_QR_INTERVAL.MEDIUM)}
           >
-            Normal
+            常规
           </Button>
           <Button
             colorScheme={speed === ANIMATED_QR_INTERVAL.FAST ? "primary" : undefined}
             onClick={() => setSpeed(ANIMATED_QR_INTERVAL.FAST)}
           >
-            Fast
+            快速
           </Button>
         </ButtonGroup>
       )}
 
       <Flex gap="2">
-        <CopyIconButton value={token} aria-label="Copy token" />
+        <CopyIconButton value={token} aria-label="复制 token" />
         <Spacer />
         <Button onClick={cancel} isLoading={canceling}>
-          Cancel
+          取消
         </Button>
         <Button as={RouterLink} to="/wallet" colorScheme="primary">
-          Done
+          完成
         </Button>
       </Flex>
     </SimpleView>

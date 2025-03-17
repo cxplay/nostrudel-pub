@@ -81,7 +81,7 @@ export default function SearchResults({ query, relay }: { query: string; relay: 
   if (searching && results.length === 0) {
     return (
       <Heading size="md" mx="auto" my="10">
-        <Spinner /> Searching relay...
+        <Spinner /> 正在搜索中继...
       </Heading>
     );
   }
@@ -111,14 +111,14 @@ export default function SearchResults({ query, relay }: { query: string; relay: 
   if (results.length === 0) {
     return (
       <Heading size="md" mx="auto" my="10">
-        Found nothing... :(
+        什么都没有找到... :(
       </Heading>
     );
   }
 
   return (
     <>
-      {results.length > 0 && <Text>Found {results.length} results</Text>}
+      {results.length > 0 && <Text>找到 {results.length} 个结果</Text>}
       {profiles.length > 0 && <ProfileSearchResults profiles={profiles} />}
       {notes.length > 0 && <NoteSearchResults notes={notes} />}
       {articles.length > 0 && <ArticleSearchResults articles={articles} />}

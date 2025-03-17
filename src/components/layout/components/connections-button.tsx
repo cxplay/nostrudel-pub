@@ -12,7 +12,7 @@ export default function RelayConnectionButton({ ...props }: Omit<ButtonProps, "c
 
   return (
     <Button onClick={() => openTaskManager("/relays")} {...props}>
-      Relays ({connected})
+      中继 ({connected})
     </Button>
   );
 }

@@ -66,7 +66,7 @@ export default function GenericCommentForm({
   return (
     <Flex as="form" direction="column" gap="2" pb="4" onSubmit={submit} ref={formRef}>
       <MagicTextArea
-        placeholder="Comment"
+        placeholder="评论"
         autoFocus
         mb="2"
         rows={4}
@@ -81,14 +81,14 @@ export default function GenericCommentForm({
       />
       <Flex gap="2" alignItems="center">
         <ButtonGroup size="sm">
-          <InsertImageButton onUploaded={insertText} aria-label="Upload image" />
-          <InsertGifButton onSelectURL={insertText} aria-label="Add gif" />
-          <InsertReactionButton onSelect={insertText} aria-label="Add Emoji" />
+          <InsertImageButton onUploaded={insertText} aria-label="上传图片" />
+          <InsertGifButton onSelectURL={insertText} aria-label="添加 GIF" />
+          <InsertReactionButton onSelect={insertText} aria-label="添加表情" />
         </ButtonGroup>
         <ButtonGroup size="sm" ml="auto">
-          {onCancel && <Button onClick={onCancel}>Cancel</Button>}
+          {onCancel && <Button onClick={onCancel}>取消</Button>}
           <Button type="submit" colorScheme="primary" size="sm">
-            Comment
+            评论
           </Button>
         </ButtonGroup>
       </Flex>

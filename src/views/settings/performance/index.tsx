@@ -37,7 +37,7 @@ function VerifyEventSettings() {
         </Select>
         <FormHelperText>默认: 所有事件签名都会被检查</FormHelperText>
         <FormHelperText>WebAssembly: 在独立线程中检查事件签名</FormHelperText>
-        <FormHelperText>无: 仅用户资料, 追随者和可替换参数事件的签名才会被检查</FormHelperText>
+        <FormHelperText>无: 仅用户资料, 关注的人和可替换参数事件的签名才会被检查</FormHelperText>
       </FormControl>
     </>
   );

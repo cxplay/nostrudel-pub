@@ -41,18 +41,18 @@ export default function RelayReviewForm({
   return (
     <Flex as="form" direction="column" onSubmit={onSubmit} gap="2" mb="2" {...props}>
       <Flex gap="2">
-        <Heading size="md">Write review</Heading>
+        <Heading size="md">撰写反馈</Heading>
         <StarRating
           quality={getValues().quality}
           fontSize="1.5rem"
           onChange={(q) => setValue("quality", q, { shouldDirty: true })}
         />
       </Flex>
-      <Textarea {...register("content")} rows={5} placeholder="A short description of your experience with the relay" />
+      <Textarea {...register("content")} rows={5} placeholder="有关你对这个中继简短的体验反馈" />
       <Flex gap="2" ml="auto">
-        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={onClose}>取消</Button>
         <Button type="submit" colorScheme="primary">
-          Submit
+          提交
         </Button>
       </Flex>
     </Flex>

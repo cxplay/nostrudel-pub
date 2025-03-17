@@ -82,14 +82,14 @@ export default function RelayDiscoveryView() {
   return (
     <SelectedContext.Provider value={selected}>
       <SimpleView
-        title="Relays"
+        title="中继"
         flush
         scroll={false}
         actions={
           <>
             <Select value={network} onChange={(e) => setNetwork(e.target.value)} w="auto">
-              <option value="">All</option>
-              <option value="clearnet">clearnet</option>
+              <option value="">所有</option>
+              <option value="clearnet">公网</option>
               <option value="tor">Tor</option>
               <option value="i2p">I2P</option>
               <option value="hyper">Hyper</option>

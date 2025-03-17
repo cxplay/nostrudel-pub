@@ -59,7 +59,7 @@ export default function QRCodeScannerButton({
 
   return (
     <>
-      <IconButton onClick={handleClick} icon={<QrCodeIcon boxSize={6} />} aria-label="Qr Scanner" {...props} />
+      <IconButton onClick={handleClick} icon={<QrCodeIcon boxSize={6} />} aria-label="二维码扫描器" {...props} />
       {modal.isOpen && (
         <Suspense fallback={null}>
           <Modal isOpen={modal.isOpen} onClose={closeModal}>
@@ -75,7 +75,7 @@ export default function QRCodeScannerButton({
               </ModalBody>
 
               <ModalFooter px="2" pb="2" pt="0" alignItems="center" gap="2">
-                <Button onClick={() => closeModal()}>Cancel</Button>
+                <Button onClick={() => closeModal()}>取消</Button>
               </ModalFooter>
             </ModalContent>
           </Modal>

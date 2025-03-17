@@ -70,12 +70,12 @@ function SearchOnRelaysModal({
     <Modal isOpen={isOpen} onClose={onClose} size="lg">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader p="4">Search for event</ModalHeader>
+        <ModalHeader p="4">搜索事件</ModalHeader>
         <ModalCloseButton />
         <ModalBody px="2" pb="2" pt="0" gap="2" display="flex" flexDirection="column">
           {loading ? (
             <Heading size="md" mx="auto">
-              Searching {relays.size} relays...
+              正在检索 {relays.size} 中继...
             </Heading>
           ) : (
             <>
@@ -107,10 +107,10 @@ function SearchOnRelaysModal({
         <ModalFooter>
           <ButtonGroup>
             <Button variant="ghost" onClick={onClose}>
-              Cancel
+              取消
             </Button>
             <Button colorScheme="primary" onClick={searchForEvent} isLoading={loading}>
-              Search
+              搜索
             </Button>
           </ButtonGroup>
         </ModalFooter>
@@ -136,30 +136,30 @@ export default function LoadingNostrLink({ link }: { link: nip19.DecodeResult })
             {link.data.kind && <Text>Kind: {link.data.kind}</Text>}
             {link.data.author && (
               <Text>
-                Pubkey: <UserLink pubkey={link.data.author} />
+                公钥: <UserLink pubkey={link.data.author} />
               </Text>
             )}
-            {link.data.relays && link.data.relays.length > 0 && <Text>Relays: {link.data.relays.join(", ")}</Text>}
+            {link.data.relays && link.data.relays.length > 0 && <Text>中继: {link.data.relays.join(", ")}</Text>}
           </>
         );
       case "npub":
-        return <Text>Pubkey: {link.data}</Text>;
+        return <Text>公钥: {link.data}</Text>;
       case "nprofile":
         return (
           <>
-            <Text>Pubkey: {link.data.pubkey}</Text>
-            {link.data.relays && link.data.relays.length > 0 && <Text>Relays: {link.data.relays.join(", ")}</Text>}
+            <Text>公钥: {link.data.pubkey}</Text>
+            {link.data.relays && link.data.relays.length > 0 && <Text>中继: {link.data.relays.join(", ")}</Text>}
           </>
         );
       case "naddr":
         return (
           <>
-            <Text>Kind: {link.data.kind}</Text>
+            <Text>类型: {link.data.kind}</Text>
             <Text>
-              Pubkey: <UserLink pubkey={link.data.pubkey} />
+              公钥: <UserLink pubkey={link.data.pubkey} />
             </Text>
-            <Text>Identifier: {link.data.identifier}</Text>
-            {link.data.relays && link.data.relays.length > 0 && <Text>Relays: {link.data.relays.join(", ")}</Text>}
+            <Text>标识符: {link.data.identifier}</Text>
+            {link.data.relays && link.data.relays.length > 0 && <Text>中继: {link.data.relays.join(", ")}</Text>}
           </>
         );
     }
@@ -184,14 +184,14 @@ export default function LoadingNostrLink({ link }: { link: nip19.DecodeResult })
       </Button>
       {details.isOpen && (
         <Box px="2" fontFamily="monospace" color="GrayText" fontWeight="bold" fontSize="sm">
-          <Text>Type: {link.type}</Text>
+          <Text>种类: {link.type}</Text>
           {renderDetails()}
           <ButtonGroup variant="link" size="sm" my="1">
             <Button leftIcon={<SearchIcon />} colorScheme="primary" onClick={search.onOpen}>
-              Find
+              查找
             </Button>
             <Button leftIcon={<ExternalLinkIcon />} onClick={() => openAddress(address)}>
-              Open
+              打开
             </Button>
           </ButtonGroup>
         </Box>

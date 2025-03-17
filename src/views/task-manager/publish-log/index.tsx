@@ -40,7 +40,7 @@ export default function PublishLogView() {
     <Accordion>
       {reverseLog.length === 0 && (
         <Heading mx="auto" mt="10" size="md" textAlign="center">
-          No events published yet
+          没有已发布的事件
         </Heading>
       )}
       {reverseLog.map((entry) => (

@@ -66,7 +66,7 @@ function miner(
 
     return cleanup;
   } else {
-    console.error("Web Workers are not supported in this environment.");
+    console.error("该环境不支持 Web Workers");
     return () => {};
   }
 }
@@ -118,14 +118,14 @@ export default function MinePOW({
         <>
           <CheckCircle boxSize={12} color="green.500" mx="auto" />
           <Heading size="md" mx="auto" mt="2">
-            Found POW
+            计算 PoW
           </Heading>
           <Text mx="auto">{bestProgress.hash}</Text>
         </>
       ) : (
         <>
-          <Heading size="sm">Mining POW...</Heading>
-          <Text>Best Hash: {bestProgress.hash}</Text>
+          <Heading size="sm">正在计算 PoW...</Heading>
+          <Text>最佳 Hash: {bestProgress.hash}</Text>
           <Progress hasStripe value={(bestProgress.difficulty / targetPOW) * 100} />
           <ButtonGroup mx="auto">
             <Button
@@ -134,7 +134,7 @@ export default function MinePOW({
                 onCancel();
               }}
             >
-              Cancel
+              取消
             </Button>
             {onSkip && (
               <Button
@@ -143,7 +143,7 @@ export default function MinePOW({
                   onSkip();
                 }}
               >
-                Skip
+                跳过
               </Button>
             )}
           </ButtonGroup>

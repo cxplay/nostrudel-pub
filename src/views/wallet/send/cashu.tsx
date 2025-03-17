@@ -48,7 +48,7 @@ export default function WalletSendCashuView() {
   });
 
   return (
-    <SimpleView as="form" title="Send Cashu" maxW="xl" center onSubmit={submit}>
+    <SimpleView as="form" title="发送 Cashu" maxW="xl" center onSubmit={submit}>
       {wallet?.locked && <WalletUnlockButton colorScheme="primary" mx="auto" size="lg" w="sm" />}
 
       <Select {...register("mint", { required: true })} isRequired>
@@ -74,10 +74,10 @@ export default function WalletSendCashuView() {
 
       <Flex direction="row-reverse">
         <Button type="submit" colorScheme="primary" isLoading={formState.isSubmitting} isDisabled={!formState.isValid}>
-          Create
+          创建
         </Button>
         <Button as={RouterLink} to="/wallet" me="auto">
-          Cancel
+          取消
         </Button>
       </Flex>
     </SimpleView>
