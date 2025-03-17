@@ -90,7 +90,7 @@ function UsersLists({ pubkey }: { pubkey: string }) {
       )}
       <MenuDivider />
       <MenuItem icon={<PlusCircleIcon />} onClick={newListModal.onOpen}>
-        New list
+        新建列表
       </MenuItem>
 
       {newListModal.isOpen && <NewSetModal onClose={newListModal.onClose} isOpen onCreated={newListModal.onClose} />}
@@ -140,16 +140,16 @@ export function UserFollowButton({ pubkey, showLists, ...props }: UserFollowButt
           rightIcon={<ChevronDownIcon />}
           isDisabled={isDisabled}
         >
-          {isFollowing ? "Unfollow" : "Follow"}
+          {isFollowing ? "取关" : "关注"}
         </MenuButton>
         <MenuList>
           {isFollowing ? (
             <MenuItem onClick={handleUnfollow} icon={<UnfollowIcon />} isDisabled={isDisabled || loading}>
-              Unfollow
+              取关
             </MenuItem>
           ) : (
             <MenuItem onClick={handleFollow} icon={<FollowIcon />} isDisabled={isDisabled || loading}>
-              Follow
+              关注
             </MenuItem>
           )}
           {account?.pubkey !== pubkey && (
@@ -159,7 +159,7 @@ export function UserFollowButton({ pubkey, showLists, ...props }: UserFollowButt
               color="red.500"
               isDisabled={isDisabled}
             >
-              {isMuted ? "Unmute" : "Mute"}
+              {isMuted ? "解除静音" : "静音"}
             </MenuItem>
           )}
           {account && (
@@ -181,7 +181,7 @@ export function UserFollowButton({ pubkey, showLists, ...props }: UserFollowButt
         isLoading={loading}
         {...props}
       >
-        Unfollow
+        取关
       </Button>
     );
   } else {
@@ -194,7 +194,7 @@ export function UserFollowButton({ pubkey, showLists, ...props }: UserFollowButt
         isLoading={loading}
         {...props}
       >
-        Follow
+        关注
       </Button>
     );
   }

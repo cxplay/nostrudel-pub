@@ -10,7 +10,7 @@ export default function CopyEmbedCodeMenuItem({ event }: { event: NostrEvent }) 
   return (
     address && (
       <MenuItem onClick={() => window.navigator.clipboard.writeText("nostr:" + address)} icon={<CopyToClipboardIcon />}>
-        Copy embed code
+        复制嵌入代码
       </MenuItem>
     )
   );

@@ -42,7 +42,7 @@ function RepostEvent({ event }: { event: NostrEvent }) {
           </Heading>
           <UserDnsIdentity pubkey={event.pubkey} onlyIcon />
           <Text as="span" whiteSpace="pre">
-            {communityCoordinate ? `Shared to` : `Shared`}
+            {communityCoordinate ? `分享至` : `已分享`}
           </Text>
           {communityCoordinate && (
             <Link

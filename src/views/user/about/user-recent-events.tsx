@@ -52,19 +52,19 @@ function consoleLink(events: NostrEvent[], pubkey: string) {
 const KnownKinds: KnownKind[] = [
   {
     kind: kinds.ShortTextNote,
-    name: "Notes",
+    name: "笔记",
     icon: NotesIcon,
     link: (_, p) => `/u/${npubEncode(p)}/notes`,
   },
   {
     kind: kinds.Repost,
-    name: "Repost",
+    name: "转发",
     icon: RepostIcon,
     link: (_e, p) => `/u/${npubEncode(p)}/notes`,
   },
   {
     kind: kinds.GenericRepost,
-    name: "Generic Repost",
+    name: "通用转发",
     icon: RepostIcon,
     hidden: true,
     link: (_e, p) => `/u/${npubEncode(p)}/notes`,
@@ -72,21 +72,21 @@ const KnownKinds: KnownKind[] = [
 
   {
     kind: kinds.LongFormArticle,
-    name: "Articles",
+    name: "文章",
     icon: ArticleIcon,
     link: (_, p) => `/u/${npubEncode(p)}/articles`,
   },
 
   {
     kind: MEDIA_POST_KIND,
-    name: "Media",
+    name: "媒体",
     icon: Camera01,
     link: (_, p) => `/u/${npubEncode(p)}/media`,
   },
 
   {
     kind: kinds.EncryptedDirectMessage,
-    name: "Legacy DMs",
+    name: "一般私信",
     icon: DirectMessagesIcon,
     link: (_e, p) => `/u/${nip19.npubEncode(p)}/dms`,
   },
@@ -94,27 +94,27 @@ const KnownKinds: KnownKind[] = [
   {
     kind: kinds.PublicChatsList,
     icon: ChannelsIcon,
-    name: "Public Chats",
+    name: "公共聊天",
     link: (_e, p) => `/u/${npubEncode(p)}/lists`,
   },
 
-  { kind: kinds.Followsets, name: "People Lists", icon: ListsIcon, link: (_e, p) => `/u/${npubEncode(p)}/lists` },
-  { kind: kinds.Genericlists, icon: ListsIcon, name: "Generic Lists", link: (_e, p) => `/u/${npubEncode(p)}/lists` },
-  { kind: kinds.Relaysets, icon: RelayIcon, name: "Relay Sets" },
-  { kind: kinds.Bookmarksets, icon: BookmarkIcon, name: "Bookmarks", link: (_e, p) => `/u/${npubEncode(p)}/lists` },
+  { kind: kinds.Followsets, name: "用户列表", icon: ListsIcon, link: (_e, p) => `/u/${npubEncode(p)}/lists` },
+  { kind: kinds.Genericlists, icon: ListsIcon, name: "通用列表", link: (_e, p) => `/u/${npubEncode(p)}/lists` },
+  { kind: kinds.Relaysets, icon: RelayIcon, name: "中继合集" },
+  { kind: kinds.Bookmarksets, icon: BookmarkIcon, name: "书签", link: (_e, p) => `/u/${npubEncode(p)}/lists` },
 
-  { kind: kinds.Report, name: "Report", icon: AlertTriangle, link: (_e, p) => `/u/${npubEncode(p)}/reports` },
+  { kind: kinds.Report, name: "举报", icon: AlertTriangle, link: (_e, p) => `/u/${npubEncode(p)}/reports` },
 
-  { kind: kinds.Emojisets, name: "Emojis", icon: EmojiPacksIcon, link: (_e, p) => `/u/${npubEncode(p)}/emojis` },
+  { kind: kinds.Emojisets, name: "表情包", icon: EmojiPacksIcon, link: (_e, p) => `/u/${npubEncode(p)}/emojis` },
 
-  { kind: kinds.Handlerinformation, name: "Application" },
-  { kind: kinds.Handlerrecommendation, name: "App recommendation" },
+  { kind: kinds.Handlerinformation, name: "应用" },
+  { kind: kinds.Handlerrecommendation, name: "应用推荐" },
 
-  { kind: kinds.CommunityDefinition, icon: CommunityIcon, name: "Communities" },
+  { kind: kinds.CommunityDefinition, icon: CommunityIcon, name: "社区" },
 
-  { kind: kinds.BadgeAward, name: "Badge Award" },
+  { kind: kinds.BadgeAward, name: "徽章奖励" },
 
-  { kind: kinds.LiveChatMessage, icon: MessageSquare02, name: "Stream Chat" },
+  { kind: kinds.LiveChatMessage, icon: MessageSquare02, name: "串流聊天" },
 
   // common kinds
   { kind: kinds.Metadata, hidden: true },

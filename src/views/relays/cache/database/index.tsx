@@ -15,7 +15,7 @@ const InternalDatabasePage = lazy(() => import("./internal"));
 export default function DatabaseView() {
   let content = (
     <Text>
-      noStrudel does not have access to the selected cache relays database{" "}
+      noStrudel 无法访问所选缓存中继的数据库{" "}
       <Link as={RouterLink} to="/relays/cache" color="blue.500">
         Change cache relay
       </Link>
@@ -31,7 +31,7 @@ export default function DatabaseView() {
       <Flex gap="2" direction="column">
         <Flex gap="2">
           <BackButton hideFrom="lg" size="sm" />
-          <Heading size="lg">Database Tools</Heading>
+          <Heading size="lg">数据库工具</Heading>
         </Flex>
 
         {content}

@@ -83,15 +83,15 @@ export default function LoginNostrAddressCreate() {
     if (!selected || !name) return;
 
     try {
-      setLoading("Creating...");
+      setLoading("创建中...");
       const metadata: ProfileContent = { ...userMetadata, ...providerMetadata };
-      if (!metadata.nip05) throw new Error("Provider missing nip05 address");
+      if (!metadata.nip05) throw new Error("提供方缺失 NIP-05 地址");
       const nip05 = await dnsIdentityService.fetchIdentity(metadata.nip05);
-      if (!nip05 || nip05.pubkey !== selected.pubkey) throw new Error("Invalid provider");
-      if (nip05.name !== "_") throw new Error("Provider does not own the domain");
-      if (!nip05.hasNip46) throw new Error("Provider does not support NIP-46");
+      if (!nip05 || nip05.pubkey !== selected.pubkey) throw new Error("无效提供方");
+      if (nip05.name !== "_") throw new Error("提供方未拥有该域名");
+      if (!nip05.hasNip46) throw new Error("提供方不支持 NIP-46");
       const relays = safeRelayUrls(nip05.nip46Relays || nip05.relays || []);
-      if (relays.length === 0) throw new Error("Cant find providers relays");
+      if (relays.length === 0) throw new Error("无法找到提供方中继");
 
       const signer = new NostrConnectSigner({ pool: relayPoolService, relays, remote: nip05.pubkey });
 
@@ -153,10 +153,10 @@ export default function LoginNostrAddressCreate() {
       {renderContent()}
       <Flex justifyContent="space-between" gap="2" mt="2">
         <Button variant="link" onClick={() => navigate("../")}>
-          Back
+          返回
         </Button>
         <Button colorScheme="primary" ml="auto" type="submit" isLoading={!!loading} isDisabled={!selected}>
-          Create Account
+          创建账户
         </Button>
       </Flex>
     </Flex>

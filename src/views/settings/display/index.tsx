@@ -31,7 +31,7 @@ export default function DisplaySettings() {
       <Flex as="form" onSubmit={submit} direction="column" gap="4">
         <FormControl>
           <FormLabel htmlFor="theme" mb="0">
-            Theme
+            主题
           </FormLabel>
           <Select id="theme" {...register("theme")} maxW="sm">
             <option value="default">Default</option>
@@ -40,76 +40,76 @@ export default function DisplaySettings() {
         </FormControl>
         <FormControl>
           <FormLabel htmlFor="colorMode" mb="0">
-            Color Mode
+            色彩模式
           </FormLabel>
           <Select id="colorMode" {...register("colorMode")} maxW="sm">
-            <option value="system">System Default</option>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
+            <option value="system">系统默认</option>
+            <option value="light">浅色</option>
+            <option value="dark">深色</option>
           </Select>
         </FormControl>
         <FormControl>
           <Flex alignItems="center">
             <FormLabel htmlFor="primaryColor" mb="0">
-              Primary Color
+              强调色
             </FormLabel>
             <Input id="primaryColor" type="color" maxW="120" size="sm" {...register("primaryColor")} />
           </Flex>
         </FormControl>
         <FormControl>
           <FormLabel htmlFor="maxPageWidth" mb="0">
-            Max Page width
+          最大页面宽度
           </FormLabel>
           <Select id="maxPageWidth" {...register("maxPageWidth")} maxW="sm">
-            <option value="none">None</option>
-            <option value="md">Medium (~768px)</option>
-            <option value="lg">Large (~992px)</option>
-            <option value="xl">Extra Large (~1280px)</option>
+            <option value="none">无</option>
+            <option value="md">普通 (~768px)</option>
+            <option value="lg">宽 (~992px)</option>
+            <option value="xl">特宽 (~1280px)</option>
           </Select>
           <FormHelperText>
-            <span>Setting this will restrict the width of app on desktop</span>
+            <span>这会限制时间线栏在桌面设备上的最大显示宽度</span>
           </FormHelperText>
         </FormControl>
         <FormControl>
           <FormLabel htmlFor="maxPageWidth" mb="0">
-            Show user pubkey key color
+          用户公钥颜色显示
           </FormLabel>
           <Select id="maxPageWidth" maxW="sm" {...register("showPubkeyColor")}>
-            <option value="none">None</option>
-            <option value="avatar">Avatar</option>
-            <option value="underline">Underline</option>
+            <option value="none">无</option>
+            <option value="avatar">头像</option>
+            <option value="underline">下划线</option>
           </Select>
           <FormHelperText>
-            <span>How the public key color should be shown on users</span>
+            <span>控制用户的公钥颜色会如何显示</span>
           </FormHelperText>
         </FormControl>
         <FormControl>
           <Flex alignItems="center">
             <FormLabel htmlFor="blurImages" mb="0">
-              Blur media from strangers
+              模糊陌生人的媒体附件
             </FormLabel>
             <Switch id="blurImages" {...register("blurImages")} />
           </Flex>
           <FormHelperText>
-            <span>Enabled: blur media from people you aren't following</span>
+            <span>启用: 你没有追随的用户发布的媒体文件会被添加模糊遮罩</span>
           </FormHelperText>
         </FormControl>
         <FormControl>
           <Flex alignItems="center">
             <FormLabel htmlFor="hideUsernames" mb="0">
-              Hide usernames (anon mode)
+              隐藏用户名 (佚名模式)
             </FormLabel>
             <Switch id="hideUsernames" {...register("hideUsernames")} />
           </Flex>
           <FormHelperText>
             <span>
-              Enabled: hides usernames and pictures.{" "}
+              启用: 隐藏用户名和资料图片{" "}
               <Link
                 as={RouterLink}
                 color="blue.500"
                 to="/n/nevent1qqsxvkjgpc6zhydj4rxjpl0frev7hmgynruq027mujdgy2hwjypaqfspzpmhxue69uhkummnw3ezuamfdejszythwden5te0dehhxarjw4jjucm0d5sfntd0"
               >
-                Details
+                详情
               </Link>
             </span>
           </FormHelperText>
@@ -117,18 +117,18 @@ export default function DisplaySettings() {
         <FormControl>
           <Flex alignItems="center">
             <FormLabel htmlFor="removeEmojisInUsernames" mb="0">
-              Hide Emojis in usernames
+              隐藏用户名里的 Emoji
             </FormLabel>
             <Switch id="removeEmojisInUsernames" {...register("removeEmojisInUsernames")} />
           </Flex>
           <FormHelperText>
-            <span>Enabled: Removes all emojis in other users usernames and display names</span>
+            <span>启用: 移除其他用户的用户名和显示名称中的 Emoji</span>
           </FormHelperText>
         </FormControl>
         <FormControl>
           <Flex alignItems="center">
             <FormLabel htmlFor="hideZapBubbles" mb="0">
-              Hide individual zaps on notes
+              隐藏笔记中的单个打闪
             </FormLabel>
             <Switch
               id="hideZapBubbles"
@@ -137,24 +137,24 @@ export default function DisplaySettings() {
             />
           </Flex>
           <FormHelperText>
-            <span>Enabled: Hides individual zaps on notes in the timeline</span>
+            <span>启用: 隐藏时间线笔记中的单个打闪</span>
           </FormHelperText>
         </FormControl>
         <FormControl>
           <Flex alignItems="center">
             <FormLabel htmlFor="show-content-warning" mb="0">
-              Show content warning
+              显示内容警告 (CW)
             </FormLabel>
             <Switch id="show-content-warning" {...register("showContentWarning")} />
           </Flex>
           <FormHelperText>
-            <span>Enabled: shows a warning for notes with NIP-36 Content Warning</span>
+            <span>启用: 对含有 NIP-36 (内容警告) 标记的笔记显示警告</span>
           </FormHelperText>
         </FormControl>
         <FormControl>
           <Flex alignItems="center">
             <FormLabel htmlFor="enableNoteDrawer" mb="0">
-              Open embedded notes in side drawer
+              在抽屉中打开嵌入内容
             </FormLabel>
             <Switch
               id="enableNoteDrawer"
@@ -163,13 +163,13 @@ export default function DisplaySettings() {
             />
           </Flex>
           <FormHelperText>
-            <span>Enabled: Clicking on an embedded note will open it in a side drawer</span>
+            <span>启用: 点击嵌入的笔记将会在侧边抽屉中打开它</span>
           </FormHelperText>
         </FormControl>
         <FormControl>
           <Flex alignItems="center">
             <FormLabel htmlFor="showBrandLogo" mb="0">
-              Show noStrudel logo
+              显示 noStrudel Logo
             </FormLabel>
             <Switch
               id="showBrandLogo"
@@ -178,25 +178,25 @@ export default function DisplaySettings() {
             />
           </Flex>
           <FormHelperText>
-            <span>Show / Hide the noStrudel logo in the side nav</span>
+            <span>在侧边导航栏显示或隐藏 noStrudel 的 Logo</span>
           </FormHelperText>
         </FormControl>
         <FormControl>
           <FormLabel htmlFor="muted-words" mb="0">
-            Muted words
+            静音关键词
           </FormLabel>
           <Textarea
             id="muted-words"
             {...register("mutedWords")}
-            placeholder="Broccoli, Spinach, Artichoke..."
+            placeholder="热狗, 火腿肠, 香肠..."
             maxW="2xl"
           />
           <FormHelperText>
             <span>
-              Comma separated list of words, phrases or hashtags you never want to see in notes. (case insensitive)
+            如果笔记中包含这些单词, 短语或标签那么将会被隐藏. 以逗号分隔, 不区分大小写.
             </span>
             <br />
-            <span>Be careful its easy to hide all notes if you add common words.</span>
+            <span>要注意的是, 如果你添加了常用的词语, 可能会让时间线上所有的笔记被隐藏.</span>
           </FormHelperText>
         </FormControl>
         <Button
@@ -206,7 +206,7 @@ export default function DisplaySettings() {
           colorScheme="primary"
           type="submit"
         >
-          Save Settings
+          保存设置
         </Button>
       </Flex>
     </VerticalPageLayout>

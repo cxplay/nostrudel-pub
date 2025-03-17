@@ -70,7 +70,7 @@ export default function WasmDatabasePage() {
   const deleteKind = useCallback(
     async (kind: string) => {
       const k = parseInt(kind);
-      if (confirm(`Are you sure you want to delete all kind ${k} events?`)) {
+      if (confirm(`确定要删除所有类型为 ${k} 的事件吗?`)) {
         await worker.delete(["REQ", "delete-" + k, { kinds: [k] }]);
         refresh();
       }
@@ -96,18 +96,18 @@ export default function WasmDatabasePage() {
 
   return (
     <>
-      <Text>Wasm Relay Database</Text>
-      <Text>Total events: {total ?? "Loading..."}</Text>
+      <Text>Wasm 中继数据库</Text>
+      <Text>总事件: {total ?? "加载中..."}</Text>
       <ButtonGroup flexWrap="wrap">
         <ImportEventsButton onLoad={importEvents} />
         <ExportEventsButton getEvents={exportEvents} />
         <Button colorScheme="red" onClick={deleteDatabase} isLoading={deleting}>
-          Delete database
+          删除数据库
         </Button>
       </ButtonGroup>
 
       <FormControl>
-        <FormLabel>Remove events older than X days</FormLabel>
+        <FormLabel>删除晚于 X 天的事件</FormLabel>
         <NumberInput
           maxW="xs"
           value={persistForDays ?? undefined}
@@ -128,7 +128,7 @@ export default function WasmDatabasePage() {
         {summary && (
           <>
             <Card p="2" minW="sm" maxW="lg" flex={1}>
-              <Heading size="sm">Events by kind</Heading>
+              <Heading size="sm">事件类型</Heading>
               <EventKindsPieChart kinds={summary} />
             </Card>
             <Card p="2" minW="sm" maxW="md" flex={1}>

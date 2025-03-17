@@ -32,33 +32,33 @@ export default function SettingsView() {
           <Flex direction="column" p="2" gap="2">
             {account && (
               <SimpleNavItem to="/settings/accounts" leftIcon={<UserAvatar size="xs" pubkey={account.pubkey} />}>
-                Accounts
+                账户
               </SimpleNavItem>
             )}
             <SimpleNavItem to="/settings/display" leftIcon={<AppearanceIcon boxSize={5} />}>
-              Display
+              显示
             </SimpleNavItem>
             <SimpleNavItem to="/settings/post" leftIcon={<NotesIcon boxSize={5} />}>
-              Posts
+              帖子
             </SimpleNavItem>
             {account && (
               <>
                 <SimpleNavItem to="/settings/media-servers" leftIcon={<Image01 boxSize={6} />}>
-                  Media Servers
+                  媒体服务器
                 </SimpleNavItem>
               </>
             )}
             <SimpleNavItem to="/settings/performance" leftIcon={<PerformanceIcon boxSize={5} />}>
-              Performance
+              性能
             </SimpleNavItem>
             <SimpleNavItem to="/settings/lightning" leftIcon={<LightningIcon boxSize={5} />}>
-              Lightning
+              闪电网络
             </SimpleNavItem>
             <SimpleNavItem to="/settings/privacy" leftIcon={<SpyIcon boxSize={5} />}>
-              Privacy
+              隐私
             </SimpleNavItem>
             <SimpleNavItem to="/relays/cache/database" leftIcon={<DatabaseIcon boxSize={5} />}>
-              Database Tools
+              数据库工具
             </SimpleNavItem>
 
             <Divider />

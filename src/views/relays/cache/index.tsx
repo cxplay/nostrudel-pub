@@ -20,10 +20,10 @@ export default function CacheRelayView() {
     <Flex gap="2" direction="column" flex={1}>
       <Flex gap="2" alignItems="center">
         <BackButton hideFrom="lg" size="sm" />
-        <Heading size="lg">Cache Relay</Heading>
+        <Heading size="lg">缓存中继</Heading>
       </Flex>
       <Text fontStyle="italic" mt="-2" px={{ base: "2", lg: 0 }}>
-        The cache relay is used to cache events locally so they can be loaded quickly
+        缓存中继用于本地缓存事件以便于快速加载
       </Text>
       <InternalRelayCard />
       {WasmRelay.SUPPORTED && <WasmRelayCard />}

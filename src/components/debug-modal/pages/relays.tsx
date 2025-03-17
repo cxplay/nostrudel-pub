@@ -17,14 +17,14 @@ export default function DebugEventRelaysPage({ event }: { event: NostrEvent }) {
 
   return (
     <>
-      <Text>Seen on:</Text>
+      <Text>发现于:</Text>
       {Array.from(getSeenRelays(event) ?? []).map((url) => (
         <Text gap="1" key={url}>
           <RelayFavicon relay={url} size="xs" /> {url}
         </Text>
       ))}
       <Button onClick={broadcast} mr="auto" colorScheme="primary" isLoading={loading}>
-        Broadcast
+        广播
       </Button>
     </>
   );

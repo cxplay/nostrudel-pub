@@ -62,12 +62,12 @@ export function InvoiceModalContent({ invoice, onPaid }: CommonProps) {
         <Input value={invoice} userSelect="all" onChange={() => {}} />
         <IconButton
           icon={<QrCodeIcon boxSize={6} />}
-          aria-label="Show QrCode"
+          aria-label="显示二维码"
           onClick={showQr.onToggle}
           variant="solid"
           size="md"
         />
-        <CopyIconButton value={invoice} aria-label="Copy Invoice" variant="solid" size="md" />
+        <CopyIconButton value={invoice} aria-label="复制发票" variant="solid" size="md" />
       </Flex>
       <Flex gap="2">
         {window.webln && (
@@ -83,7 +83,7 @@ export function InvoiceModalContent({ invoice, onPaid }: CommonProps) {
           size="md"
           isLoading={payingApp}
         >
-          Open App
+          打开应用
         </Button>
       </Flex>
     </Flex>

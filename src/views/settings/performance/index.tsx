@@ -25,7 +25,7 @@ function VerifyEventSettings() {
     <>
       <FormControl>
         <FormLabel htmlFor="verifyEventMethod" mb="0">
-          Verify event method
+          事件验证方式
         </FormLabel>
         <Select
           value={verifyEventMethod}
@@ -33,12 +33,12 @@ function VerifyEventSettings() {
           maxW="sm"
         >
           <option value="wasm">WebAssembly</option>
-          <option value="internal">Internal</option>
-          <option value="none">None</option>
+          <option value="internal">内置</option>
+          <option value="none">无</option>
         </Select>
-        <FormHelperText>Default: All events signatures are checked</FormHelperText>
-        <FormHelperText>WebAssembly: Events signatures are checked in a separate thread</FormHelperText>
-        <FormHelperText>None: Only Profiles, Follows, and replaceable event signatures are checked</FormHelperText>
+        <FormHelperText>默认: 所有事件签名都会被检查</FormHelperText>
+        <FormHelperText>WebAssembly: 在独立线程中检查事件签名</FormHelperText>
+        <FormHelperText>无: 仅用户资料, 追随者和可替换参数事件的签名才会被检查</FormHelperText>
       </FormControl>
     </>
   );
@@ -50,24 +50,24 @@ export default function PerformanceSettings() {
 
   return (
     <VerticalPageLayout as="form" onSubmit={submit} flex={1}>
-      <Heading size="md">Performance Settings</Heading>
+      <Heading size="md">性能设置</Heading>
       <Flex direction="column" gap="4">
         <FormControl>
           <Flex alignItems="center">
             <FormLabel htmlFor="proxy-user-media" mb="0">
-              Proxy user media
+              代理用户资料图片
             </FormLabel>
             <Switch id="proxy-user-media" {...register("proxyUserMedia")} />
           </Flex>
           <FormHelperText>
-            <span>Enabled: Use media.nostr.band to get smaller profile pictures (saves ~50Mb of data)</span>
+            <span>启用: 使用 media.nostr.band 去获取最小的用户资料图片 (节约大约 50Mb 数据)</span>
             <br />
-            <span>Side Effect: Some user pictures may not load or may be outdated</span>
+            <span>副作用: 一些用户资料图片可能已经过时或者直接无法加载</span>
           </FormHelperText>
         </FormControl>
         <FormControl>
           <FormLabel htmlFor="imageProxy" mb="0">
-            Image proxy service
+            图片代理服务
           </FormLabel>
           <Input
             id="imageProxy"
@@ -80,35 +80,36 @@ export default function PerformanceSettings() {
           {formState.errors.imageProxy && <FormErrorMessage>{formState.errors.imageProxy.message}</FormErrorMessage>}
           <FormHelperText>
             <span>
-              A URL to an instance of{" "}
+              一个{" "}
               <Link href="https://github.com/willnorris/imageproxy" isExternal target="_blank">
                 willnorris/imageproxy
-              </Link>
+              </Link>{" "}
+              实例的 URL
             </span>
           </FormHelperText>
         </FormControl>
         <FormControl>
           <Flex alignItems="center">
             <FormLabel htmlFor="autoShowMedia" mb="0">
-              Show embeds
+              显示嵌入
             </FormLabel>
             <Switch id="autoShowMedia" {...register("autoShowMedia")} />
           </Flex>
-          <FormHelperText>Disabled: Embeds will show an expandable button</FormHelperText>
+          <FormHelperText>禁用: 嵌入的内容会显示一个展开按钮</FormHelperText>
         </FormControl>
         <FormControl>
           <Flex alignItems="center">
             <FormLabel htmlFor="showReactions" mb="0">
-              Show reactions
+              显示回应
             </FormLabel>
             <Switch id="showReactions" {...register("showReactions")} />
           </Flex>
-          <FormHelperText>Enabled: Show reactions on notes</FormHelperText>
+          <FormHelperText>启用: 显示笔记的表情回应</FormHelperText>
         </FormControl>
         <FormControl>
           <Flex alignItems="center">
             <FormLabel htmlFor="enableKeyboardShortcuts" mb="0">
-              Enable keyboard shortcuts
+              启用键盘快捷键
             </FormLabel>
             <Switch
               id="enableKeyboardShortcuts"
@@ -120,11 +121,11 @@ export default function PerformanceSettings() {
         <FormControl>
           <Flex alignItems="center">
             <FormLabel htmlFor="autoDecryptDMs" mb="0">
-              Automatically decrypt DMs
+              自动解密私信
             </FormLabel>
             <Switch id="autoDecryptDMs" {...register("autoDecryptDMs")} />
           </Flex>
-          <FormHelperText>Enabled: automatically decrypt direct messages</FormHelperText>
+          <FormHelperText>启用: 自动解密私聊消息</FormHelperText>
         </FormControl>
         <VerifyEventSettings />
         <Button
@@ -134,7 +135,7 @@ export default function PerformanceSettings() {
           colorScheme="primary"
           type="submit"
         >
-          Save Settings
+          保存设置
         </Button>
       </Flex>
     </VerticalPageLayout>

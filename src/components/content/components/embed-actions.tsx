@@ -28,10 +28,10 @@ export default function EmbedActions({
       <Button onClick={() => onToggle(!open)}>
         [ {label} {open ? <ChevronDownIcon /> : <ChevronUpIcon />} ]
       </Button>
-      {navigator.clipboard && url && <Button onClick={copy}>{copied ? "[ Copied ]" : "[ Copy ]"}</Button>}
+      {navigator.clipboard && url && <Button onClick={copy}>{copied ? "[ 已复制 ]" : "[ 复制 ]"}</Button>}
       {open && url && (
         <Button as={Link} href={url.toString()} isExternal>
-          [ Open ]
+          [ 打开 ]
         </Button>
       )}
       {children}

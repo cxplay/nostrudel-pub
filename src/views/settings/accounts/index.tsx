@@ -35,7 +35,7 @@ export default function AccountSettings() {
   return (
     <VerticalPageLayout flex={1}>
       <Flex gap="2" alignItems="center">
-        <Heading size="md">Account Settings</Heading>
+        <Heading size="md">账户设置</Heading>
         <Button
           variant="outline"
           colorScheme="primary"
@@ -46,7 +46,7 @@ export default function AccountSettings() {
             navigate("/signin", { state: { from: location.pathname } });
           }}
         >
-          Add Account
+          添加账户
         </Button>
       </Flex>
 
@@ -61,7 +61,7 @@ export default function AccountSettings() {
         <AccountTypeBadge account={account} ml="4" />
 
         <Button onClick={() => accountService.logout()} ml="auto">
-          Logout
+          注销
         </Button>
       </Flex>
 
@@ -70,7 +70,7 @@ export default function AccountSettings() {
       <Flex gap="2" px="4" alignItems="Center" mt="4">
         <Divider />
         <Text fontWeight="bold" fontSize="md" whiteSpace="pre">
-          Other Accounts
+          其他账户
         </Text>
         <Divider />
       </Flex>

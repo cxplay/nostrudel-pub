@@ -56,10 +56,10 @@ function RelayEntry({
           colorScheme={isDefault ? "primary" : undefined}
           isDisabled={isDefault}
         >
-          Default
+          默认
         </Button>
         <IconButton
-          aria-label="Remove Relay"
+          aria-label="删除中继"
           icon={<CloseIcon />}
           colorScheme="red"
           onClick={() => onRemove()}
@@ -90,7 +90,7 @@ export default function SearchRelaysView() {
   const addRelay = async (url: string) => {
     try {
       const draft = listAddRelay(searchRelayList || emptySearchRelayList(), url);
-      await publish("Add search relay", draft);
+      await publish("添加搜索中继", draft);
     } catch (error) {
       if (error instanceof Error) toast({ status: "error", description: error.message });
     }
@@ -100,7 +100,7 @@ export default function SearchRelaysView() {
     try {
       const draft = searchRelayList ? cloneList(searchRelayList) : emptySearchRelayList();
       draft.tags = Array.from(draft.tags).sort((a, b) => (a[1] === url ? -1 : 1));
-      await publish("Set default search relay", draft);
+      await publish("设置默认搜索中继", draft);
     } catch (error) {
       if (error instanceof Error) toast({ status: "error", description: error.message });
     }
@@ -109,7 +109,7 @@ export default function SearchRelaysView() {
   const removeRelay = async (url: string) => {
     try {
       const draft = listRemoveRelay(searchRelayList || emptySearchRelayList(), url);
-      await publish("Remove search relay", draft);
+      await publish("删除搜索中继", draft);
     } catch (error) {
       if (error instanceof Error) toast({ status: "error", description: error.message });
     }
@@ -120,11 +120,11 @@ export default function SearchRelaysView() {
       <Flex gap="2" alignItems="center">
         <BackButton hideFrom="lg" size="sm" />
         <Heading size="lg" px={{ base: 0, lg: "2" }}>
-          Search Relays
+          搜索设置
         </Heading>
       </Flex>
       <Text fontStyle="italic" px="2" mt="-2">
-        These relays are used to search for users and content
+        这些中继用于检索用户和内容
       </Text>
 
       {searchRelays.length === 0 && (
@@ -139,13 +139,13 @@ export default function SearchRelaysView() {
         >
           <AlertIcon boxSize="40px" mr={0} />
           <AlertTitle mt={4} mb={1} fontSize="lg">
-            No search relays set
+            没有设置搜索中继
           </AlertTitle>
           <AlertDescription maxWidth="sm">
-            You need to set at least one search relay to be able to use search
+            你需要设置至少一个搜索中继才能使用搜索功能
           </AlertDescription>
           <Button mt="2" onClick={() => addRelay("wss://relay.nostr.band/")}>
-            Use nostr.band relay
+            使用 nostr.band 作为搜索中继
           </Button>
         </Alert>
       )}

@@ -18,25 +18,25 @@ export default function LightningSettings() {
 
   return (
     <VerticalPageLayout as="form" onSubmit={submit} flex={1}>
-      <Heading size="md">Lightning Settings</Heading>
+      <Heading size="md">闪电网络设置</Heading>
       <Flex direction="column" gap="4">
         <BitcoinConnectButton />
         <FormControl>
           <Flex alignItems="center">
             <FormLabel htmlFor="autoPayWithWebLN" mb="0">
-              Auto pay with WebLN
+              使用 WebLN 自动支付
             </FormLabel>
             <Switch id="autoPayWithWebLN" {...register("autoPayWithWebLN")} />
           </Flex>
 
           <FormHelperText>
-            <span>Enabled: Attempt to automatically pay with WebLN if its available</span>
+            <span>启用: 当可用时尝试使用 WebLN 自动付款</span>
           </FormHelperText>
         </FormControl>
 
         <FormControl>
           <FormLabel htmlFor="customZapAmounts" mb="0">
-            Zap Amounts
+            打闪金额
           </FormLabel>
           <Input
             id="customZapAmounts"
@@ -44,7 +44,7 @@ export default function LightningSettings() {
             autoComplete="off"
             {...register("customZapAmounts", {
               validate: (v) => {
-                if (!/^[\d,]*$/.test(v)) return "Must be a list of comma separated numbers";
+                if (!/^[\d,]*$/.test(v)) return "必须是逗号分隔的数字列表";
                 return true;
               },
             })}
@@ -53,7 +53,7 @@ export default function LightningSettings() {
             <FormErrorMessage>{formState.errors.customZapAmounts.message}</FormErrorMessage>
           )}
           <FormHelperText>
-            <span>Comma separated list of custom zap amounts</span>
+            <span>以逗号分隔的自定义打闪金额列表</span>
           </FormHelperText>
         </FormControl>
       </Flex>
@@ -64,7 +64,7 @@ export default function LightningSettings() {
         colorScheme="primary"
         type="submit"
       >
-        Save Settings
+        保存设置
       </Button>
     </VerticalPageLayout>
   );

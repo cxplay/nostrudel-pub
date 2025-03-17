@@ -54,7 +54,7 @@ function MediaServersPage() {
       ...servers.map((server) => ["server", server.toString()]),
       ["server", server],
     ];
-    await publish("Add media server", draft);
+    await publish("添加媒体服务器", draft);
   };
   const removeServer = async (server: string) => {
     const draft = cloneEvent(USER_BLOSSOM_SERVER_LIST_KIND, event);
@@ -62,7 +62,7 @@ function MediaServersPage() {
       ...draft.tags.filter((t) => !isServerTag(t)),
       ...servers.filter((s) => !areServersEqual(s, server)).map((server) => ["server", server.toString()]),
     ];
-    await publish("Remove media server", draft);
+    await publish("删除媒体服务器", draft);
   };
   const makeDefault = async (server: string) => {
     const draft = cloneEvent(USER_BLOSSOM_SERVER_LIST_KIND, event);
@@ -71,7 +71,7 @@ function MediaServersPage() {
       ["server", server.toString()],
       ...servers.filter((s) => !areServersEqual(s, server)).map((server) => ["server", server.toString()]),
     ];
-    await publish("Remove media server", draft);
+    await publish("删除媒体服务器", draft);
   };
 
   const switchToBlossom = useAsyncErrorHandler(async () => {
@@ -85,7 +85,7 @@ function MediaServersPage() {
     const url = new URL(values.server.startsWith("http") ? values.server : "https://" + values.server).toString();
 
     if (event?.tags.some((t) => isServerTag(t) && areServersEqual(t[1], url)))
-      return toast({ status: "error", description: "Server already in list" });
+      return toast({ status: "error", description: "服务器已经在列表中" });
 
     try {
       // test server
@@ -94,7 +94,7 @@ function MediaServersPage() {
       setConfirmServer(url);
       reset();
     } catch (error) {
-      toast({ status: "error", description: "Cant reach server" });
+      toast({ status: "error", description: "服务器无法连接" });
     }
   });
 
@@ -111,7 +111,7 @@ function MediaServersPage() {
       <Flex gap="2" alignItems="center">
         <BackButton hideFrom="lg" size="sm" />
         <Heading size="lg" mt="2">
-          Media Servers
+          媒体服务器
         </Heading>
         {event && <DebugEventButton event={event} size="sm" ml="auto" />}
       </Flex>
@@ -119,20 +119,20 @@ function MediaServersPage() {
         <Link href="https://github.com/hzrd149/blossom" target="_blank" color="blue.500">
           Blossom
         </Link>{" "}
-        media servers are used to host your images and videos when making a post
+        媒体服务器用于发帖时托管你上传的图片和视频等多媒体资源
       </Text>
 
       {mediaUploadService !== "blossom" && (
         <Alert status="info">
           <AlertIcon />
           <Box>
-            <AlertTitle>Blossom not selected</AlertTitle>
+            <AlertTitle>未选择 Blossom</AlertTitle>
             <AlertDescription>
-              These servers wont be used for anything unless you set "Media upload service" to "Blossom" in the settings
+              除非你在设置中将 "媒体上传服务" 切换为 "Blossom", 否则这些服务器不会用于任何实际用途.
             </AlertDescription>
             <br />
             <Button size="sm" variant="outline" onClick={switchToBlossom}>
-              Switch to Blossom
+              切换为 Blossom
             </Button>
           </Box>
         </Alert>
@@ -150,10 +150,10 @@ function MediaServersPage() {
         >
           <AlertIcon boxSize="40px" mr={0} />
           <AlertTitle mt={4} mb={1} fontSize="lg">
-            No media servers!
+            没有媒体服务器!
           </AlertTitle>
           <AlertDescription maxWidth="sm">
-            You need to add at least one media server in order to upload images and videos
+            你需要添加至少一个媒体服务器用于上传图片和视频
           </AlertDescription>
           <Divider maxW="96" w="full" my="2" />
           <Button onClick={() => setConfirmServer("https://cdn.satellite.earth/")}>Add cdn.satellite.earth</Button>
@@ -184,7 +184,7 @@ function MediaServersPage() {
               onClick={() => makeDefault(server.toString())}
               isDisabled={i === 0}
             >
-              Default
+              默认
             </Button>
             <CloseButton onClick={() => removeServer(server.toString())} />
           </Flex>
@@ -199,7 +199,7 @@ function MediaServersPage() {
           <Flex as="form" onSubmit={submit} gap="2">
             <Input {...register("server", { required: true })} required placeholder="https://cdn.satellite.earth" />
             <Button type="submit" colorScheme="primary">
-              Add
+              添加
             </Button>
           </Flex>
         </>

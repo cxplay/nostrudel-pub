@@ -29,36 +29,36 @@ export default function RelaysView() {
     const nav = (
       <Flex gap="2" direction="column" minW="60" overflowY="auto" overflowX="hidden" w={vertical ? "full" : undefined}>
         <SimpleNavItem to="/relays/app" leftIcon={<RelayIcon boxSize={6} />}>
-          App Relays
+          应用中继
         </SimpleNavItem>
         <SimpleNavItem to="/relays/cache" leftIcon={<Database01 boxSize={6} />}>
-          Cache Relay
+          缓存中继
         </SimpleNavItem>
         {account && (
           <>
             <SimpleNavItem to="/relays/mailboxes" leftIcon={<Mail02 boxSize={6} />}>
-              Mailboxes
+              信箱中继
             </SimpleNavItem>
             <SimpleNavItem to="/relays/media-servers" leftIcon={<Image01 boxSize={6} />}>
-              Media Servers
+              媒体服务器
             </SimpleNavItem>
             <SimpleNavItem to="/relays/search" leftIcon={<SearchIcon boxSize={6} />}>
-              Search Relays
+              搜索中继
             </SimpleNavItem>
           </>
         )}
         <SimpleNavItem to="/relays/webrtc" leftIcon={<Server05 boxSize={6} />}>
-          WebRTC Relays
+          ebRTC 中继
         </SimpleNavItem>
         {nip05?.exists && (
           <SimpleNavItem to="/relays/nip05" leftIcon={<AtIcon boxSize={6} />}>
-            NIP-05 Relays
+            NIP-05 中继
           </SimpleNavItem>
         )}
         {account && (
           <>
             <SimpleNavItem to="/relays/contacts" leftIcon={<UserSquare boxSize={6} />}>
-              Contact List Relays
+              通讯录中继
             </SimpleNavItem>
           </>
         )}

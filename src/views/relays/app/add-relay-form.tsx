@@ -35,7 +35,7 @@ export default function AddRelayForm({
     <Flex as="form" display="flex" gap="2" onSubmit={submit} {...props}>
       <RelayUrlInput {...register("url")} placeholder="wss://relay.example.com" nips={supportedNips} />
       <Button type="submit" colorScheme="primary">
-        Add
+        添加
       </Button>
     </Flex>
   );

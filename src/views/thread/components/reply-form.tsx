@@ -69,7 +69,7 @@ export default function ReplyForm({ item, onCancel, onSubmitted, replyKind = kin
   return (
     <Flex as="form" direction="column" gap="2" pb="4" onSubmit={submit} ref={formRef}>
       <MagicTextArea
-        placeholder="Reply"
+        placeholder="回复"
         autoFocus
         mb="2"
         rows={4}
@@ -83,8 +83,8 @@ export default function ReplyForm({ item, onCancel, onSubmitted, replyKind = kin
         }}
       />
       <Flex gap="2" alignItems="center">
-        <InsertImageButton onUploaded={insertText} size="sm" aria-label="Upload image" />
-        <InsertGifButton onSelectURL={insertText} aria-label="Add gif" size="sm" />
+        <InsertImageButton onUploaded={insertText} size="sm" aria-label="上传图片" />
+        <InsertGifButton onSelectURL={insertText} aria-label="添加 GIF" size="sm" />
         <ButtonGroup size="sm" ml="auto">
           {onCancel && <Button onClick={onCancel}>Cancel</Button>}
           <Button type="submit" colorScheme="primary" size="sm">

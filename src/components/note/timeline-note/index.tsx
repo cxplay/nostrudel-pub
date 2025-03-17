@@ -128,7 +128,7 @@ export function TimelineNote({
             <Flex gap="2" w="full" alignItems="center">
               <ButtonGroup size="sm" variant="ghost" isDisabled={account?.readonly ?? true}>
                 {showReplyButton && (
-                  <IconButton icon={<ReplyIcon />} aria-label="Reply" title="Reply" onClick={replyForm.onOpen} />
+                  <IconButton icon={<ReplyIcon />} aria-label="回复" title="回复" onClick={replyForm.onOpen} />
                 )}
                 <RepostButton event={event} />
                 <QuoteEventButton event={event} />
@@ -138,8 +138,8 @@ export function TimelineNote({
               <Box flexGrow={1} />
               <ButtonGroup size="sm" variant="ghost">
                 <NoteProxyLink event={event} />
-                <BookmarkEventButton event={event} aria-label="Bookmark note" />
-                <NoteMenu event={event} aria-label="More Options" />
+                <BookmarkEventButton event={event} aria-label="收藏笔记" />
+                <NoteMenu event={event} aria-label="更多选项" />
               </ButtonGroup>
             </Flex>
           </CardFooter>
