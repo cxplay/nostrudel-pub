@@ -39,12 +39,15 @@ export const DEFAULT_ICE_SERVERS: RTCIceServer[] = [
 ];
 
 export const RECOMMENDED_READ_RELAYS = normalizeRelayURLs([
+  "wss://relay.cxplay.org/",
+  "wss://ditto.pub/relay",
+  "wss://nostr-relay.app/",
   "wss://relay.damus.io/",
-  "wss://nostr.wine/",
-  "wss://relay.snort.social/",
-  "wss://nos.lol/",
-  "wss://purplerelay.com/",
-  "wss://nostr.land/",
+  "wss://relay.momostr.pink/",
+  "wss://relay.mostr.pub/",
+  "wss://relay.nostr.band/",
+  "wss://relay.westernbtc.com/",
+  "wss://us.nostr.wine/"
 ]);
 export const RECOMMENDED_WRITE_RELAYS = normalizeRelayURLs([
   "wss://relay.damus.io/",
