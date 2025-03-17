@@ -24,6 +24,7 @@ import {
 import { ChevronLeftIcon } from "@chakra-ui/icons";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
+import { getCoordinateFromAddressPointer } from "applesauce-core/helpers";
 
 import {
   DVM_CONTENT_DISCOVERY_JOB_KIND,
@@ -37,8 +38,8 @@ import { DraftNostrEvent } from "../../../types/nostr-event";
 import VerticalPageLayout from "../../../components/vertical-page-layout";
 import useTimelineLoader from "../../../hooks/use-timeline-loader";
 import { useReadRelays } from "../../../hooks/use-client-relays";
-import useCurrentAccount from "../../../hooks/use-current-account";
-import RequireCurrentAccount from "../../../providers/route/require-current-account";
+import { useActiveAccount } from "applesauce-react/hooks";
+import RequireActiveAccount from "../../../components/router/require-active-account";
 import { CodeIcon } from "../../../components/icons";
 import DebugChains from "./components/debug-chains";
 import Feed from "./components/feed";
@@ -47,28 +48,23 @@ import useParamsAddressPointer from "../../../hooks/use-params-address-pointer";
 import DVMParams from "./components/dvm-params";
 import { useUserOutbox } from "../../../hooks/use-user-mailboxes";
 import { usePublishEvent } from "../../../providers/global/publish-provider";
-import { getHumanReadableCoordinate } from "../../../services/replaceable-event-loader";
 import Timestamp from "../../../components/timestamp";
 
 function DVMFeedPage({ pointer }: { pointer: AddressPointer }) {
   const [since] = useState(() => dayjs().subtract(1, "day").unix());
   const publish = usePublishEvent();
   const navigate = useNavigate();
-  const account = useCurrentAccount()!;
+  const account = useActiveAccount()!;
   const debugModal = useDisclosure();
 
   const dvmRelays = useUserOutbox(pointer.pubkey);
   const readRelays = useReadRelays(dvmRelays);
-  const { loader, timeline } = useTimelineLoader(
-    `${getHumanReadableCoordinate(pointer.kind, pointer.pubkey, pointer.identifier)}-jobs`,
-    readRelays,
-    {
-      authors: [account.pubkey, pointer.pubkey],
-      "#p": [account.pubkey, pointer.pubkey],
-      kinds: [DVM_CONTENT_DISCOVERY_JOB_KIND, DVM_CONTENT_DISCOVERY_RESULT_KIND, DVM_STATUS_KIND],
-      since,
-    },
-  );
+  const { loader, timeline } = useTimelineLoader(`${getCoordinateFromAddressPointer(pointer)}-jobs`, readRelays, {
+    authors: [account.pubkey, pointer.pubkey],
+    "#p": [account.pubkey, pointer.pubkey],
+    kinds: [DVM_CONTENT_DISCOVERY_JOB_KIND, DVM_CONTENT_DISCOVERY_RESULT_KIND, DVM_STATUS_KIND],
+    since,
+  });
 
   const jobs = groupEventsIntoJobs(timeline);
   const pages = chainJobs(Array.from(Object.values(jobs)));
@@ -178,8 +174,8 @@ export default function DVMFeedView() {
   const pointer = useParamsAddressPointer("addr");
 
   return (
-    <RequireCurrentAccount>
+    <RequireActiveAccount>
       <DVMFeedPage pointer={pointer} />
-    </RequireCurrentAccount>
+    </RequireActiveAccount>
   );
 }

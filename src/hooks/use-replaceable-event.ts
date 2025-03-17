@@ -3,7 +3,7 @@ import { useStoreQuery } from "applesauce-react/hooks";
 import { ReplaceableQuery } from "applesauce-core/queries";
 
 import { useReadRelays } from "./use-client-relays";
-import replaceableEventLoader from "../services/replaceable-event-loader";
+import replaceableEventLoader from "../services/replaceable-loader";
 import { CustomAddressPointer, parseCoordinate } from "../helpers/nostr/event";
 
 export default function useReplaceableEvent(
@@ -24,7 +24,7 @@ export default function useReplaceableEvent(
       relays: [...readRelays, ...(parsed.relays ?? [])],
       force,
     });
-  }, [parsed, readRelays.urls.join("|"), force]);
+  }, [parsed?.kind, parsed?.pubkey, parsed?.identifier, readRelays.join("|"), force]);
 
   return useStoreQuery(ReplaceableQuery, parsed ? [parsed.kind, parsed.pubkey, parsed.identifier] : undefined);
 }

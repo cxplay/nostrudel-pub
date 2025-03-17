@@ -1,18 +1,25 @@
-import RelaySet from "../classes/relay-set";
-import { safeRelayUrls } from "./relay";
+import { normalizeURL } from "applesauce-core/helpers";
 
 export async function getRelaysFromExt() {
   if (!window.nostr) throw new Error("Missing extension");
-  const read = new RelaySet();
-  const write = new RelaySet();
-  const extRelays = (await window.nostr.getRelays?.()) ?? [];
+  const read = new Set<string>();
+  const write = new Set<string>();
+  const extRelays = (await window.nostr.getRelays?.()) ?? ([] as string[]);
   if (Array.isArray(extRelays)) {
-    const safeUrls = safeRelayUrls(extRelays);
-    read.merge(safeUrls);
-    write.merge(safeUrls);
+    for (const url of extRelays) {
+      read.add(url);
+      write.add(url);
+    }
   } else {
-    read.merge(safeRelayUrls(Object.keys(extRelays).filter((url) => extRelays[url].read)));
-    write.merge(safeRelayUrls(Object.keys(extRelays).filter((url) => extRelays[url].write)));
+    const readUrls = Object.keys(extRelays)
+      .filter((url) => extRelays[url].read)
+      .map(normalizeURL);
+    for (const url of readUrls) read.add(url);
+
+    const writeUrls = Object.keys(extRelays)
+      .filter((url) => extRelays[url].write)
+      .map(normalizeURL);
+    for (const url of writeUrls) write.add(url);
   }
 
   return { read, write };

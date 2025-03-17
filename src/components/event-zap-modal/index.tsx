@@ -10,8 +10,8 @@ import {
 } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import { kinds } from "nostr-tools";
-import { getValue } from "applesauce-core/observable";
-import { getInboxes, getInvoice, getOutboxes, safeRelayUrls } from "applesauce-core/helpers";
+import { getObservableValue } from "applesauce-core/observable";
+import { getInboxes, getInvoice, getOutboxes, mergeRelaySets } from "applesauce-core/helpers";
 import { getZapSplits } from "applesauce-core/helpers/zap";
 
 import { DraftNostrEvent, NostrEvent, isDTag } from "../../types/nostr-event";
@@ -22,11 +22,11 @@ import { EmbedProps } from "../embed-event";
 import InputStep from "./input-step";
 import lnurlMetadataService from "../../services/lnurl-metadata";
 import signingService from "../../services/signing";
-import accountService from "../../services/account";
 import PayStep from "./pay-step";
 import UserLink from "../user/user-link";
 import { getEventRelayHints } from "../../services/relay-hints";
 import { eventStore, queryStore } from "../../services/event-store";
+import accounts from "../../services/accounts";
 
 export type PayRequest = { invoice?: string; pubkey: string; error?: any };
 
@@ -48,7 +48,7 @@ export async function getPayRequestForPubkey(
   comment?: string,
   additionalRelays?: Iterable<string>,
 ): Promise<PayRequest> {
-  const metadata = await getValue(queryStore.profile(pubkey));
+  const metadata = await getObservableValue(queryStore.profile(pubkey));
   if (!metadata) throw new Error("Cant find user metadata");
   const address = metadata?.lud16 || metadata?.lud06;
   if (!address) throw new Error("User missing lightning address");
@@ -71,7 +71,7 @@ export async function getPayRequestForPubkey(
     return { invoice, pubkey };
   }
 
-  const account = accountService.current.value;
+  const account = accounts.active;
 
   const mailboxes = eventStore.getReplaceable(kinds.RelayList, pubkey);
   const userInbox = mailboxes ? getInboxes(mailboxes).slice(0, 4) : [];
@@ -89,7 +89,7 @@ export async function getPayRequestForPubkey(
     content: comment ?? "",
     tags: [
       ["p", pubkey],
-      ["relays", ...unique(safeRelayUrls([...userInbox, ...eventRelays, ...outbox, ...additional]))],
+      ["relays", ...mergeRelaySets(userInbox, eventRelays, outbox, additional)],
       ["amount", String(amount)],
     ],
   };

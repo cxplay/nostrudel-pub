@@ -1,9 +1,8 @@
 import { useAsync } from "react-use";
-import { Box, Button, ButtonGroup, Card, CardProps, Heading, IconButton, Link, Spinner, Text } from "@chakra-ui/react";
+import { Box, ButtonGroup, Card, CardProps, Heading, IconButton, Link, Spinner, Text } from "@chakra-ui/react";
 import { Token, getEncodedToken, CheckStateEnum } from "@cashu/cashu-ts";
 
 import { CopyIconButton } from "../copy-icon-button";
-import useCurrentAccount from "../../hooks/use-current-account";
 import { ECashIcon, WalletIcon } from "../icons";
 import CurrencyDollar from "../icons/currency-dollar";
 import CurrencyEthereum from "../icons/currency-ethereum";
@@ -11,7 +10,7 @@ import CurrencyEuro from "../icons/currency-euro";
 import CurrencyYen from "../icons/currency-yen";
 import CurrencyPound from "../icons/currency-pound";
 import CurrencyBitcoin from "../icons/currency-bitcoin";
-import { getMintWallet } from "../../services/cashu-mints";
+import { getCashuWallet } from "../../services/cashu-mints";
 
 export default function InlineCachuCard({
   token,
@@ -21,7 +20,7 @@ export default function InlineCachuCard({
   encoded = encoded || getEncodedToken(token);
   const { value: spendable, loading } = useAsync(async () => {
     if (!token) return;
-    const wallet = await getMintWallet(token.mint);
+    const wallet = await getCashuWallet(token.mint);
     const status = await wallet.checkProofsStates(token.proofs);
     return status.some((s) => s.state !== CheckStateEnum.UNSPENT);
   }, [token]);

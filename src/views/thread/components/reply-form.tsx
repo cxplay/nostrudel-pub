@@ -1,5 +1,5 @@
 import { useMemo, useRef } from "react";
-import { Box, Button, ButtonGroup, Flex } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Flex, Input, Switch, useDisclosure } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useAsync, useThrottle } from "react-use";
 import { kinds } from "nostr-tools";
@@ -17,6 +17,8 @@ import useCacheForm from "../../../hooks/use-cache-form";
 import useTextAreaUploadFile, { useTextAreaInsertTextWithForm } from "../../../hooks/use-textarea-upload-file";
 import InsertGifButton from "../../../components/gif/insert-gif-button";
 import InsertImageButton from "../../new/note/insert-image-button";
+import InsertReactionButton from "../../../components/reactions/insert-reaction-button";
+import { ChevronDownIcon, ChevronUpIcon } from "../../../components/icons";
 
 export type ReplyFormProps = {
   item: ThreadItem;
@@ -29,16 +31,24 @@ export default function ReplyForm({ item, onCancel, onSubmitted, replyKind = kin
   const publish = usePublishEvent();
   const factory = useEventFactory();
   const emojis = useContextEmojis();
+  const advanced = useDisclosure();
   const customEmojis = useMemo(() => emojis.filter((e) => !!e.url) as Emoji[], [emojis]);
 
-  const { setValue, getValues, watch, handleSubmit, formState, reset } = useForm({
+  const { setValue, getValues, watch, handleSubmit, formState, reset, register } = useForm({
     defaultValues: {
       content: "",
+      nsfw: false,
+      nsfwReason: "",
     },
     mode: "all",
   });
 
-  const clearCache = useCacheForm<{ content: string }>(`reply-${item.event.id}`, getValues, reset, formState);
+  const clearCache = useCacheForm<{ content: string; nsfw: boolean; nsfwReason: string }>(
+    `reply-${item.event.id}`,
+    getValues,
+    reset,
+    formState,
+  );
 
   watch("content");
 
@@ -49,6 +59,7 @@ export default function ReplyForm({ item, onCancel, onSubmitted, replyKind = kin
   const submit = handleSubmit(async (values) => {
     const draft = await factory.noteReply(item.event, values.content, {
       emojis: customEmojis,
+      contentWarning: values.nsfw ? values.nsfwReason || values.nsfw : false,
     });
 
     const pub = await publish("Reply", draft);
@@ -65,6 +76,8 @@ export default function ReplyForm({ item, onCancel, onSubmitted, replyKind = kin
     () => factory.noteReply(item.event, throttleValues.content, { emojis: customEmojis }),
     [throttleValues, customEmojis],
   );
+
+  const showAdvanced = advanced.isOpen || formState.dirtyFields.nsfw;
 
   return (
     <Flex as="form" direction="column" gap="2" pb="4" onSubmit={submit} ref={formRef}>
@@ -83,8 +96,18 @@ export default function ReplyForm({ item, onCancel, onSubmitted, replyKind = kin
         }}
       />
       <Flex gap="2" alignItems="center">
-        <InsertImageButton onUploaded={insertText} size="sm" aria-label="Upload image" />
-        <InsertGifButton onSelectURL={insertText} aria-label="Add gif" size="sm" />
+        <ButtonGroup size="sm">
+          <InsertImageButton onUploaded={insertText} aria-label="Upload image" />
+          <InsertGifButton onSelectURL={insertText} aria-label="Add gif" />
+          <InsertReactionButton onSelect={insertText} aria-label="Add emoji" />
+          <Button
+            variant="link"
+            rightIcon={advanced.isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
+            onClick={advanced.onToggle}
+          >
+            More
+          </Button>
+        </ButtonGroup>
         <ButtonGroup size="sm" ml="auto">
           {onCancel && <Button onClick={onCancel}>Cancel</Button>}
           <Button type="submit" colorScheme="primary" size="sm">
@@ -92,6 +115,19 @@ export default function ReplyForm({ item, onCancel, onSubmitted, replyKind = kin
           </Button>
         </ButtonGroup>
       </Flex>
+
+      {showAdvanced && (
+        <Flex direction={{ base: "column", lg: "row" }} gap="4">
+          <Flex direction="column" gap="2" flex={1}>
+            <Flex gap="2" direction="column">
+              <Switch {...register("nsfw")}>NSFW</Switch>
+              {getValues().nsfw && (
+                <Input {...register("nsfwReason", { required: true })} placeholder="Reason" isRequired />
+              )}
+            </Flex>
+          </Flex>
+        </Flex>
+      )}
       {preview && preview.content.length > 0 && (
         <Box p="2" borderWidth={1} borderRadius="md" mb="2">
           <TrustProvider trust>

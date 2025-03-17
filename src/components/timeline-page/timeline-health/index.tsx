@@ -15,10 +15,10 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import { getSeenRelays } from "applesauce-core/helpers";
+import { TimelineLoader } from "applesauce-loaders";
 
-import TimelineLoader from "../../../classes/timeline-loader";
 import { NostrEvent } from "../../../types/nostr-event";
-import { RelayFavicon } from "../../relay-favicon";
+import RelayFavicon from "../../relay-favicon";
 import { NoteLink } from "../../note/note-link";
 import { BroadcastEventIcon } from "../../icons";
 import Timestamp from "../../timestamp";
@@ -70,8 +70,8 @@ function EventRow({
   );
 }
 
-export default function TimelineHealth({ timeline, loader }: { loader: TimelineLoader; timeline: NostrEvent[] }) {
-  const relays = loader.relays.map((r) => r.url);
+export default function TimelineHealth({ timeline, loader }: { loader?: TimelineLoader; timeline: NostrEvent[] }) {
+  const relays = loader && loader.requests ? Object.keys(loader.requests) : [];
 
   return (
     <>

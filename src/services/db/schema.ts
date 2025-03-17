@@ -1,3 +1,6 @@
+import { SerializedAccount } from "applesauce-accounts";
+import { Identity } from "applesauce-loaders/helpers/dns-identity";
+
 import { NostrEvent } from "../../types/nostr-event";
 import { AppSettings } from "../../helpers/app-settings";
 
@@ -116,7 +119,7 @@ export interface SchemaV6 extends SchemaV5 {
   };
 }
 
-type Account = {
+type AccountV7 = {
   type: string;
   pubkey: string;
   relays?: string[];
@@ -133,7 +136,7 @@ type Account = {
 export interface SchemaV7 extends Omit<SchemaV6, "accounts"> {
   accounts: {
     key: string;
-    value: Account;
+    value: AccountV7;
   };
 }
 
@@ -152,3 +155,16 @@ export interface SchemaV9 extends SchemaV8 {
 }
 
 export interface SchemaV10 extends Omit<SchemaV9, "channelMetadata"> {}
+
+export interface SchemaV11 extends Omit<SchemaV10, "accounts"> {
+  accounts: {
+    key: string;
+    value: SerializedAccount<any, { settings?: AppSettings }>;
+  };
+}
+export interface SchemaV12 extends Omit<SchemaV11, "dnsIdentifiers"> {
+  identities: {
+    key: string;
+    value: Identity;
+  };
+}

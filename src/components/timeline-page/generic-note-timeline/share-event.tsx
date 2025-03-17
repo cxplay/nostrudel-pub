@@ -1,5 +1,6 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { Flex, Heading, Text } from "@chakra-ui/react";
+import { parseSharedEvent } from "applesauce-core/helpers/share";
 import { kinds, nip18 } from "nostr-tools";
 
 import { NostrEvent } from "../../../types/nostr-event";
@@ -11,14 +12,18 @@ import { TrustProvider } from "../../../providers/local/trust-provider";
 import useSingleEvent from "../../../hooks/use-single-event";
 import { EmbedEvent } from "../../embed-event";
 import useUserMuteFilter from "../../../hooks/use-user-mute-filter";
-import { parseHardcodedNoteContent } from "../../../helpers/nostr/event";
 import LoadingNostrLink from "../../loading-nostr-link";
 import NoteMenu from "../../note/note-menu";
 import useEventIntersectionRef from "../../../hooks/use-event-intersection-ref";
+import { eventStore } from "../../../services/event-store";
 
 function ShareEvent({ event }: { event: NostrEvent }) {
   const muteFilter = useUserMuteFilter();
-  const hardCodedNote = parseHardcodedNoteContent(event);
+  const hardCodedNote = parseSharedEvent(event);
+
+  useEffect(() => {
+    if (hardCodedNote) eventStore.add(hardCodedNote);
+  }, [hardCodedNote]);
 
   const pointer = nip18.getRepostedEventPointer(event);
   const loadedNote = useSingleEvent(pointer?.id, pointer?.relays);
@@ -38,7 +43,7 @@ function ShareEvent({ event }: { event: NostrEvent }) {
           </Heading>
           <UserDnsIdentity pubkey={event.pubkey} onlyIcon />
           <Text as="span">Shared</Text>
-          <NoteMenu event={event} size="sm" variant="link" aria-label="note options" ml="auto" />
+          <NoteMenu event={event} size="sm" variant="ghost" aria-label="note options" ml="auto" />
         </Flex>
         {!note ? (
           <LoadingNostrLink link={{ type: "nevent", data: pointer }} />

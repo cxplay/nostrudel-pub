@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { EventTemplate } from "nostr-tools";
 import { Button, ButtonGroup, Flex, FlexProps, Heading } from "@chakra-ui/react";
 import { useEventFactory } from "applesauce-react/hooks";
-import { ChannelMessageBlueprint, ChannelMessageReplyBlueprint } from "applesauce-channel/blueprints";
 import { Emoji } from "applesauce-core/helpers";
 
 import MagicTextArea, { RefType } from "../../../components/magic-textarea";
@@ -13,6 +12,8 @@ import { useContextEmojis } from "../../../providers/global/emoji-provider";
 import { usePublishEvent } from "../../../providers/global/publish-provider";
 import InsertGifButton from "../../../components/gif/insert-gif-button";
 import InsertImageButton from "../../new/note/insert-image-button";
+import InsertReactionButton from "../../../components/reactions/insert-reaction-button";
+import { ChannelMessageBlueprint, ChannelMessageReplyBlueprint } from "applesauce-factory/blueprints";
 
 export default function ChannelMessageForm({
   channel,
@@ -82,11 +83,12 @@ export default function ChannelMessageForm({
             }}
           />
           <Flex gap="2" direction="column">
-            <Button type="submit">Send</Button>
             <ButtonGroup size="sm">
               <InsertImageButton onUploaded={insertText} aria-label="Upload image" />
               <InsertGifButton onSelectURL={insertText} aria-label="Add gif" />
+              <InsertReactionButton onSelect={insertText} aria-label="Add emoji" />
             </ButtonGroup>
+            <Button type="submit">Send</Button>
           </Flex>
         </>
       )}

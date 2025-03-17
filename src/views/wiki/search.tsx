@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { Button, Flex, Heading, Input, Link } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { Filter, NostrEvent } from "nostr-tools";
 import { useForm } from "react-hook-form";
-import { Subscription, getEventUID } from "nostr-idb";
+import { getEventUID } from "nostr-idb";
 
 import VerticalPageLayout from "../../components/vertical-page-layout";
 import useRouteSearchValue from "../../hooks/use-route-search-value";
-import { subscribeMany } from "../../helpers/relay";
 import { DEFAULT_SEARCH_RELAYS, WIKI_RELAYS } from "../../const";
 import { WIKI_PAGE_KIND } from "../../helpers/nostr/wiki";
-import { localRelay } from "../../services/local-relay";
 import WikiPageResult from "./components/wiki-page-result";
-import dictionaryService from "../../services/dictionary";
 import { useWebOfTrust } from "../../providers/global/web-of-trust-provider";
+import { eventStore } from "../../services/event-store";
+import { ErrorBoundary } from "../../components/error-boundary";
+import { createSearchAction } from "../search/components/search-results";
 
 export default function WikiSearchView() {
   const webOfTrust = useWebOfTrust();
@@ -27,6 +27,7 @@ export default function WikiSearchView() {
   });
 
   const [results, setResults] = useState<NostrEvent[]>([]);
+  const search = useMemo(() => createSearchAction([...DEFAULT_SEARCH_RELAYS, ...WIKI_RELAYS]), []);
 
   useEffect(() => {
     setResults([]);
@@ -35,23 +36,17 @@ export default function WikiSearchView() {
 
     const seen = new Set<string>();
     const handleEvent = (event: NostrEvent) => {
-      dictionaryService.handleEvent(event);
       if (seen.has(getEventUID(event))) return;
       setResults((arr) => arr.concat(event));
       seen.add(getEventUID(event));
     };
 
-    const remoteSearchSub = subscribeMany([...DEFAULT_SEARCH_RELAYS, ...WIKI_RELAYS], [filter], {
-      onevent: handleEvent,
-      oneose: () => remoteSearchSub.close(),
+    const sub = search([filter]).subscribe((packet) => {
+      eventStore.add(packet.event, packet.from);
+      handleEvent(packet.event);
     });
 
-    if (localRelay) {
-      const localSearchSub: Subscription = localRelay.subscribe([filter], {
-        onevent: handleEvent,
-        oneose: () => localSearchSub.close(),
-      });
-    }
+    return () => sub.unsubscribe();
   }, [query, setResults]);
 
   const sorted = webOfTrust ? webOfTrust.sortByDistanceAndConnections(results, (p) => p.pubkey) : results;
@@ -80,7 +75,9 @@ export default function WikiSearchView() {
         </Flex>
       </Flex>
       {sorted.map((page) => (
-        <WikiPageResult key={page.id} page={page} />
+        <ErrorBoundary key={page.id}>
+          <WikiPageResult page={page} />
+        </ErrorBoundary>
       ))}
     </VerticalPageLayout>
   );

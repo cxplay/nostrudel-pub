@@ -1,27 +1,20 @@
 import { kinds } from "nostr-tools";
-import _throttle from "lodash.throttle";
-import { combineLatest, distinct, filter } from "rxjs";
-import { AbstractRelay } from "nostr-tools/abstract-relay";
+import { IAccount } from "applesauce-accounts";
+import { combineLatest, distinct } from "rxjs";
 import { USER_BLOSSOM_SERVER_LIST_KIND } from "blossom-client-sdk";
-import { isFromCache } from "applesauce-core/helpers";
+import { createRxOneshotReq } from "rx-nostr";
 
 import { COMMON_CONTACT_RELAYS } from "../const";
 import { logger } from "../helpers/debug";
-import accountService from "./account";
-import clientRelaysService from "./client-relays";
-import { offlineMode } from "./offline-mode";
-import replaceableEventLoader from "./replaceable-event-loader";
+import replaceableEventLoader from "./replaceable-loader";
 import { eventStore, queryStore } from "./event-store";
-import { Account } from "../classes/accounts/account";
-import { MultiSubscription } from "applesauce-net/subscription";
-import relayPoolService from "./relay-pool";
-import { localRelay } from "./local-relay";
 import { APP_SETTING_IDENTIFIER, APP_SETTINGS_KIND } from "../helpers/app-settings";
+import accounts from "./accounts";
+import localSettings from "./local-settings";
+import rxNostr from "./rx-nostr";
 
 const log = logger.extend("UserEventSync");
-function downloadEvents(account: Account) {
-  const relays = clientRelaysService.readRelays.value;
-
+function downloadEvents(account: IAccount, relays: string[]) {
   const cleanup: (() => void)[] = [];
 
   const requestReplaceable = (relays: Iterable<string>, kind: number, d?: string) => {
@@ -40,7 +33,7 @@ function downloadEvents(account: Account) {
 
     log("Loading contacts list");
     replaceableEventLoader.next({
-      relays: [...clientRelaysService.readRelays.value, ...COMMON_CONTACT_RELAYS],
+      relays: [...localSettings.readRelays.value, ...COMMON_CONTACT_RELAYS],
       kind: kinds.Contacts,
       pubkey: account.pubkey,
       force: true,
@@ -48,21 +41,15 @@ function downloadEvents(account: Account) {
 
     if (mailboxes?.outboxes && mailboxes.outboxes.length > 0) {
       log(`Loading delete events`);
-      const sub = new MultiSubscription(relayPoolService);
-      sub.setRelays(
-        localRelay
-          ? [...mailboxes.outboxes.map((r) => relayPoolService.requestRelay(r)), localRelay as AbstractRelay]
-          : mailboxes.outboxes,
-      );
-      sub.setFilters([{ kinds: [kinds.EventDeletion], authors: [account.pubkey] }]);
-
-      sub.open();
-      sub.onEvent.subscribe((e) => {
-        eventStore.add(e);
-        if (!isFromCache(e) && localRelay) localRelay.publish(e);
+      const req = createRxOneshotReq({
+        filters: [{ kinds: [kinds.EventDeletion], authors: [account.pubkey] }],
+        rxReqId: "delete-events",
+      });
+      const sub = rxNostr.use(req, { on: { relays: mailboxes.outboxes } }).subscribe((packet) => {
+        eventStore.add(packet.event, packet.from);
       });
 
-      cleanup.push(() => sub.close());
+      cleanup.push(() => sub.unsubscribe());
     }
   });
 
@@ -72,14 +59,9 @@ function downloadEvents(account: Account) {
   };
 }
 
-combineLatest([
-  // listen for account changes
-  accountService.current.pipe(
-    filter((a) => !!a),
-    distinct((a) => a.pubkey),
-  ),
-  // listen for offline mode changes
-  offlineMode.pipe(distinct()),
-])
-  .pipe(filter(([_, offline]) => !offline))
-  .subscribe(([account]) => downloadEvents(account));
+// listen for account changes
+combineLatest([accounts.active$.pipe(distinct((a) => a?.pubkey)), localSettings.readRelays]).subscribe(
+  ([account, relays]) => {
+    if (!!account && relays.length > 0) downloadEvents(account, relays);
+  },
+);

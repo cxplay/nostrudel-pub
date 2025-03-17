@@ -1,14 +1,14 @@
 import { useMemo, useState } from "react";
+import { useActiveAccount } from "applesauce-react/hooks";
 
 import { NostrEvent } from "../../types/nostr-event";
 import useEventReactions from "../../hooks/use-event-reactions";
 import { groupReactions } from "../../helpers/nostr/reactions";
-import useCurrentAccount from "../../hooks/use-current-account";
 import ReactionGroupButton from "./reaction-group-button";
 import { useAddReaction } from "./common-hooks";
 
 export default function EventReactionButtons({ event, max }: { event: NostrEvent; max?: number }) {
-  const account = useCurrentAccount();
+  const account = useActiveAccount();
   const reactions = useEventReactions(event) ?? [];
   const grouped = useMemo(() => groupReactions(reactions), [reactions]);
 
@@ -32,7 +32,7 @@ export default function EventReactionButtons({ event, max }: { event: NostrEvent
           onClick={() => {
             setLoading(group.emoji);
             if (group.url) {
-              addReaction({ name: group.emoji, url: group.url }).finally(() => setLoading(undefined));
+              addReaction({ shortcode: group.emoji, url: group.url }).finally(() => setLoading(undefined));
             } else {
               addReaction(group.emoji).finally(() => setLoading(undefined));
             }

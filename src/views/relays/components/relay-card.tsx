@@ -23,7 +23,7 @@ import styled from "@emotion/styled";
 import { Link as RouterLink } from "react-router-dom";
 
 import { useRelayInfo } from "../../../hooks/use-relay-info";
-import { RelayFavicon } from "../../../components/relay-favicon";
+import RelayFavicon from "../../../components/relay-favicon";
 import { CodeIcon } from "../../../components/icons";
 import UserLink from "../../../components/user/user-link";
 import UserAvatar from "../../../components/user/user-avatar";
@@ -45,7 +45,7 @@ export const Metadata = ({ name, children }: { name: string } & PropsWithChildre
 
 export function RelayMetadata({ url, extended }: { url: string; extended?: boolean }) {
   const { info } = useRelayInfo(url);
-  const { stats } = useRelayStats(url);
+  const stats = useRelayStats(url);
 
   return (
     <Box>
@@ -70,7 +70,7 @@ export function RelayMetadata({ url, extended }: { url: string; extended?: boole
 }
 
 // export function RelayJoinAction({ url, ...props }: { url: string } & Omit<ButtonProps, "children" | "onClick">) {
-//   const account = useCurrentAccount();
+//   const account = useActiveAccount();
 //   const clientRelays = useClientRelays();
 //   const relayConfig = clientRelays.find((r) => r.url === url);
 
@@ -157,7 +157,7 @@ export default function RelayCard({ url, ...props }: { url: string } & Omit<Card
         <CardHeader display="flex" gap="2" alignItems="center" p="2">
           <RelayFavicon relay={url} size="sm" />
           <Heading size="md" isTruncated>
-            <RouterLink to={`/r/${encodeURIComponent(url)}`}>{url}</RouterLink>
+            <RouterLink to={`/relays/${encodeURIComponent(url)}`}>{url}</RouterLink>
             <RelayPaidTag url={url} />
           </Heading>
         </CardHeader>

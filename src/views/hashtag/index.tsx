@@ -18,7 +18,6 @@ import useTimelineLoader from "../../hooks/use-timeline-loader";
 import { isReply, isRepost } from "../../helpers/nostr/event";
 import { CheckIcon, EditIcon } from "../../components/icons";
 import { NostrEvent } from "../../types/nostr-event";
-import useRelaysChanged from "../../hooks/use-relays-changed";
 import TimelinePage, { useTimelinePageEventFilter } from "../../components/timeline-page";
 import TimelineViewTypeButtons from "../../components/timeline-page/timeline-view-type";
 import useClientSideMuteFilter from "../../hooks/use-client-side-mute-filter";
@@ -53,7 +52,7 @@ function HashTagPage() {
   const showReplies = useRouteStateBoolean("show-replies", true);
   const showReposts = useRouteStateBoolean("show-reposts", true);
 
-  const readRelays = useReadRelays().urls;
+  const readRelays = useReadRelays();
 
   const { listId, filter } = usePeopleListContext();
   const timelinePageEventFilter = useTimelinePageEventFilter();
@@ -73,8 +72,6 @@ function HashTagPage() {
     { kinds: [1], "#t": [hashtag], ...filter },
     { eventFilter },
   );
-
-  useRelaysChanged(readRelays, () => loader.reset());
 
   const header = (
     <Flex gap="2" alignItems="center" wrap="wrap">

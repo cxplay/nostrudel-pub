@@ -1,8 +1,8 @@
 import { PropsWithChildren, createContext, useCallback, useContext, useMemo } from "react";
+import { getProfilePointersFromList } from "applesauce-core/helpers";
+import { useActiveAccount } from "applesauce-react/hooks";
 import { Filter, kinds } from "nostr-tools";
 
-import useCurrentAccount from "../../hooks/use-current-account";
-import { getPubkeysFromList } from "../../helpers/nostr/lists";
 import useReplaceableEvent from "../../hooks/use-replaceable-event";
 import { NostrEvent } from "../../types/nostr-event";
 import useRouteSearchValue from "../../hooks/use-route-search-value";
@@ -30,7 +30,7 @@ export function usePeopleListContext() {
 }
 
 function useListCoordinate(listId: ListId) {
-  const account = useCurrentAccount();
+  const account = useActiveAccount();
 
   return useMemo(() => {
     if (listId === "following") return account ? `${kinds.Contacts}:${account.pubkey}` : undefined;
@@ -41,20 +41,21 @@ function useListCoordinate(listId: ListId) {
 }
 
 export function usePeopleListSelect(selected: ListId, onChange: (list: ListId) => void): PeopleListContextType {
-  const account = useCurrentAccount();
+  const account = useActiveAccount();
 
   const listId = useListCoordinate(selected);
   const listEvent = useReplaceableEvent(listId, [], true);
 
-  const people = listEvent && getPubkeysFromList(listEvent);
+  const people = useMemo(() => listEvent && getProfilePointersFromList(listEvent), [listEvent]);
 
   const filter = useMemo<Filter | undefined>(() => {
     if (selected === "global") return {};
     if (selected === "self") {
       if (account) return { authors: [account.pubkey] };
-      else return {};
+      else return undefined;
     }
-    if (!people) return undefined;
+    if (!people || people.length === 0) return undefined;
+
     return { authors: people.map((p) => p.pubkey) };
   }, [people, selected, account]);
 
@@ -72,7 +73,7 @@ export type PeopleListProviderProps = PropsWithChildren & {
   initList?: ListId;
 };
 export default function PeopleListProvider({ children, initList }: PeopleListProviderProps) {
-  const account = useCurrentAccount();
+  const account = useActiveAccount();
   const peopleParam = useRouteSearchValue("people");
 
   const selected = peopleParam.value || (initList as ListId) || (account ? "following" : "global");

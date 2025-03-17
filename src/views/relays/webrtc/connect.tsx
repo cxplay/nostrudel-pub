@@ -3,7 +3,6 @@ import { Alert, AlertIcon, Button, CloseButton, Flex, Heading, Input, Text, useI
 import { useForm } from "react-hook-form";
 import { useObservable } from "applesauce-react/hooks";
 
-import BackButton from "../../../components/router/back-button";
 import webRtcRelaysService from "../../../services/webrtc-relays";
 import NostrWebRtcBroker from "../../../classes/webrtc/nostr-webrtc-broker";
 import QRCodeScannerButton from "../../../components/qr-code/qr-code-scanner-button";
@@ -11,6 +10,7 @@ import UserAvatar from "../../../components/user/user-avatar";
 import UserName from "../../../components/user/user-name";
 import localSettings from "../../../services/local-settings";
 import useForceUpdate from "../../../hooks/use-force-update";
+import SimpleView from "../../../components/layout/presets/simple-view";
 
 export default function WebRtcConnectView() {
   const update = useForceUpdate();
@@ -41,19 +41,14 @@ export default function WebRtcConnectView() {
     .filter(({ pubkey }) => !webRtcRelaysService.broker.peers.has(pubkey));
 
   return (
-    <Flex gap="2" direction="column" overflow="auto hidden" flex={1} px={{ base: "2", lg: 0 }}>
-      <Flex gap="2" alignItems="center" wrap="wrap">
-        <BackButton hideFrom="lg" size="sm" />
-        <Heading size="lg">Connect to WebRTC Relay</Heading>
-      </Flex>
-
+    <SimpleView title="Connect to WebRTC Relay">
       <Text fontStyle="italic" mt="-2">
         Scan or paste the WebRTC Connection URI of the relay you wish to connect to
       </Text>
 
       <Flex as="form" gap="2" onSubmit={connect}>
         <Input placeholder="webrtc+nostr:npub1..." {...register("uri")} autoComplete="off" />
-        <QRCodeScannerButton onData={(data) => setValue("uri", data)} />
+        <QRCodeScannerButton onResult={(data) => setValue("uri", data)} />
         <Button colorScheme="primary" type="submit" isLoading={formState.isSubmitting}>
           Connect
         </Button>
@@ -114,6 +109,6 @@ export default function WebRtcConnectView() {
           No connections requests
         </Alert>
       )}
-    </Flex>
+    </SimpleView>
   );
 }

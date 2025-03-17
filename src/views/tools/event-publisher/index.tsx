@@ -30,21 +30,22 @@ import { getVariables, LooseEventTemplate, processEvent, Variable } from "./proc
 import { EditIcon, WritingIcon } from "../../../components/icons";
 import { useSigningContext } from "../../../providers/global/signing-provider";
 import { usePublishEvent } from "../../../providers/global/publish-provider";
-import useCurrentAccount from "../../../hooks/use-current-account";
+import { useActiveAccount } from "applesauce-react/hooks";
 import UserAvatar from "../../../components/user/user-avatar";
 import { RelayUrlInput } from "../../../components/relay-url-input";
 import { TEMPLATES } from "./templates";
-import RequireCurrentAccount from "../../../providers/route/require-current-account";
+import RequireActiveAccount from "../../../components/router/require-active-account";
 import VariableEditor from "./components/variable-editor";
 import EventTemplateEditor from "./components/event-template-editor";
 import useRouteStateValue from "../../../hooks/use-route-state-value";
+import SimpleView from "../../../components/layout/presets/simple-view";
 
 function EventPublisherPage({ initDraft }: { initDraft?: LooseEventTemplate }) {
   const toast = useToast();
   const [loading, setLoading] = useState(false);
   const { requestSignature } = useSigningContext();
   const publish = usePublishEvent();
-  const account = useCurrentAccount()!;
+  const account = useActiveAccount()!;
   const customRelay = useDisclosure();
 
   const editor = useDisclosure({ defaultIsOpen: true });
@@ -129,81 +130,78 @@ function EventPublisherPage({ initDraft }: { initDraft?: LooseEventTemplate }) {
   };
 
   return (
-    <>
-      <VerticalPageLayout>
-        <Flex gap="2" alignItems="center" wrap="wrap">
-          <BackButton />
-          <Heading size="md">Event Publisher</Heading>
-          <Switch size="sm" isChecked={customRelay.isOpen} onChange={customRelay.onToggle}>
-            Publish to Relay
-          </Switch>
-          {customRelay.isOpen && (
-            <RelayUrlInput
-              borderRadius="md"
-              w="xs"
-              value={customRelayURL}
-              onChange={(e) => setCustomRelayURL(e.target.value)}
-            />
-          )}
-          <ButtonGroup ml="auto">
-            <Button colorScheme="primary" onClick={submitEvent} leftIcon={<Play />}>
-              Publish
-            </Button>
-          </ButtonGroup>
-        </Flex>
+    <SimpleView title="Event Publisher">
+      <Flex gap="2" alignItems="center" wrap="wrap">
+        <Switch size="sm" isChecked={customRelay.isOpen} onChange={customRelay.onToggle}>
+          Publish to Relay
+        </Switch>
+        {customRelay.isOpen && (
+          <RelayUrlInput
+            borderRadius="md"
+            w="xs"
+            value={customRelayURL}
+            onChange={(e) => setCustomRelayURL(e.target.value)}
+          />
+        )}
+        <ButtonGroup ml="auto">
+          <Button colorScheme="primary" onClick={submitEvent} leftIcon={<Play />}>
+            Publish
+          </Button>
+        </ButtonGroup>
+      </Flex>
 
-        <Flex direction={{ base: "column", xl: "row" }} gap="2">
-          <Flex direction="column" gap="2" flex={1} overflow="hidden">
-            <Flex gap="2" alignItems="center">
-              <Text fontWeight="bold">Template</Text>
-              <Select onChange={(e) => selectTemplate(e.target.value)} w="auto">
-                {TEMPLATES.map((template) => (
-                  <option key={template.name} value={template.name}>
-                    {template.name}
-                  </option>
-                ))}
-              </Select>
-              <Spacer />
-              <ButtonGroup size="sm">
-                {editor.isOpen && (
-                  <Button onClick={editRaw.onToggle} colorScheme={editRaw.isOpen ? "primary" : undefined}>
-                    Raw
-                  </Button>
-                )}
-                <Button
-                  onClick={editor.onToggle}
-                  colorScheme={editor.isOpen ? "primary" : undefined}
-                  leftIcon={<EditIcon />}
-                >
-                  Edit
-                </Button>
-              </ButtonGroup>
-            </Flex>
-
-            {editor.isOpen &&
-              (editRaw.isOpen ? (
-                <EventJsonEditor draft={draft} onChange={setDraft} onRun={submitEvent} />
-              ) : (
-                <EventTemplateEditor draft={draft} onChange={setDraft} />
+      <Flex direction={{ base: "column", xl: "row" }} gap="2">
+        <Flex direction="column" gap="2" flex={1} overflow="hidden">
+          <Flex gap="2" alignItems="center">
+            <Text fontWeight="bold">Template</Text>
+            <Select onChange={(e) => selectTemplate(e.target.value)} w="auto">
+              {TEMPLATES.map((template) => (
+                <option key={template.name} value={template.name}>
+                  {template.name}
+                </option>
               ))}
-
-            <Flex gap="2">
-              <Heading size="md" mt="4">
-                Variables
-              </Heading>
-            </Flex>
-            <VariableEditor variables={variables} onChange={(v) => setVariables(v)} />
+            </Select>
+            <Spacer />
+            <ButtonGroup size="sm">
+              {editor.isOpen && (
+                <Button onClick={editRaw.onToggle} colorScheme={editRaw.isOpen ? "primary" : undefined}>
+                  Raw
+                </Button>
+              )}
+              <Button
+                onClick={editor.onToggle}
+                colorScheme={editor.isOpen ? "primary" : undefined}
+                leftIcon={<EditIcon />}
+              >
+                Edit
+              </Button>
+            </ButtonGroup>
           </Flex>
 
-          <Divider hideFrom="xl" />
+          {editor.isOpen &&
+            (editRaw.isOpen ? (
+              <EventJsonEditor draft={draft} onChange={setDraft} onRun={submitEvent} />
+            ) : (
+              <EventTemplateEditor draft={draft} onChange={setDraft} />
+            ))}
 
-          <Flex flex={1} direction="column" gap="2" overflow="hidden">
-            <Code whiteSpace="pre" overflow="auto" p="2">
-              {JSON.stringify(processed, null, 2)}
-            </Code>
+          <Flex gap="2">
+            <Heading size="md" mt="4">
+              Variables
+            </Heading>
           </Flex>
+          <VariableEditor variables={variables} onChange={(v) => setVariables(v)} />
         </Flex>
-      </VerticalPageLayout>
+
+        <Divider hideFrom="xl" />
+
+        <Flex flex={1} direction="column" gap="2" overflow="hidden">
+          <Code whiteSpace="pre" overflow="auto" p="2">
+            {JSON.stringify(processed, null, 2)}
+          </Code>
+        </Flex>
+      </Flex>
+
       {finalized && (
         <Modal isOpen onClose={() => setFinalized(undefined)} size="2xl">
           <ModalOverlay />
@@ -253,7 +251,7 @@ function EventPublisherPage({ initDraft }: { initDraft?: LooseEventTemplate }) {
           </ModalContent>
         </Modal>
       )}
-    </>
+    </SimpleView>
   );
 }
 
@@ -267,8 +265,8 @@ export default function EventPublisherView() {
   }
 
   return (
-    <RequireCurrentAccount>
+    <RequireActiveAccount>
       <EventPublisherPage initDraft={draft} />
-    </RequireCurrentAccount>
+    </RequireActiveAccount>
   );
 }

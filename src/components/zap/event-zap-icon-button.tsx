@@ -1,21 +1,20 @@
 import { IconButton, IconButtonProps, useDisclosure } from "@chakra-ui/react";
-import { getZapSender } from "applesauce-core/helpers";
+import { useActiveAccount } from "applesauce-react/hooks";
 
-import useCurrentAccount from "../../hooks/use-current-account";
 import useEventZaps from "../../hooks/use-event-zaps";
-import eventZapsService from "../../services/event-zaps";
 import { NostrEvent } from "../../types/nostr-event";
 import { LightningIcon } from "../icons";
 import ZapModal from "../event-zap-modal";
 import useUserLNURLMetadata from "../../hooks/use-user-lnurl-metadata";
 import { getEventUID } from "../../helpers/nostr/event";
 import { useReadRelays } from "../../hooks/use-client-relays";
+import { requestZaps } from "../../services/event-zaps-loader";
 
 export default function EventZapIconButton({
   event,
   ...props
 }: { event: NostrEvent } & Omit<IconButtonProps, "icon" | "onClick">) {
-  const account = useCurrentAccount();
+  const account = useActiveAccount();
   const { metadata } = useUserLNURLMetadata(event.pubkey);
   const zaps = useEventZaps(getEventUID(event)) ?? [];
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -23,7 +22,7 @@ export default function EventZapIconButton({
   const readRelays = useReadRelays();
   const onZapped = () => {
     onClose();
-    eventZapsService.requestZaps(getEventUID(event), readRelays, true);
+    requestZaps(getEventUID(event), readRelays, true);
   };
 
   const canZap = !!metadata?.allowsNostr || event.tags.some((t) => t[0] === "zap");

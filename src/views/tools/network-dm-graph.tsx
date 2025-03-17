@@ -1,11 +1,13 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Box, Button, Flex, Input, Text } from "@chakra-ui/react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import ForceGraph, { LinkObject, NodeObject } from "react-force-graph-3d";
 import { Filter, kinds } from "nostr-tools";
-import dayjs from "dayjs";
+import { getProfileContent } from "applesauce-core/helpers";
+import { useStoreQuery } from "applesauce-react/hooks";
+import { TimelineQuery } from "applesauce-core/queries";
 import { useNavigate } from "react-router-dom";
-import { useDebounce, useObservable } from "react-use";
+import { useThrottle } from "react-use";
 import {
   Group,
   Mesh,
@@ -16,26 +18,25 @@ import {
   SpriteMaterial,
   TextureLoader,
 } from "three";
+import dayjs from "dayjs";
 
-import useCurrentAccount from "../../hooks/use-current-account";
-import RequireCurrentAccount from "../../providers/route/require-current-account";
+import { useActiveAccount } from "applesauce-react/hooks";
+import RequireActiveAccount from "../../components/router/require-active-account";
 import { getPubkeysFromList } from "../../helpers/nostr/lists";
 import useUserContactList from "../../hooks/use-user-contact-list";
 import useUserProfile from "../../hooks/use-user-profile";
-import EventStore from "../../classes/event-store";
 import { isPTag } from "../../types/nostr-event";
 import { ChevronLeftIcon } from "../../components/icons";
 import { useReadRelays } from "../../hooks/use-client-relays";
-import { subscribeMany } from "../../helpers/relay";
 import useUserProfiles from "../../hooks/use-user-profiles";
 import { eventStore } from "../../services/event-store";
-import { getProfileContent } from "applesauce-core/helpers";
+import useForwardSubscription from "../../hooks/use-forward-subscription";
 
 type NodeType = { id: string; image?: string; name?: string };
 
 function NetworkDMGraphPage() {
   const navigate = useNavigate();
-  const account = useCurrentAccount()!;
+  const account = useActiveAccount()!;
   const relays = useReadRelays();
 
   const contacts = useUserContactList(account.pubkey);
@@ -47,36 +48,31 @@ function NetworkDMGraphPage() {
   const [until, setUntil] = useState(dayjs().unix());
   const [since, setSince] = useState(dayjs().subtract(1, "week").unix());
 
-  const store = useMemo(() => new EventStore(), []);
-  const [fetchData] = useDebounce(
-    () => {
-      if (!contacts) return;
-
-      store.clear();
-      const filter: Filter = {
+  const filters = useMemo<Filter[]>(
+    () => [
+      {
         authors: contactsPubkeys,
         kinds: [kinds.EncryptedDirectMessage],
         since,
         until,
-      };
-      const sub = subscribeMany(Array.from(relays), [filter], {
-        onevent: (event) => store.addEvent(event),
-        oneose: () => sub.close(),
-      });
-    },
-    2 * 1000,
-    [relays, store, contactsPubkeys, since, until],
+      },
+    ],
+    [contactsPubkeys, since, until],
   );
-  useEffect(() => {
-    fetchData();
-  }, [relays, store, contactsPubkeys, since, until]);
+
+  const throttledFilter = useThrottle(filters, 2 * 1000);
+  useForwardSubscription(relays, throttledFilter);
 
   const selfMetadata = useUserProfile(account.pubkey);
   const userProfiles = useUserProfiles(contactsPubkeys);
 
-  const newEventTrigger = useObservable(store.onEvent);
+  // get all DM events
+  const events = useStoreQuery(TimelineQuery, [
+    { since, until, authors: contactsPubkeys, kinds: [kinds.EncryptedDirectMessage] },
+  ]);
+
   const graphData = useMemo(() => {
-    if (store.events.size === 0) return { nodes: [], links: [] };
+    if (!events || events.length === 0) return { nodes: [], links: [] };
 
     const nodes: Record<string, NodeObject<NodeType>> = {};
     const links: Record<string, LinkObject<NodeType>> = {};
@@ -99,7 +95,7 @@ function NetworkDMGraphPage() {
       return nodes[pubkey];
     };
 
-    for (const [_, dm] of store.events) {
+    for (const dm of events) {
       const author = dm.pubkey;
       const receiver = dm.tags.find(isPTag)?.[1];
       if (!receiver) continue;
@@ -111,7 +107,7 @@ function NetworkDMGraphPage() {
     }
 
     return { nodes: Object.values(nodes), links: Object.values(links) };
-  }, [contactsPubkeys, account.pubkey, userProfiles, selfMetadata, newEventTrigger]);
+  }, [contactsPubkeys, account.pubkey, userProfiles, selfMetadata, events?.length]);
 
   return (
     <Flex direction="column" gap="2" h="full" pt="2">
@@ -171,8 +167,8 @@ function NetworkDMGraphPage() {
 
 export default function NetworkDMGraphView() {
   return (
-    <RequireCurrentAccount>
+    <RequireActiveAccount>
       <NetworkDMGraphPage />
-    </RequireCurrentAccount>
+    </RequireActiveAccount>
   );
 }

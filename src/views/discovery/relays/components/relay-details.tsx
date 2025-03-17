@@ -12,7 +12,6 @@ import {
   FlexProps,
   Heading,
   IconButton,
-  Spacer,
   Text,
 } from "@chakra-ui/react";
 import { useContext } from "react";
@@ -23,15 +22,13 @@ import { SelectedContext } from "../selected-context";
 import { getTagValue } from "../../../../helpers/nostr/event";
 import DebugEventButton from "../../../../components/debug-modal/debug-event-button";
 import SupportedNIPs from "../../../relays/components/supported-nips";
-import RelayNotes from "../../../relays/relay/relay-notes";
-import { safeRelayUrl } from "../../../../helpers/relay";
+import RelayNotes from "../../../relays/relay-details/relay-notes";
 import { ExternalLinkIcon } from "../../../../components/icons";
 import PeopleListProvider from "../../../../providers/local/people-list-provider";
 import { getPubkeysFromList } from "../../../../helpers/nostr/lists";
 import UserAvatarLink from "../../../../components/user/user-avatar-link";
 import UserName from "../../../../components/user/user-name";
-import UserDnsIdentity from "../../../../components/user/user-dns-identity";
-import { RelayFavicon } from "../../../../components/relay-favicon";
+import RelayFavicon from "../../../../components/relay-favicon";
 
 export default function RelayStatusDetails({ event, ...props }: Omit<FlexProps, "children"> & { event: NostrEvent }) {
   const selected = useContext(SelectedContext);
@@ -40,7 +37,7 @@ export default function RelayStatusDetails({ event, ...props }: Omit<FlexProps, 
   const software = getTagValue(event, "s");
   const version = event.tags.find((t) => t[0] === "l" && t[2] === "nip11.version")?.[1];
 
-  const url = identity ? safeRelayUrl(identity) : undefined;
+  const url = identity;
 
   // gather labels
   const misc: Record<string, string[]> = {};
@@ -71,7 +68,7 @@ export default function RelayStatusDetails({ event, ...props }: Omit<FlexProps, 
             <IconButton
               icon={<ExternalLinkIcon />}
               as={RouterLink}
-              to={`/r/${encodeURIComponent(identity)}`}
+              to={`/relays/${encodeURIComponent(identity)}`}
               aria-label="Open"
             />
           )}

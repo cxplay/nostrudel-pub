@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import {
   Avatar,
   Button,
@@ -9,21 +9,27 @@ import {
   Input,
   Link,
   Textarea,
+  InputGroup,
+  InputRightElement,
+  IconButton,
+  VisuallyHiddenInput,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { ProfileContent, unixNow } from "applesauce-core/helpers";
+import { parseNIP05Address, ProfileContent, unixNow } from "applesauce-core/helpers";
 
-import { ExternalLinkIcon } from "../../components/icons";
+import { ExternalLinkIcon, OutboxIcon } from "../../components/icons";
 import { isLNURL } from "../../helpers/lnurl";
 import { useReadRelays } from "../../hooks/use-client-relays";
-import useCurrentAccount from "../../hooks/use-current-account";
+import { useActiveAccount } from "applesauce-react/hooks";
 import useUserProfile from "../../hooks/use-user-profile";
-import dnsIdentityService from "../../services/dns-identity";
+import dnsIdentityLoader from "../../services/dns-identity-loader";
 import { DraftNostrEvent } from "../../types/nostr-event";
 import lnurlMetadataService from "../../services/lnurl-metadata";
 import VerticalPageLayout from "../../components/vertical-page-layout";
 import { COMMON_CONTACT_RELAYS } from "../../const";
 import { usePublishEvent } from "../../providers/global/publish-provider";
+import { useInputUploadFileWithForm } from "../../hooks/use-input-upload-file";
+import { IdentityStatus } from "applesauce-loaders/helpers/dns-identity";
 
 const isEmail =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -49,12 +55,13 @@ type MetadataFormProps = {
 };
 
 const MetadataForm = ({ defaultValues, onSubmit }: MetadataFormProps) => {
-  const account = useCurrentAccount()!;
+  const account = useActiveAccount()!;
   const {
     register,
     reset,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
     mode: "onBlur",
@@ -64,6 +71,12 @@ const MetadataForm = ({ defaultValues, onSubmit }: MetadataFormProps) => {
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
+
+  const pictureUploadManage = useInputUploadFileWithForm(setValue, "picture");
+  const pictureUploadRef = useRef<HTMLInputElement | null>(null);
+
+  const bannerUploadManage = useInputUploadFileWithForm(setValue, "banner");
+  const bannerUploadRef = useRef<HTMLInputElement | null>(null);
 
   return (
     <VerticalPageLayout as="form" onSubmit={handleSubmit(onSubmit)}>
@@ -113,24 +126,62 @@ const MetadataForm = ({ defaultValues, onSubmit }: MetadataFormProps) => {
       <Flex gap="2" alignItems="center">
         <FormControl isInvalid={!!errors.picture}>
           <FormLabel>Picture</FormLabel>
-          <Input
-            autoComplete="off"
-            isDisabled={isSubmitting}
-            placeholder="https://domain.com/path/picture.png"
-            {...register("picture", { maxLength: 150 })}
-          />
+          <InputGroup>
+            <Input
+              onPaste={pictureUploadManage.onPaste}
+              autoComplete="off"
+              isDisabled={isSubmitting}
+              placeholder="https://domain.com/path/picture.png"
+              {...register("picture", { maxLength: 150 })}
+            />
+            <InputRightElement>
+              <IconButton
+                isLoading={pictureUploadManage.uploading}
+                size="sm"
+                icon={<OutboxIcon />}
+                title="Upload picture"
+                aria-label="Upload picture"
+                onClick={() => pictureUploadRef.current?.click()}
+              />
+            </InputRightElement>
+            <VisuallyHiddenInput
+              type="file"
+              accept="image/*"
+              ref={pictureUploadRef}
+              onChange={pictureUploadManage.onFileInputChange}
+            />
+          </InputGroup>
         </FormControl>
         <Avatar src={watch("picture")} size="lg" ignoreFallback />
       </Flex>
       <Flex gap="2" alignItems="center">
         <FormControl isInvalid={!!errors.banner}>
           <FormLabel>Banner</FormLabel>
-          <Input
-            autoComplete="off"
-            isDisabled={isSubmitting}
-            placeholder="https://domain.com/path/banner.png"
-            {...register("banner", { maxLength: 150 })}
-          />
+          <InputGroup>
+            <Input
+              onPaste={bannerUploadManage.onPaste}
+              autoComplete="off"
+              isDisabled={isSubmitting}
+              placeholder="https://domain.com/path/banner.png"
+              {...register("banner", { maxLength: 150 })}
+            />
+            <InputRightElement>
+              <IconButton
+                isLoading={bannerUploadManage.uploading}
+                size="sm"
+                icon={<OutboxIcon />}
+                title="Upload baner"
+                aria-label="Upload banner"
+                onClick={() => bannerUploadRef.current?.click()}
+              />
+            </InputRightElement>
+            <VisuallyHiddenInput
+              type="file"
+              accept="image/*"
+              ref={bannerUploadRef}
+              onChange={bannerUploadManage.onFileInputChange}
+            />
+          </InputGroup>
         </FormControl>
         <Avatar src={watch("banner")} size="lg" ignoreFallback />
       </Flex>
@@ -145,13 +196,20 @@ const MetadataForm = ({ defaultValues, onSubmit }: MetadataFormProps) => {
             validate: async (address) => {
               if (!address) return true;
               if (!address.includes("@")) return "Invalid address";
-              try {
-                const id = await dnsIdentityService.fetchIdentity(address);
-                if (!id) return "Cant find NIP-05 ID";
-                if (id.pubkey !== account.pubkey) return "Pubkey does not match";
-              } catch (e) {
-                return "Failed to fetch ID";
+
+              const { name, domain } = parseNIP05Address(address) || {};
+              if (!name || !domain) return "Failed to parsed address";
+
+              const identity = await dnsIdentityLoader.fetchIdentity(name, domain);
+              switch (identity.status) {
+                case IdentityStatus.Error:
+                  return "Failed to connect to server";
+                case IdentityStatus.Missing:
+                  return "Identity missing from server";
+                case IdentityStatus.Found:
+                  if (identity.pubkey !== account.pubkey) return "Pubkey does not match";
               }
+
               return true;
             },
           })}
@@ -215,7 +273,7 @@ const MetadataForm = ({ defaultValues, onSubmit }: MetadataFormProps) => {
 export const ProfileEditView = () => {
   const publish = usePublishEvent();
   const readRelays = useReadRelays();
-  const account = useCurrentAccount()!;
+  const account = useActiveAccount()!;
   const metadata = useUserProfile(account.pubkey, readRelays, true);
 
   const defaultValues = useMemo<FormData>(

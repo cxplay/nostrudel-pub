@@ -29,7 +29,7 @@ import {
 import { useForm } from "react-hook-form";
 import { UnsignedEvent } from "nostr-tools";
 import { useAsync, useThrottle } from "react-use";
-import { useEventFactory, useObservable } from "applesauce-react/hooks";
+import { useActiveAccount, useEventFactory, useObservable } from "applesauce-react/hooks";
 import { Emoji, ZapSplit } from "applesauce-core/helpers";
 
 import { ChevronDownIcon, ChevronUpIcon } from "../icons";
@@ -38,13 +38,12 @@ import { TrustProvider } from "../../providers/local/trust-provider";
 import MagicTextArea, { RefType } from "../magic-textarea";
 import { useContextEmojis } from "../../providers/global/emoji-provider";
 import ZapSplitCreator from "../../views/new/note/zap-split-creator";
-import useCurrentAccount from "../../hooks/use-current-account";
 import useCacheForm from "../../hooks/use-cache-form";
 import useTextAreaUploadFile, { useTextAreaInsertTextWithForm } from "../../hooks/use-textarea-upload-file";
 import MinePOW from "../pow/mine-pow";
 import useAppSettings from "../../hooks/use-user-app-settings";
 import { ErrorBoundary } from "../error-boundary";
-import { PublishLogEntry, useFinalizeDraft, usePublishEvent } from "../../providers/global/publish-provider";
+import { PublishLogEntry, usePublishEvent } from "../../providers/global/publish-provider";
 import { TextNoteContents } from "../note/timeline-note/text-note-contents";
 import localSettings from "../../services/local-settings";
 import useLocalStorageDisclosure from "../../hooks/use-localstorage-disclosure";
@@ -71,8 +70,7 @@ export default function PostModal({
   initContent = "",
 }: Omit<ModalProps, "children"> & PostModalProps) {
   const publish = usePublishEvent();
-  const finalizeDraft = useFinalizeDraft();
-  const account = useCurrentAccount()!;
+  const account = useActiveAccount()!;
   const { noteDifficulty } = useAppSettings();
   const addClientTag = useObservable(localSettings.addClientTag);
   const promptAddClientTag = useLocalStorageDisclosure("prompt-add-client-tag", true);
@@ -113,8 +111,7 @@ export default function PostModal({
       splits: values.split,
     });
 
-    const unsigned = await finalizeDraft(draft);
-
+    const unsigned = await factory.stamp(draft);
     setDraft(unsigned);
     return unsigned;
   };

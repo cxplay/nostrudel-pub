@@ -7,7 +7,6 @@ import useTimelineLoader from "../../hooks/use-timeline-loader";
 import IntersectionObserverProvider from "../../providers/local/intersection-observer";
 import { useTimelineCurserIntersectionCallback } from "../../hooks/use-timeline-cursor-intersection-callback";
 import StreamCard from "./components/stream-card";
-import useRelaysChanged from "../../hooks/use-relays-changed";
 import PeopleListSelection from "../../components/people-list-selection/people-list-selection";
 import PeopleListProvider, { usePeopleListContext } from "../../providers/local/people-list-provider";
 import TimelineActionAndStatus from "../../components/timeline/timeline-action-and-status";
@@ -20,10 +19,11 @@ import { useReadRelays } from "../../hooks/use-client-relays";
 import { AdditionalRelayProvider, useAdditionalRelayContext } from "../../providers/local/additional-relay-context";
 import useFavoriteStreams from "../../hooks/use-favorite-streams";
 import { getStreamStatus, getStreamStreamingURLs } from "../../helpers/nostr/stream";
+import SimpleView from "../../components/layout/presets/simple-view";
 
 function StreamsPage() {
   useAppTitle("Streams");
-  const relays = useReadRelays(useAdditionalRelayContext()).urls;
+  const relays = useReadRelays(useAdditionalRelayContext());
   const userMuteFilter = useClientSideMuteFilter();
   const showEnded = useRouteStateBoolean("ended", false);
 
@@ -54,28 +54,32 @@ function StreamsPage() {
   });
   const callback = useTimelineCurserIntersectionCallback(loader);
 
-  useRelaysChanged(relays, () => loader.reset());
-
   const { streams: favorites } = useFavoriteStreams();
 
   const liveStreams = streams.filter((stream) => getStreamStatus(stream) === "live");
   const endedStreams = streams.filter((stream) => getStreamStatus(stream) === "ended");
 
+  const columns = { base: 1, md: 2, lg: 3, xl: 4, "2xl": 5 };
+
   return (
-    <VerticalPageLayout>
-      <Flex gap="2" wrap="wrap" alignItems="center">
-        <PeopleListSelection />
-        <Switch isChecked={showEnded.isOpen} onChange={showEnded.onToggle}>
-          Show Ended
-        </Switch>
-      </Flex>
+    <SimpleView
+      title="Streams"
+      actions={
+        <Flex gap="2" wrap="wrap" alignItems="center">
+          <PeopleListSelection size="sm" />
+          <Switch isChecked={showEnded.isOpen} onChange={showEnded.onToggle}>
+            Show Ended
+          </Switch>
+        </Flex>
+      }
+    >
       <IntersectionObserverProvider callback={callback}>
         {favorites.length > 0 && (
           <>
             <Heading size="lg" mt="2">
               Favorites
             </Heading>
-            <SimpleGrid columns={{ base: 1, md: 2, lg: 3, xl: 4 }} spacing="2">
+            <SimpleGrid columns={columns} spacing="2">
               {favorites.map((stream) => (
                 <StreamCard key={getEventUID(stream)} stream={stream} />
               ))}
@@ -85,7 +89,7 @@ function StreamsPage() {
         <Heading size="lg" mt="2">
           Live
         </Heading>
-        <SimpleGrid columns={{ base: 1, md: 2, lg: 3, xl: 4 }} spacing="2">
+        <SimpleGrid columns={columns} spacing="2">
           {liveStreams.map((stream) => (
             <StreamCard key={getEventUID(stream)} stream={stream} />
           ))}
@@ -95,19 +99,19 @@ function StreamsPage() {
             <Heading size="lg" mt="4">
               Ended
             </Heading>
-            <SimpleGrid columns={{ base: 1, md: 2, lg: 3, xl: 4 }} spacing="2">
+            <SimpleGrid columns={columns} spacing="2">
               {endedStreams.map((stream) => (
                 <StreamCard key={getEventUID(stream)} stream={stream} />
               ))}
             </SimpleGrid>
           </>
         )}
-        <TimelineActionAndStatus timeline={loader} />
+        <TimelineActionAndStatus loader={loader} />
       </IntersectionObserverProvider>
-    </VerticalPageLayout>
+    </SimpleView>
   );
 }
-export default function StreamsView() {
+export default function StreamHomeView() {
   return (
     <AdditionalRelayProvider
       relays={["wss://nos.lol", "wss://relay.damus.io", "wss://relay.snort.social", "wss://nostr.wine"]}

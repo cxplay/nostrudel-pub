@@ -1,6 +1,8 @@
 import { NostrEvent, verifyEvent as internalVerifyEvent } from "nostr-tools";
 import { setNostrWasm, verifyEvent as wasmVerifyEvent } from "nostr-tools/wasm";
 import { fakeVerifyEvent } from "applesauce-core/helpers/event";
+import { distinctUntilChanged } from "rxjs";
+
 import { logger } from "../helpers/debug";
 import localSettings from "./local-settings";
 
@@ -64,5 +66,4 @@ async function updateVerifyMethod() {
   }
 }
 
-localSettings.verifyEventMethod.subscribe(updateVerifyMethod);
-await updateVerifyMethod();
+localSettings.verifyEventMethod.pipe(distinctUntilChanged()).subscribe(updateVerifyMethod);

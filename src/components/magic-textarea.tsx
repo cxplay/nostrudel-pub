@@ -55,9 +55,9 @@ const Item = ({ entity }: ItemComponentProps<Token>) => {
 
 function output(token: Token) {
   if (isEmojiToken(token)) {
-    return token.char;
+    return token.char || "";
   } else if (isPersonToken(token)) {
-    return "nostr:" + nip19.npubEncode(token.pubkey);
+    return "nostr:" + nip19.npubEncode(token.pubkey) || "";
   } else return "";
 }
 
@@ -73,11 +73,11 @@ function useEmojiTokens() {
       customEmojis.map(
         (emoji) =>
           ({
-            id: emoji.name,
-            name: emoji.name,
+            id: emoji.shortcode,
+            name: emoji.shortcode,
             url: emoji.url,
-            keywords: [emoji.name],
-            char: `:${emoji.name}:`,
+            keywords: [emoji.shortcode],
+            char: `:${emoji.shortcode}:`,
           }) satisfies EmojiToken,
       ),
     [customEmojis],

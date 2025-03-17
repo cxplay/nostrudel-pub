@@ -1,11 +1,11 @@
 import { PropsWithChildren, createContext, useContext, useEffect, useMemo } from "react";
 import { NostrEvent, kinds } from "nostr-tools";
+import { useActiveAccount } from "applesauce-react/hooks";
 import _throttle from "lodash.throttle";
 
 import { getPubkeysFromList } from "../../helpers/nostr/lists";
-import useCurrentAccount from "../../hooks/use-current-account";
 import { PubkeyGraph } from "../../classes/pubkey-graph";
-import replaceableEventLoader from "../../services/replaceable-event-loader";
+import replaceableEventLoader from "../../services/replaceable-loader";
 import { COMMON_CONTACT_RELAYS } from "../../const";
 import { eventStore } from "../../services/event-store";
 
@@ -63,7 +63,7 @@ export function useWebOfTrust() {
 }
 
 export default function WebOfTrustProvider({ pubkey, children }: PropsWithChildren<{ pubkey?: string }>) {
-  const account = useCurrentAccount();
+  const account = useActiveAccount();
   if (account && !pubkey) pubkey = account.pubkey;
 
   const graph = useMemo(() => {
@@ -73,13 +73,7 @@ export default function WebOfTrustProvider({ pubkey, children }: PropsWithChildr
   // load the graph when it changes
   useEffect(() => {
     if (!graph) return;
-
-    if (import.meta.env.DEV) {
-      //@ts-expect-error debug
-      window.webOfTrust = graph;
-    }
-
-    loadSocialGraph(graph, kinds.Contacts, graph.root, undefined, 1);
+    // loadSocialGraph(graph, kinds.Contacts, graph.root, undefined, 1);
   }, [graph]);
 
   return <WebOfTrustContext.Provider value={graph}>{children}</WebOfTrustContext.Provider>;

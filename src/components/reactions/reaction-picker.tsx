@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import { Emoji, getEmojis, getEventUID, getPackName } from "applesauce-core/helpers";
-import { getAddressPointersFromList } from "applesauce-lists/helpers";
+import { getAddressPointersFromList } from "applesauce-core/helpers/lists";
+import { useActiveAccount } from "applesauce-react/hooks";
 
 import EmojiPicker, { defaultCategories, NativeEmoji } from "./emoji-picker";
 import useFavoriteEmojiPacks from "../../hooks/use-favorite-emoji-packs";
 import useReplaceableEvents from "../../hooks/use-replaceable-events";
-import useCurrentAccount from "../../hooks/use-current-account";
 
 export default function ReactionPicker({
   autoFocus,
@@ -14,7 +14,7 @@ export default function ReactionPicker({
   autoFocus?: boolean;
   onSelect?: (emoji: string | Emoji) => void;
 }) {
-  const account = useCurrentAccount();
+  const account = useActiveAccount();
   const favoritePacks = useFavoriteEmojiPacks(account?.pubkey);
   const packs = useReplaceableEvents(favoritePacks ? getAddressPointersFromList(favoritePacks) : []);
   const custom = useMemo(
@@ -28,9 +28,9 @@ export default function ReactionPicker({
           id,
           name,
           emojis: emojis.map((e) => ({
-            id: e.name,
-            name: e.name,
-            keywords: [e.name, e.name.toUpperCase(), e.name.replaceAll("_", "")],
+            id: e.shortcode,
+            name: e.shortcode,
+            keywords: [e.shortcode, e.shortcode.toUpperCase(), e.shortcode.replaceAll("_", "")],
             skins: [{ src: e.url }],
           })),
         };
@@ -41,7 +41,7 @@ export default function ReactionPicker({
   const categories = useMemo(() => [...packs.map((p) => getEventUID(p)), ...defaultCategories], [packs]);
 
   const handleSelect = (emoji: NativeEmoji) => {
-    if (emoji.src) onSelect?.({ name: emoji.name, url: emoji.src });
+    if (emoji.src) onSelect?.({ shortcode: emoji.name, url: emoji.src });
     else if (emoji.id === "+1") onSelect?.("+");
     else if (emoji.id === "-1") onSelect?.("-");
     else if (emoji.native) onSelect?.(emoji.native);

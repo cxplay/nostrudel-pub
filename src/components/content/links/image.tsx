@@ -1,6 +1,7 @@
 import { MouseEvent, MouseEventHandler, forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import {
   Button,
+  ButtonProps,
   Code,
   Image,
   ImageProps,
@@ -94,25 +95,25 @@ export function EmbeddedImage({ src, event, imageProps, ...props }: EmbeddedImag
     if (ref.current) handleImageFallbacks(ref.current, getPubkeyMediaServers);
   }, []);
 
-  // NOTE: the parent <div> has display=block and and <a> has inline-block
-  // this is so that the <a> element can act like a block without being full width
   return (
-    <div>
-      <Link href={src} isExternal onClick={handleClick} display="inline-block" {...props}>
-        <TrustImage
-          {...imageProps}
-          src={thumbnail}
-          cursor="pointer"
-          ref={ref}
-          onClick={handleClick}
-          data-pubkey={owner}
-        />
-      </Link>
-    </div>
+    <Link href={src} isExternal onClick={handleClick} display="inline-block" {...props}>
+      <TrustImage
+        {...imageProps}
+        src={thumbnail}
+        cursor="pointer"
+        ref={ref}
+        onClick={handleClick}
+        data-pubkey={owner}
+      />
+    </Link>
   );
 }
 
-function VerifyImageButton({ src, original }: { src: URL; original: string }) {
+function VerifyImageButton({
+  src,
+  original,
+  ...props
+}: { src: URL; original: string } & Omit<ButtonProps, "children" | "onClick">) {
   const toast = useToast();
   const [loading, setLoading] = useState(false);
 
@@ -144,6 +145,7 @@ function VerifyImageButton({ src, original }: { src: URL; original: string }) {
         onClick={verify}
         isLoading={loading}
         colorScheme={matches === undefined ? undefined : matches ? "green" : "red"}
+        {...props}
       >
         [ {matches === undefined ? "Verify" : matches ? "Valid" : "Invalid!"} ]
       </Button>
@@ -177,8 +179,7 @@ export function renderImageUrl(match: URL) {
     <ExpandableEmbed
       label="Image"
       url={match}
-      actions={hash ? <VerifyImageButton src={match} original={hash} /> : undefined}
-      hideOnDefaultOpen={!hash}
+      actions={hash ? <VerifyImageButton src={match} original={hash} zIndex={1} /> : undefined}
     >
       <EmbeddedImage src={match.toString()} imageProps={{ maxH: ["initial", "35vh"] }} />
     </ExpandableEmbed>

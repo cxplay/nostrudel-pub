@@ -1,7 +1,6 @@
 import { Transformer } from "unified";
 import { Root, findAndReplace, Node } from "applesauce-content/nast";
-
-import { NIP_NAMES } from "../../../views/relays/components/supported-nips";
+import { NIP_NAMES } from "../../../const";
 
 export interface NIPToken extends Node {
   type: "nip";

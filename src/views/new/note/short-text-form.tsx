@@ -25,10 +25,10 @@ import { useForm } from "react-hook-form";
 import { UnsignedEvent } from "nostr-tools";
 import { useAsync, useThrottle } from "react-use";
 import { useEventFactory, useObservable } from "applesauce-react/hooks";
-import { Emoji } from "applesauce-core/helpers";
+import { Emoji, getEventPointerFromQTag, processTags } from "applesauce-core/helpers";
 
 import { PublishLogEntry, useFinalizeDraft, usePublishEvent } from "../../../providers/global/publish-provider";
-import useCurrentAccount from "../../../hooks/use-current-account";
+import { useActiveAccount } from "applesauce-react/hooks";
 import useAppSettings from "../../../hooks/use-user-app-settings";
 import localSettings from "../../../services/local-settings";
 import useLocalStorageDisclosure from "../../../hooks/use-localstorage-disclosure";
@@ -45,6 +45,8 @@ import { ChevronDownIcon, ChevronUpIcon } from "../../../components/icons";
 import ZapSplitCreator, { Split } from "./zap-split-creator";
 import MinePOW from "../../../components/pow/mine-pow";
 import { PublishLogEntryDetails } from "../../task-manager/publish-log/entry-details";
+import InsertReactionButton from "../../../components/reactions/insert-reaction-button";
+import { eventStore } from "../../../services/event-store";
 
 type FormValues = {
   content: string;
@@ -65,7 +67,7 @@ export default function ShortTextNoteForm({
 }: Omit<FlexProps, "children"> & ShortTextNoteFormProps) {
   const publish = usePublishEvent();
   const finalizeDraft = useFinalizeDraft();
-  const account = useCurrentAccount()!;
+  const account = useActiveAccount()!;
   const { noteDifficulty } = useAppSettings();
   const addClientTag = useObservable(localSettings.addClientTag);
   const promptAddClientTag = useLocalStorageDisclosure("prompt-add-client-tag", true);
@@ -106,8 +108,7 @@ export default function ShortTextNoteForm({
       splits: values.split,
     });
 
-    const unsigned = await finalizeDraft(draft);
-
+    const unsigned = await factory.stamp(draft);
     setDraft(unsigned);
     return unsigned;
   };
@@ -123,6 +124,11 @@ export default function ShortTextNoteForm({
   const publishPost = async (unsigned?: UnsignedEvent) => {
     unsigned = unsigned || draft || (await getDraft());
 
+    // mirror quoted events
+    const pointers = processTags(unsigned.tags, (t) => (t[0] === "q" ? getEventPointerFromQTag(t) : undefined));
+    const events = pointers.map((p) => eventStore.getEvent(p.id)).filter((t) => !!t);
+    for (const event of events) publish("Broadcast event", event);
+
     const pub = await publish("Post", unsigned);
     if (pub) setPublished(pub);
   };
@@ -130,8 +136,7 @@ export default function ShortTextNoteForm({
     if (values.difficulty > 0) {
       setMiningTarget(values.difficulty);
     } else {
-      const unsigned = await getDraft(values);
-      publishPost(unsigned);
+      publishPost(await getDraft(values));
     }
   });
 
@@ -195,6 +200,7 @@ export default function ShortTextNoteForm({
           <Flex mr="auto" gap="2">
             <InsertImageButton onUploaded={insertText} aria-label="Upload image" />
             <InsertGifButton onSelectURL={insertText} aria-label="Add gif" />
+            <InsertReactionButton onSelect={insertText} aria-label="Add emoji" />
           </Flex>
         </Flex>
         <Flex gap="2" alignItems="center" justifyContent="space-between">

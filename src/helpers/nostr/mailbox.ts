@@ -1,16 +1,21 @@
 import { kinds } from "nostr-tools";
-import { RelayMode } from "../../classes/relay";
-import { DraftNostrEvent, NostrEvent, RTag, Tag, isRTag } from "../../types/nostr-event";
-import { safeRelayUrl } from "../relay";
-import { cloneEvent } from "./event";
+import { isSafeRelayURL } from "applesauce-core/helpers/relays";
+import { normalizeURL } from "applesauce-core/helpers/url";
 
-/** fixes or removes any bad r tags */
+import { DraftNostrEvent, NostrEvent, RTag, Tag } from "../../types/nostr-event";
+import { cloneEvent } from "./event";
+import { RelayMode } from "../../services/app-relays";
+
+/**
+ * fixes or removes any bad r tags
+ * @deprecated
+ */
 export function cleanRTags(tags: Tag[]) {
   const newTags: Tag[] = [];
   for (const tag of tags) {
     if (tag[0] === "r") {
-      if (!tag[1]) continue;
-      const url = safeRelayUrl(tag[1]);
+      if (!tag[1] || !isSafeRelayURL(tag[1])) continue;
+      const url = normalizeURL(tag[1]);
       if (url) newTags.push(tag[2] ? ["r", url, tag[2]] : ["r", url]);
     } else newTags.push(tag);
   }
@@ -19,7 +24,7 @@ export function cleanRTags(tags: Tag[]) {
 
 export function parseRTag(tag: RTag): { url: string; mode: RelayMode } {
   const url = tag[1];
-  const mode = tag[2] === "write" ? RelayMode.WRITE : tag[2] === "read" ? RelayMode.READ : RelayMode.ALL;
+  const mode = tag[2] === "write" ? RelayMode.WRITE : tag[2] === "read" ? RelayMode.READ : RelayMode.BOTH;
   return { url, mode };
 }
 export function createRelayTag(url: string, mode: RelayMode) {
@@ -29,13 +34,9 @@ export function createRelayTag(url: string, mode: RelayMode) {
     case RelayMode.READ:
       return ["r", url, "read"];
     default:
-    case RelayMode.ALL:
+    case RelayMode.BOTH:
       return ["r", url];
   }
-}
-
-export function getRelaysFromMailbox(list: NostrEvent | DraftNostrEvent): { url: string; mode: RelayMode }[] {
-  return cleanRTags(list.tags).filter(isRTag).map(parseRTag);
 }
 
 export function addRelayModeToMailbox(list: NostrEvent | undefined, relay: string, mode: RelayMode): DraftNostrEvent {
