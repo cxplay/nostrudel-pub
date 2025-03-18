@@ -6,13 +6,13 @@ import HoverLinkOverlay from "../../components/hover-link-overlay";
 import SimpleView from "../../components/layout/presets/simple-view";
 
 const NEW_TYPES: { title: string; path: string; summary?: string; icon: ComponentWithAs<"svg", IconProps> }[] = [
-  { title: "Text Note", path: "/new/note", summary: "A short text post with media", icon: NotesIcon },
-  { title: "Media Post", path: "/new/media", summary: "Image and video posts", icon: MediaIcon },
+  { title: "文本笔记", path: "/new/note", summary: "一条可添加媒体的短文本笔记", icon: NotesIcon },
+  { title: "媒体帖子", path: "/new/media", summary: "图片和视频帖子", icon: MediaIcon },
 ];
 
 export default function NewView() {
   return (
-    <SimpleView title="Create new">
+    <SimpleView title="创建新内容">
       <SimpleGrid columns={{ base: 1, lg: 2 }} gap="2">
         {NEW_TYPES.map(({ title, path, icon: Icon, summary }) => (
           <Card key={title} as={LinkBox}>
