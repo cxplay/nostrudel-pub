@@ -94,7 +94,7 @@ export default function PostSettings() {
           maxW="sm"
         />
         <FormHelperText>
-          <span>发帖时需要计算的工作量证明尺度. 设置为 0 则表示禁用 PoW.</span>
+          <span>发帖时需要计算的工作量证明难度. 设置为 0 则表示禁用 PoW.</span>
         </FormHelperText>
       </FormControl>
 

@@ -3,7 +3,7 @@ import SimpleView from "../../../components/layout/presets/simple-view";
 
 export default function NewNoteView() {
   return (
-    <SimpleView title="New note" center maxW="4xl">
+    <SimpleView title="新笔记" center maxW="4xl">
       <ShortTextNoteForm />
     </SimpleView>
   );
