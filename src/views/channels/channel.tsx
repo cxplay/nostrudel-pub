@@ -93,7 +93,7 @@ function ChannelPage({ channel }: { channel: NostrEvent }) {
             <ButtonGroup size="sm" ms="auto">
               <ChannelJoinButton channel={channel} hideBelow="lg" />
               <Button onClick={drawer.onOpen}>Channel Info</Button>
-              <ChannelMenu channel={channel} aria-label="More Options" />
+              <ChannelMenu channel={channel} aria-label="更多选项" />
             </ButtonGroup>
           }
         >

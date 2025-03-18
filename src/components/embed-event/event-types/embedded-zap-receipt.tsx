@@ -42,7 +42,7 @@ export default function EmbeddedZapRecept({ zap, ...props }: Omit<CardProps, "ch
       <CardHeader display="flex" p="2" gap="2" alignItems="center">
         <UserAvatar pubkey={sender} size="sm" />
         <UserLink pubkey={sender} fontWeight="bold" />
-        <Text>Zapped</Text>
+        <Text>已打闪</Text>
         <UserLink pubkey={recipient} fontWeight="bold" />
 
         {payment.amount && (
@@ -54,7 +54,7 @@ export default function EmbeddedZapRecept({ zap, ...props }: Omit<CardProps, "ch
 
         <Timestamp timestamp={zap.created_at} ml="auto" />
         <ButtonGroup size="sm" variant="ghost">
-          <ZapReceiptMenu zap={zap} aria-label="More Options" />
+          <ZapReceiptMenu zap={zap} aria-label="更多选项" />
         </ButtonGroup>
       </CardHeader>
       <CardBody px="2" pb="2" pt="0" display="flex" flexDirection="column" gap="2">

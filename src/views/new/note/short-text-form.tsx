@@ -186,7 +186,7 @@ export default function ShortTextNoteForm({
         />
         {preview && preview.content.length > 0 && (
           <Box>
-            <Heading size="sm">Preview:</Heading>
+            <Heading size="sm">预览:</Heading>
             <Box borderWidth={1} borderRadius="md" p="2">
               <ErrorBoundary>
                 <TrustProvider trust>
@@ -209,11 +209,11 @@ export default function ShortTextNoteForm({
             rightIcon={advanced.isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
             onClick={advanced.onToggle}
           >
-            More Options
+            更多选项
           </Button>
           {formState.isDirty && (
             <Button variant="ghost" onClick={() => confirm("清空草稿?") && reset()} ms="auto">
-              Clear
+              清除
             </Button>
           )}
           <Button
@@ -223,7 +223,7 @@ export default function ShortTextNoteForm({
             onClick={submit}
             isDisabled={!canSubmit}
           >
-            Post
+            发布
           </Button>
         </Flex>
         {showAdvanced && (
@@ -280,7 +280,7 @@ export default function ShortTextNoteForm({
             客户端标签, 让其他用户知道你正在使用什么应用发帖
           </Text>
           <ButtonGroup ml="auto" size="sm" variant="ghost">
-            <Button onClick={promptAddClientTag.onClose}>Close</Button>
+            <Button onClick={promptAddClientTag.onClose}>关闭</Button>
             <Button colorScheme="primary" onClick={() => localSettings.addClientTag.next(true)}>
               启用
             </Button>

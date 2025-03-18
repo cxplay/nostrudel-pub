@@ -58,12 +58,12 @@ function PayRequestCard({ pubkey, invoice, onPaid }: { pubkey: string; invoice: 
               isDisabled={!window.webln}
               onClick={payWithWebLn}
             >
-              Pay
+              支付
             </Button>
           )}
           <IconButton
             icon={showMore.isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
-            aria-label="More Options"
+            aria-label="更多选项"
             onClick={showMore.onToggle}
           />
         </ButtonGroup>
@@ -79,7 +79,7 @@ function ErrorCard({ pubkey, error }: { pubkey: string; error: any }) {
     <Flex direction="column" gap="2">
       <UserCard pubkey={pubkey}>
         <Button size="sm" variant="outline" colorScheme="red" leftIcon={<ErrorIcon />} onClick={showMore.onToggle}>
-          Error
+          错误
         </Button>
       </UserCard>
       {showMore.isOpen && <Alert status="error">{error.message}</Alert>}
@@ -135,7 +135,7 @@ export default function PayStep({
           return (
             <UserCard key={pubkey} pubkey={pubkey}>
               <Button size="sm" variant="outline" colorScheme="green" leftIcon={<CheckIcon />}>
-                Paid
+                已支付
               </Button>
             </UserCard>
           );
@@ -160,7 +160,7 @@ export default function PayStep({
           onClick={payAllWithWebLN}
           isLoading={payingAll}
         >
-          Pay All
+          支付所有
         </Button>
       )}
     </Flex>

@@ -35,7 +35,7 @@ const ZapEvent = memo(({ zap }: { zap: NostrEvent }) => {
         </Box>
 
         <ButtonGroup ml="auto" size="sm" variant="ghost">
-          <ZapReceiptMenu zap={zap} aria-label="More Options" />
+          <ZapReceiptMenu zap={zap} aria-label="更多选项" />
         </ButtonGroup>
       </Flex>
     </TrustProvider>

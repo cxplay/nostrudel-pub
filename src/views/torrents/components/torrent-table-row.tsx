@@ -71,8 +71,8 @@ function TorrentTableRow({ torrent }: { torrent: NostrEvent }) {
       <Td isNumeric>
         <ButtonGroup variant="ghost" size="xs">
           <EventZapButton event={torrent} />
-          <IconButton as={Link} icon={<Magnet />} aria-label="Magnet URI" isExternal href={magnetLink} />
-          <TorrentMenu torrent={torrent} aria-label="More Options" ml="auto" />
+          <IconButton as={Link} icon={<Magnet />} aria-label="磁力链接" isExternal href={magnetLink} />
+          <TorrentMenu torrent={torrent} aria-label="更多选项" ml="auto" />
         </ButtonGroup>
       </Td>
     </Tr>

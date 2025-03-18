@@ -58,12 +58,12 @@ function TorrentDetailsPage({ torrent }: { torrent: NostrEvent }) {
           <Text> - </Text>
           <Text>{getTorrentTitle(torrent)}</Text>
         </Flex>
-        <TorrentMenu torrent={torrent} ml="auto" aria-label="More Options" />
+        <TorrentMenu torrent={torrent} ml="auto" aria-label="更多选项" />
       </Flex>
       <Card p="2" display="flex" gap="2" flexDirection="column" alignItems="flex-start">
-        <Text>Size: {formatBytes(getTorrentSize(torrent))}</Text>
+        <Text>大小: {formatBytes(getTorrentSize(torrent))}</Text>
         <Text>
-          Uploaded: <Timestamp timestamp={torrent.created_at} />
+          已上传: <Timestamp timestamp={torrent.created_at} />
         </Text>
         <Flex gap="2">
           <Text>Tags:</Text>
@@ -77,14 +77,14 @@ function TorrentDetailsPage({ torrent }: { torrent: NostrEvent }) {
           <EventZapButton event={torrent} />
           <EventQuoteButton event={torrent} />
           <Button as={Link} leftIcon={<Magnet boxSize={5} />} href={getTorrentMagnetLink(torrent)} isExternal>
-            Download torrent
+            下载 Torrent
           </Button>
         </ButtonGroup>
       </Card>
       {torrent.content.length > 0 && (
         <>
           <Heading size="md" mt="2">
-            Description
+            描述
           </Heading>
           <Card p="2">
             <TextNoteContents event={torrent} />
@@ -92,15 +92,15 @@ function TorrentDetailsPage({ torrent }: { torrent: NostrEvent }) {
         </>
       )}
       <Heading size="md" mt="2">
-        Files
+        文件
       </Heading>
       <Card p="2">
         <TableContainer>
           <Table size="sm">
             <Thead>
               <Tr>
-                <Th>Filename</Th>
-                <Th>Size</Th>
+                <Th>文件名</Th>
+                <Th>大小</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -117,11 +117,11 @@ function TorrentDetailsPage({ torrent }: { torrent: NostrEvent }) {
 
       <Flex gap="2">
         <Heading size="md" mt="2">
-          Comments
+          评论
         </Heading>
         {!replyForm.isOpen && (
           <Button leftIcon={<MessageTextCircle01 />} size="sm" ml="auto" onClick={replyForm.onOpen}>
-            New Comment
+            新评论
           </Button>
         )}
       </Flex>

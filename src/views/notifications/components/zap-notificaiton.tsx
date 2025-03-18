@@ -59,9 +59,9 @@ const ZapNotification = forwardRef<HTMLDivElement, { zap: NostrEvent; onClick?: 
           <AvatarGroup size="sm">
             <UserAvatarLink pubkey={sender} />
           </AvatarGroup>
-          <Text>zapped {humanReadableSats(payment.amount / 1000)} sats</Text>
+          <Text>已打闪 {humanReadableSats(payment.amount / 1000)} Sat</Text>
           <ButtonGroup size="sm" variant="ghost" ml="auto">
-            <ZapReceiptMenu zap={zap} aria-label="More Options" />
+            <ZapReceiptMenu zap={zap} aria-label="更多选项" />
           </ButtonGroup>
         </Flex>
         <TextNoteContents event={request} />
