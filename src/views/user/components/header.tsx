@@ -39,8 +39,8 @@ export default function Header({
         {isSelf && !(account instanceof ReadonlyAccount) && (
           <IconButton
             icon={<EditIcon />}
-            aria-label="Edit profile"
-            title="Edit profile"
+            aria-label="编辑资料"
+            title="编辑资料"
             size="sm"
             colorScheme="primary"
             onClick={() => navigate("/profile")}
@@ -49,7 +49,7 @@ export default function Header({
         {showExtraButtons && !isSelf && <UserFollowButton pubkey={pubkey} size="sm" />}
         <UserProfileMenu
           pubkey={pubkey}
-          aria-label="More Options"
+          aria-label="更多选项"
           size="sm"
           showRelaySelectionModal={showRelaySelectionModal}
         />
