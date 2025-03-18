@@ -37,7 +37,7 @@ function ArticlePage({ article }: { article: NostrEvent }) {
   return (
     <VerticalPageLayout pt={{ base: "2", lg: "8" }} pb="32">
       <Box mx="auto" maxW="4xl" w="full" mb="2">
-        <ArticleMenu article={article} aria-label="More Options" float="right" />
+        <ArticleMenu article={article} aria-label="更多选项" float="right" />
         <Heading size="xl">{title}</Heading>
         <Text>{summary}</Text>
         <Box py="2">
@@ -48,7 +48,7 @@ function ArticlePage({ article }: { article: NostrEvent }) {
           <Text>{dayjs.unix(published ?? article.created_at).format("LL")}</Text>
         </Box>
         <ArticleTags article={article} />
-        <BookmarkEventButton event={article} aria-label="Bookmark" variant="ghost" float="right" size="sm" />
+        <BookmarkEventButton event={article} aria-label="书签" variant="ghost" float="right" size="sm" />
       </Box>
       {image && <Image src={image} maxW="6xl" w="full" mx="auto" maxH="60vh" />}
       <Box mx="auto" maxW="4xl" w="full" mb="8">
@@ -72,7 +72,7 @@ function ArticlePage({ article }: { article: NostrEvent }) {
           <GenericCommentForm event={article} onCancel={comment.onClose} onSubmitted={comment.onClose} />
         ) : (
           <Button leftIcon={<ThreadIcon />} onClick={comment.onOpen} mr="auto">
-            Comment
+            评论
           </Button>
         )}
 

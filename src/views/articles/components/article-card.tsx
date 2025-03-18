@@ -33,7 +33,7 @@ const ArticleCard = memo(({ article }: { article: NostrEvent }) => {
         <UserName pubkey={article.pubkey} />
         <Timestamp timestamp={published ?? article.created_at} />
         <Spacer />
-        <ArticleMenu aria-label="More Options" article={article} variant="ghost" size="sm" zIndex={10} />
+        <ArticleMenu aria-label="更多选项" article={article} variant="ghost" size="sm" zIndex={10} />
       </Flex>
 
       {image && (

@@ -53,9 +53,9 @@ export const ThreadPost = memo(({ post, level = -1 }: { post: ThreadItem; level?
   const muteAlert = (
     <Alert status="warning">
       <AlertIcon />
-      Muted user or note
+        已被静音的帖子或用户
       <Button size="xs" ml="auto" onClick={() => setAlwaysShow(true)}>
-        Show anyway
+        显示一次
       </Button>
     </Alert>
   );
@@ -77,8 +77,8 @@ export const ThreadPost = memo(({ post, level = -1 }: { post: ThreadItem; level?
           variant="ghost"
           onClick={expanded.onToggle}
           icon={expanded.isOpen ? <Minus /> : <Expand01 />}
-          aria-label={expanded.isOpen ? "Collapse" : "Expand"}
-          title={expanded.isOpen ? "Collapse" : "Expand"}
+          aria-label={expanded.isOpen ? "折叠" : "展开"}
+          title={expanded.isOpen ? "折叠" : "展开"}
         />
       )}
     </Flex>
@@ -103,13 +103,13 @@ export const ThreadPost = memo(({ post, level = -1 }: { post: ThreadItem; level?
   const footer = (
     <Flex gap="2" alignItems="center">
       <ButtonGroup variant="ghost" size="sm">
-        <IconButton aria-label="Reply" title="Reply" onClick={replyForm.onToggle} icon={<ReplyIcon />} />
+        <IconButton aria-label="回复" title="回复" onClick={replyForm.onToggle} icon={<ReplyIcon />} />
         <EventZapButton event={post.event} />
       </ButtonGroup>
       {!showReactionsOnNewLine && reactionButtons}
       <Spacer />
       <ButtonGroup size="sm" variant="ghost">
-        <TorrentCommentMenu comment={post.event} aria-label="More Options" />
+        <TorrentCommentMenu comment={post.event} aria-label="更多选项" />
       </ButtonGroup>
     </Flex>
   );
