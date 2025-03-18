@@ -127,9 +127,9 @@ export default function ShortTextNoteForm({
     // mirror quoted events
     const pointers = processTags(unsigned.tags, (t) => (t[0] === "q" ? getEventPointerFromQTag(t) : undefined));
     const events = pointers.map((p) => eventStore.getEvent(p.id)).filter((t) => !!t);
-    for (const event of events) publish("Broadcast event", event);
+    for (const event of events) publish("广播事件", event);
 
-    const pub = await publish("Post", unsigned);
+    const pub = await publish("发布", unsigned);
     if (pub) setPublished(pub);
   };
   const submit = handleSubmit(async (values) => {
@@ -198,9 +198,9 @@ export default function ShortTextNoteForm({
         )}
         <Flex gap="2" alignItems="center" justifyContent="flex-end">
           <Flex mr="auto" gap="2">
-            <InsertImageButton onUploaded={insertText} aria-label="Upload image" />
-            <InsertGifButton onSelectURL={insertText} aria-label="Add gif" />
-            <InsertReactionButton onSelect={insertText} aria-label="Add emoji" />
+            <InsertImageButton onUploaded={insertText} aria-label="上传图片" />
+            <InsertGifButton onSelectURL={insertText} aria-label="添加 GIF" />
+            <InsertReactionButton onSelect={insertText} aria-label="添加表情" />
           </Flex>
         </Flex>
         <Flex gap="2" alignItems="center" justifyContent="space-between">
@@ -212,7 +212,7 @@ export default function ShortTextNoteForm({
             More Options
           </Button>
           {formState.isDirty && (
-            <Button variant="ghost" onClick={() => confirm("Clear draft?") && reset()} ms="auto">
+            <Button variant="ghost" onClick={() => confirm("清空草稿?") && reset()} ms="auto">
               Clear
             </Button>
           )}
@@ -232,11 +232,11 @@ export default function ShortTextNoteForm({
               <Flex gap="2" direction="column">
                 <Switch {...register("nsfw")}>NSFW</Switch>
                 {getValues().nsfw && (
-                  <Input {...register("nsfwReason", { required: true })} placeholder="Reason" isRequired />
+                  <Input {...register("nsfwReason", { required: true })} placeholder="原因" isRequired />
                 )}
               </Flex>
               <FormControl>
-                <FormLabel>POW Difficulty ({getValues("difficulty")})</FormLabel>
+                <FormLabel>PoW 难度 ({getValues("difficulty")})</FormLabel>
                 <Slider
                   aria-label="difficulty"
                   value={getValues("difficulty")}
@@ -251,7 +251,7 @@ export default function ShortTextNoteForm({
                   <SliderThumb />
                 </Slider>
                 <FormHelperText>
-                  The number of leading 0's in the event id. see{" "}
+                  事件 ID 中前导 0 的数量(字节). 详见{" "}
                   <Link href="https://github.com/nostr-protocol/nips/blob/master/13.md" isExternal>
                     NIP-13
                   </Link>
@@ -273,16 +273,16 @@ export default function ShortTextNoteForm({
         <Alert status="info" whiteSpace="pre-wrap" flexDirection={{ base: "column", lg: "row" }}>
           <AlertIcon hideBelow="lg" />
           <Text>
-            Enable{" "}
+            启用{" "}
             <Link isExternal href="https://github.com/nostr-protocol/nips/blob/master/89.md#client-tag">
               NIP-89
             </Link>{" "}
-            client tags and let other users know what app you're using to write notes
+            客户端标签, 让其他用户知道你正在使用什么应用发帖
           </Text>
           <ButtonGroup ml="auto" size="sm" variant="ghost">
             <Button onClick={promptAddClientTag.onClose}>Close</Button>
             <Button colorScheme="primary" onClick={() => localSettings.addClientTag.next(true)}>
-              Enable
+              启用
             </Button>
           </ButtonGroup>
         </Alert>

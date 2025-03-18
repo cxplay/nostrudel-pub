@@ -90,8 +90,8 @@ function UserCard({
       <IconButton
         variant="ghost"
         icon={<CloseIcon />}
-        aria-label="Remove from split"
-        title="Remove"
+        aria-label="从拆分对象中移除"
+        title="移除"
         onClick={onRemove}
       />
     </Flex>
@@ -107,7 +107,7 @@ export default function ZapSplitCreator({
   authorPubkey?: string;
 }) {
   const addUser = ({ pubkey, weight }: Split) => {
-    if (splits.some((s) => s.pubkey === pubkey)) throw new Error("User already in split");
+    if (splits.some((s) => s.pubkey === pubkey)) throw new Error("用户已经存在于拆分对象中了");
     onChange(splits.concat({ pubkey, weight }));
   };
   const removeUser = (pubkey: string) => {
@@ -119,7 +119,7 @@ export default function ZapSplitCreator({
 
   return (
     <Flex gap="2" direction="column">
-      <Heading size="sm">Zap Splits</Heading>
+      <Heading size="sm">打闪拆分</Heading>
       <AddUserForm onSubmit={addUser} />
       {splits.map(({ pubkey, weight }) => (
         <UserCard
