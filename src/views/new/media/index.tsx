@@ -79,12 +79,12 @@ export default function NewMediaPostView() {
     <VerticalPageLayout as="form" onSubmit={submit} mx="auto" maxW="4xl" w="full">
       <Flex gap="2">
         <BackButton />
-        <Heading>Media post</Heading>
+        <Heading>媒体帖子</Heading>
       </Flex>
 
       <Alert status="info" flexShrink={0}>
         <AlertIcon />
-        Work in progress, this view does not work yet
+        正在完善中, 该应用视图暂不可用
       </Alert>
 
       <Flex overflowY="hidden" overflowX="scroll" position="relative" h="md" flexShrink={0} gap="2" pb="2">
@@ -123,20 +123,20 @@ export default function NewMediaPostView() {
         value={getValues().content}
         onChange={(e) => setValue("content", e.target.value, setOptions)}
         rows={3}
-        placeholder="Add a caption"
+        placeholder="添加说明"
       />
 
       {showAdvanced && (
         <>
           <Flex gap="2" alignItems="center" mt="2">
             <Divider />
-            <Heading size="sm">Advanced</Heading>
+            <Heading size="sm">高级</Heading>
             <Divider />
           </Flex>
           <Flex gap="2" direction="column">
             <Switch {...register("nsfw")}>NSFW</Switch>
             {getValues().nsfw && (
-              <Input {...register("nsfwReason", { required: true })} placeholder="NSFW Reason" isRequired />
+              <Input {...register("nsfwReason", { required: true })} placeholder="NSFW 原因" isRequired />
             )}
           </Flex>
 
@@ -151,17 +151,17 @@ export default function NewMediaPostView() {
       <Flex gap="2">
         {!showAdvanced && (
           <Button variant="link" p="2" onClick={advanced.onOpen}>
-            Show advanced
+            显示高级选项
           </Button>
         )}
         <Spacer />
         {formState.isDirty && (
-          <Button variant="ghost" onClick={() => confirm("Clear draft?") && reset()}>
-            Clear
+          <Button variant="ghost" onClick={() => confirm("清空草稿?") && reset()}>
+            清除
           </Button>
         )}
         <Button type="submit" colorScheme="primary">
-          Preview
+          预览
         </Button>
       </Flex>
     </VerticalPageLayout>

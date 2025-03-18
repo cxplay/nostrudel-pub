@@ -8,7 +8,7 @@ export default function NewNoteView() {
     <VerticalPageLayout mx="auto" maxW="4xl" w="full">
       <Flex gap="2" alignItems="center">
         <BackButton />
-        <Heading>New note</Heading>
+        <Heading>新笔记</Heading>
       </Flex>
 
       <ShortTextNoteForm />
