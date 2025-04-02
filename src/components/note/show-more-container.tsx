@@ -8,7 +8,7 @@ const StyledOverflowContainer = styled.div`
   position: relative;
 
   &.overflow:after {
-    content: "Show More";
+    content: "显示更多";
     color: var(--chakra-colors-chakra-body-text);
     position: absolute;
     bottom: 0;

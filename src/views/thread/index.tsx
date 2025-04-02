@@ -42,7 +42,7 @@ function ParentNote({ note, level = 0 }: { note: NostrEvent; level?: number }) {
       borderColor="var(--chakra-colors-chakra-border-color)"
       ref={ref}
     >
-      <ExpandableToggleButton toggle={more} aria-label="Show More" size="sm" float="right" />
+      <ExpandableToggleButton toggle={more} aria-label="显示更多" size="sm" float="right" />
       <Box float="left" mr="2">
         <UserAvatarLink pubkey={note.pubkey} size="xs" mr="2" />
         <UserLink pubkey={note.pubkey} fontWeight="bold" mr="1" />

@@ -93,7 +93,7 @@ export default function UserProfileBadges({ pubkey, ...props }: Omit<FlexProps, 
       ))}
       {limit !== null && profileBadges.length > limit && (
         <Button variant="outline" onClick={() => setLimit(null)}>
-          Show More
+          显示更多
         </Button>
       )}
     </Flex>
