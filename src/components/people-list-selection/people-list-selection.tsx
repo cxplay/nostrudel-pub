@@ -147,7 +147,7 @@ export default function PeopleListSelection({
               type="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search Contacts"
+              placeholder="搜索联系人"
             />
             {search.length > 2 && (
               <SimpleGrid columns={2} spacing="2">
