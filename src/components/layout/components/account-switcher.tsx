@@ -41,7 +41,7 @@ export default function AccountSwitcher() {
           )}
         </Flex>
       ) : (
-        <NavItem label="Login" icon={LogIn01} to="/signin" colorScheme="primary" variant="solid" />
+        <NavItem label="登录" icon={LogIn01} to="/signin" colorScheme="primary" variant="solid" />
       )}
     </>
   );

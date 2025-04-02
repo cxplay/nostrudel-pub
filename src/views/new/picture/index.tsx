@@ -63,23 +63,23 @@ export default function NewMediaPostView() {
 
       let i = 0;
       for (const media of values.media) {
-        setLoading(`Uploading ${++i} of ${values.media.length}...`);
+        setLoading(`正在上传 ${++i} of ${values.media.length}...`);
 
         // TODO: this should handle NIP-94 tags in the future
         const url = await uploadFile(media.file);
         if (url) pictures.push({ url, alt: media.alt });
       }
 
-      setLoading("Creating post...");
+      setLoading("正在创建帖子...");
       let draft = await factory.create(PicturePostBlueprint, pictures, values.content, {
         contentWarning: values.nsfw ? values.nsfwReason : undefined,
       });
 
-      setLoading("Signing post...");
+      setLoading("正在签名帖子...");
       const signed = await factory.sign(draft);
 
-      setLoading("Publishing post...");
-      await publish("Post picture", signed);
+      setLoading("正在发布帖子...");
+      await publish("发布图片", signed);
 
       toast({ status: "success", description: "Posted" });
 
@@ -93,7 +93,7 @@ export default function NewMediaPostView() {
   const showAdvanced = advanced.isOpen || getValues("nsfw") || getValues("split").length > 0;
 
   return (
-    <SimpleView as="form" onSubmit={submit} maxW="4xl" center title="Picture post">
+    <SimpleView as="form" onSubmit={submit} maxW="4xl" center title="图片帖子">
       <Flex overflowY="hidden" overflowX="scroll" position="relative" h="md" flexShrink={0} gap="2" pb="2">
         {getValues("media")
           .filter((m) => m.file instanceof File)
@@ -131,21 +131,21 @@ export default function NewMediaPostView() {
           value={getValues().content}
           onChange={(e) => setValue("content", e.target.value, setOptions)}
           rows={3}
-          placeholder="Short description"
+          placeholder="简短描述"
         />
 
         <Flex gap="2">
           <Button variant="ghost" onClick={advanced.onToggle}>
-            Advanced
+            高级
           </Button>
           <Spacer />
           {formState.isDirty && (
-            <Button variant="ghost" onClick={() => confirm("Clear draft?") && reset()}>
-              Clear
+            <Button variant="ghost" onClick={() => confirm("清空草稿?") && reset()}>
+              清除
             </Button>
           )}
           <Button type="submit" colorScheme="primary">
-            Post
+            发布
           </Button>
         </Flex>
 
@@ -155,7 +155,7 @@ export default function NewMediaPostView() {
               <Flex gap="2" direction="column" flex={1}>
                 <Switch {...register("nsfw")}>NSFW</Switch>
                 {getValues().nsfw && (
-                  <Input {...register("nsfwReason", { required: true })} placeholder="NSFW Reason" isRequired />
+                  <Input {...register("nsfwReason", { required: true })} placeholder="NSFW 原因" isRequired />
                 )}
               </Flex>
 
