@@ -33,7 +33,7 @@ export default function NewMediaSlide({ onSelect }: { onSelect: (files: File[]) 
       >
         <Plus boxSize={10} />
         <Text fontWeight="bold" fontSize="xl">
-          Add media
+          添加媒体
         </Text>
       </Flex>
 

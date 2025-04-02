@@ -29,13 +29,13 @@ export default function LoginNpubView() {
   return (
     <Flex as="form" direction="column" gap="4" onSubmit={handleSubmit} w="full">
       <FormControl>
-        <FormLabel>Enter user npub</FormLabel>
+        <FormLabel>输入用户公钥</FormLabel>
         <Flex gap="2">
           <Input type="text" placeholder="npub1" isRequired value={npub} onChange={(e) => setNpub(e.target.value)} />
           <QRCodeScannerButton onResult={(v) => setNpub(v)} />
         </Flex>
         <FormHelperText>
-          Enter any npub you want.{" "}
+          输入任何用户的公钥.{" "}
           <Link isExternal href="https://nostr.directory" color="blue.500" target="_blank">
             nostr.directory
           </Link>
@@ -53,10 +53,10 @@ export default function LoginNpubView() {
       </FormControl> */}
       <Flex justifyContent="space-between" gap="2">
         <Button variant="link" onClick={() => navigate("../")}>
-          Back
+          返回
         </Button>
         <Button colorScheme="primary" ml="auto" type="submit">
-          Login
+          登录
         </Button>
       </Flex>
     </Flex>

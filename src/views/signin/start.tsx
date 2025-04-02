@@ -80,7 +80,7 @@ export default function LoginStartView() {
           w="full"
           colorScheme="primary"
         >
-          Sign in with extension
+          使用浏览器扩展登录
         </Button>
       )}
       <Button
@@ -96,7 +96,7 @@ export default function LoginStartView() {
       {SerialPortSigner.SUPPORTED && (
         <ButtonGroup colorScheme="purple">
           <Button onClick={serial.run} isLoading={serial.loading} leftIcon={<UsbFlashDrive boxSize={6} />} w="xs">
-            Use Signing Device
+            使用签名设备
           </Button>
           <IconButton
             as={Link}
@@ -111,7 +111,7 @@ export default function LoginStartView() {
       {CAP_IS_WEB && AmberClipboardSigner.SUPPORTED && (
         <ButtonGroup colorScheme="orange" w="full">
           <Button onClick={amber.run} isLoading={amber.loading} leftIcon={<Diamond01 boxSize={6} />} flex={1}>
-            Use Amber
+            使用 Amber
           </Button>
           <IconButton
             as={Link}
@@ -126,7 +126,7 @@ export default function LoginStartView() {
       {CAP_IS_ANDROID && <AndroidNativeSigners />}
       <Flex w="full" alignItems="center" gap="4">
         <Divider />
-        <Text fontWeight="bold">或者</Text>
+        <Text fontWeight="bold">OR</Text>
         <Divider />
       </Flex>
       <Flex gap="2">
@@ -170,7 +170,7 @@ export default function LoginStartView() {
       {accounts.length > 0 && (
         <>
           <Text fontWeight="bold" mt="4">
-            Existing accounts
+            现有账户
           </Text>
 
           {accounts.map((account) => (
@@ -184,10 +184,10 @@ export default function LoginStartView() {
 
               <ButtonGroup ms="auto">
                 <Button variant="ghost" onClick={() => manager.setActive(account)}>
-                  Sign in
+                  登录
                 </Button>
                 <IconButton
-                  aria-label="Delete account"
+                  aria-label="删除账户"
                   icon={<CloseIcon />}
                   variant="ghost"
                   colorScheme="red"

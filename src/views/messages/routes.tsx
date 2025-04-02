@@ -7,7 +7,7 @@ export default [
   {
     Component: DirectMessagesView,
     children: [
-      { index: true, element: <Center>select conversation</Center> },
+      { index: true, element: <Center>选择对话</Center> },
       { path: ":pubkey", element: <DirectMessageChatView /> },
     ],
   },

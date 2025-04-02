@@ -51,8 +51,8 @@ export default function LoginNsecView() {
     if (isHexKey(value)) {
       account = SimpleAccount.fromKey(hexToBytes(value));
     } else if (value.startsWith("ncryptsec")) {
-      const password = window.prompt("Decryption password");
-      if (password === null) throw new Error("Password required");
+      const password = window.prompt("解密密码");
+      if (password === null) throw new Error("需要密码");
 
       const key = decrypt(value, password);
       const passwordAccount = PasswordAccount.fromNcryptsec(getPublicKey(key), value);
@@ -63,7 +63,7 @@ export default function LoginNsecView() {
       if (decode?.type !== "nsec") throw new Error();
 
       const key = decode.data;
-      const password = window.prompt("Local encryption password. This password is used to keep your secret key safe");
+      const password = window.prompt("本地私钥加密密码, 用于保护私钥的安全");
       if (password) {
         const signer = new PasswordSigner();
         signer.key = key;
@@ -73,7 +73,7 @@ export default function LoginNsecView() {
       } else {
         account = SimpleAccount.fromKey(decode.data);
       }
-    } else throw new Error("Invalid key");
+    } else throw new Error("无效的密钥");
 
     manager.addAccount(account);
     manager.setActive(account);
@@ -84,9 +84,9 @@ export default function LoginNsecView() {
       <Alert status="warning" maxWidth="30rem">
         <AlertIcon />
         <Box>
-          <AlertTitle>Using secret keys is insecure</AlertTitle>
+          <AlertTitle>直接使用私钥是不安全的</AlertTitle>
           <AlertDescription>
-            You should use a browser extension like{" "}
+            你应该使用浏览器扩展, 比如{" "}
             <Link isExternal href="https://getalby.com/" target="_blank">
               Alby
             </Link>
@@ -107,12 +107,12 @@ export default function LoginNsecView() {
       </Alert>
 
       <FormControl>
-        <FormLabel>Enter user secret key</FormLabel>
+        <FormLabel>输入用户私钥</FormLabel>
         <Flex gap="2">
           <InputGroup size="md">
             <Input
               type={show ? "text" : "password"}
-              placeholder="hex, nsec or ncryptsec"
+              placeholder="hex, nsec 或者 ncryptsec"
               {...register("value", { required: true })}
               isRequired
             />
@@ -123,7 +123,7 @@ export default function LoginNsecView() {
                 variant="ghost"
                 onClick={() => setShow((v) => !v)}
                 icon={show ? <EyeOff boxSize={5} /> : <Eye boxSize={5} />}
-                aria-label="Reveal password"
+                aria-label="密码显示"
               />
             </InputRightElement>
           </InputGroup>
@@ -133,13 +133,13 @@ export default function LoginNsecView() {
 
       <Flex justifyContent="space-between" gap="2">
         <Button variant="link" onClick={() => navigate("../")}>
-          Back
+          返回
         </Button>
         <Button ml="auto" onClick={generateNewKey}>
-          Generate New
+          新建
         </Button>
         <Button colorScheme="primary" type="submit">
-          Login
+          登录
         </Button>
       </Flex>
     </Flex>
