@@ -50,7 +50,7 @@ export const CompactNoteContent = React.memo(
             <>
               <span>...</span>
               <Text as="span" fontWeight="bold" ml="4">
-                Show More
+                显示更多
               </Text>
             </>
           )}
