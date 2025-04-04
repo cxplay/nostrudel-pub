@@ -8,10 +8,8 @@ function normalizeRelayURLs(relays: string[]) {
 }
 
 export const DEFAULT_SEARCH_RELAYS = normalizeRelayURLs([
-  "wss://relay.nostr.band",
-  "wss://search.nos.today",
-  "wss://relay.noswhere.com",
-  "wss://filter.nostr.wine",
+  "wss://relay.nostr.moe",
+  "wss://relay.cxplay.org",
 ]);
 export const WIKI_RELAYS = normalizeRelayURLs(["wss://relay.wikifreedia.xyz/"]);
 export const COMMON_CONTACT_RELAYS = normalizeRelayURLs(["wss://purplepag.es/"]);
