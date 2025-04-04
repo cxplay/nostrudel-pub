@@ -40,7 +40,7 @@ export default defineConfig({
         description: "由 noStrudel 驱动的 Nostr.moe 社区专业版",
         display: "standalone",
         orientation: "portrait-primary",
-        theme_color: "#619ac3",
+        theme_color: "#FF7BAC",
         categories: ["social"],
         icons: [
           { src: "/favicon.ico", type: "image/x-icon", sizes: "16x16 32x32" },
