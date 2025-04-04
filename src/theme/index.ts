@@ -17,7 +17,7 @@ function getTheme(name: string) {
   return {};
 }
 
-export default function buildTheme(themeName: string, primaryColor: string = "#8DB600") {
+export default function buildTheme(themeName: string, primaryColor: string = "#619ac3") {
   const theme = extendTheme(getTheme(themeName), {
     config: {
       initialColorMode: "system",
