@@ -51,7 +51,8 @@ export const RECOMMENDED_READ_RELAYS = normalizeRelayURLs([
   "wss://relay.mostr.pub/",
   "wss://relay.nostr.band/",
   "wss://relay.westernbtc.com/",
-  "wss://us.nostr.wine/"
+  "wss://us.nostr.wine/",
+  "wss://relay.nostr.moe",
 ]);
 export const RECOMMENDED_WRITE_RELAYS = normalizeRelayURLs([
   "wss://relay.damus.io/",
