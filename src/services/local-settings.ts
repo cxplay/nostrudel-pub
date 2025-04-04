@@ -22,7 +22,8 @@ const readRelays = new ArrayLocalStorageEntry<string>("read-relays", [
   "wss://relay.mostr.pub/",
   "wss://relay.nostr.band/",
   "wss://relay.westernbtc.com/",
-  "wss://us.nostr.wine/"
+  "wss://us.nostr.wine/",
+  "wss://relay.nostr.moe",
 ]);
 const writeRelays = new ArrayLocalStorageEntry<string>("write-relays", [
   "wss://relay.damus.io/",
