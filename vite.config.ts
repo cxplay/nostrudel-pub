@@ -35,9 +35,9 @@ export default defineConfig({
         maximumFileSizeToCacheInBytes: 1024 * 1024 * 8,
       },
       manifest: {
-        name: "noStrudel",
-        short_name: "noStrudel",
-        description: "A sandbox for exploring nostr",
+        name: "Nostr.moe Pro",
+        short_name: "Nostr.moe Pro",
+        description: "由 noStrudel 驱动的 Nostr.moe 社区专业版",
         display: "standalone",
         orientation: "portrait-primary",
         theme_color: "#FF7BAC",
