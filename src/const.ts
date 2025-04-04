@@ -83,7 +83,7 @@ export const NOSTR_CONNECT_PERMISSIONS = [
 export const NEVER_ATTACH_CLIENT_TAG = [kinds.EncryptedDirectMessage];
 
 export const NIP_89_CLIENT_APP: EventFactoryClient = {
-  name: "Nostr.moe Pro (Powered by noStrudel)",
+  name: "Nostr.moe Pro",
   address: {
     pubkey: "97eafcb1b8438d56d2a3309c6faf08ae61be618a65c87b6a295549ea773ac29d",
     identifier: "1743731289",
