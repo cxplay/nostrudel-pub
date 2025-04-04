@@ -38,6 +38,10 @@ export const DEFAULT_ICE_SERVERS: RTCIceServer[] = [
   },
 ];
 
+export const NOSTR_MOE_RELAYS = normalizeRelayURLs([
+  "wss://relay.nostr.moe/",
+  "wss://relay.cxplay.org/",
+]);
 export const RECOMMENDED_READ_RELAYS = normalizeRelayURLs([
   "wss://relay.cxplay.org/",
   "wss://ditto.pub/relay",
@@ -80,10 +84,10 @@ export const NOSTR_CONNECT_PERMISSIONS = [
 export const NEVER_ATTACH_CLIENT_TAG = [kinds.EncryptedDirectMessage];
 
 export const NIP_89_CLIENT_APP: EventFactoryClient = {
-  name: "noStrudel",
+  name: "Nostr.moe Pro (Powered by noStrudel)",
   address: {
-    pubkey: "266815e0c9210dfa324c6cba3573b14bee49da4209a9456f9484e5106cd408a5",
-    identifier: "1686066542546",
+    pubkey: "97eafcb1b8438d56d2a3309c6faf08ae61be618a65c87b6a295549ea773ac29d",
+    identifier: "1743731289",
   },
 };
 
