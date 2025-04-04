@@ -64,7 +64,7 @@ export const defaultSettings: AppSettings = {
   // display
   theme: "default",
   colorMode: "system",
-  primaryColor: "#8DB600",
+  primaryColor: "#FF7BAC",
   maxPageWidth: "none",
   showPubkeyColor: "avatar",
   blurImages: true,
