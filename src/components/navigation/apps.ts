@@ -163,8 +163,8 @@ export const internalTools: App[] = [
     to: "/tools/corrections ",
   },
   {
-    title: "noStrudel 用户",
-    description: "发现其他使用 noStrudel 的用户",
+    title: "Nostr.moe Pro 用户",
+    description: "发现其他使用 Nostr.moe Pro 的用户",
     icon: Users03,
     id: "nostrudel-users",
     to: "/tools/nostrudel-users",
