@@ -31,7 +31,7 @@ function Channel({ channel }: { channel: NotificationChannel }) {
           colorScheme="red"
           // onClick={() => controlApi?.send(["CONTROL", "NOTIFICATIONS", "UNREGISTER", channel.id])}
         >
-          Remove
+          移除
         </Button>
       </Flex>
       {details}

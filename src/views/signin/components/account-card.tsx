@@ -35,7 +35,7 @@ export default function AccountCard({ account }: { account: IAccount }) {
       </Box>
       <IconButton
         icon={<CloseIcon />}
-        aria-label="Remove Account"
+        aria-label="移除账户"
         onClick={(e) => {
           e.stopPropagation();
           manager.removeAccount(account);

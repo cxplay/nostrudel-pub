@@ -25,7 +25,7 @@ function BroadcastRelay({ relay }: { relay: string }) {
       <RelayFavicon relay={relay} size="xs" />
       <Text isTruncated>{relay}</Text>
       <IconButton
-        aria-label="Remove Relay"
+        aria-label="移除中继"
         icon={<CloseIcon />}
         size="xs"
         ml="auto"
@@ -77,11 +77,11 @@ function IntervalSelect() {
         if (Number.isFinite(i)) controlApi?.setConfigField("gossipInterval", i);
       }}
     >
-      <option value={60_000}>Every minute</option>
-      <option value={10 * 60_000}>Every 10 min</option>
-      <option value={30 * 60_000}>Every 30 min</option>
-      <option value={60 * 60_000}>Every hour</option>
-      <option value={24 * 60 * 60_000}>Every day</option>
+      <option value={60_000}>每分钟</option>
+      <option value={10 * 60_000}>每 10 分钟</option>
+      <option value={30 * 60_000}>每 30 分钟</option>
+      <option value={60 * 60_000}>每小时</option>
+      <option value={24 * 60 * 60_000}>每天</option>
     </Select>
   );
 }

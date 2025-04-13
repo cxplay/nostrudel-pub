@@ -89,10 +89,10 @@ export default function AccountSettings() {
 
             <ButtonGroup size="sm" ml="auto">
               <Button onClick={() => manager.setActive(account)} variant="ghost">
-                Switch
+                切换
               </Button>
-              <Button onClick={() => confirm("Remove account?") && manager.removeAccount(account)} colorScheme="red">
-                Remove
+              <Button onClick={() => confirm("移除账户?") && manager.removeAccount(account)} colorScheme="red">
+                移除
               </Button>
             </ButtonGroup>
           </Flex>
