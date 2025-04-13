@@ -45,13 +45,13 @@ export default function MediaSlide({ file, onChange, alt, onRemove, ...props }: 
       </Flex>
       <Flex gap="2" w="full" justifyContent="flex-end">
         {alt !== undefined ? (
-          <Input value={alt} onChange={(e) => onChange?.(e.target.value)} placeholder="Alt text for media" p="2" />
+          <Input value={alt} onChange={(e) => onChange?.(e.target.value)} placeholder="媒体文件的替代文本(Alt)" p="2" />
         ) : (
           <Button variant="link" onClick={() => onChange?.("")}>
-            add alt text
+            添加替代文本
           </Button>
         )}
-        <IconButton aria-label="Remove" icon={<CloseIcon />} colorScheme="red" variant="ghost" onClick={onRemove} />
+        <IconButton aria-label="移除" icon={<CloseIcon />} colorScheme="red" variant="ghost" onClick={onRemove} />
       </Flex>
     </Flex>
   );

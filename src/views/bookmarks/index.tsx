@@ -22,7 +22,7 @@ function RemoveBookmarkButton({ event }: { event: NostrEvent }) {
   const { isLoading, removeBookmark } = useEventBookmarkActions(event);
   return (
     <Button colorScheme="red" onClick={removeBookmark} isLoading={isLoading}>
-      Remove
+      移除
     </Button>
   );
 }
@@ -68,11 +68,11 @@ function BookmarksPage({ pubkey }: { pubkey: string }) {
           <UserAvatarLink pubkey={pubkey} size="sm" />
           <Heading size="md">
             <UserName pubkey={list.pubkey} />
-            's Bookmarks
+            的书签
           </Heading>
         </Flex>
       }
-      actions={<ListMenu ml="auto" size="sm" list={list} aria-label="More options" />}
+      actions={<ListMenu ml="auto" size="sm" list={list} aria-label="更多选项" />}
       maxW={maxWidth}
       center
     >

@@ -39,7 +39,7 @@ export default function UserCard({ pubkey, relay, list, ...props }: UserCardProp
         </Flex>
         {account?.pubkey === list.pubkey ? (
           <Button variant="outline" colorScheme="orange" onClick={remove.run} isLoading={remove.loading} size="sm">
-            Remove
+            移除
           </Button>
         ) : (
           <UserFollowButton pubkey={pubkey} variant="outline" />
