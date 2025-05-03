@@ -12,7 +12,7 @@ export default function DebugContentPage({ event }: { event: NostrEvent }) {
   return (
     <Flex gap="2" direction="column">
       <CopyButton value={event.content} variant="link" size="sm" ml="auto">
-        Copy content
+        复制内容
       </CopyButton>
       <Code whiteSpace="pre" overflowX="auto" width="100%" p="2">
         {event.content}

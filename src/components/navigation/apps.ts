@@ -31,6 +31,8 @@ import Rocket02 from "../icons/rocket-02";
 import PuzzlePiece01 from "../icons/puzzle-piece-01";
 import Users02 from "../icons/users-02";
 import Wallet02 from "../icons/wallet-02";
+import Users01 from "../icons/users-01";
+import MessageChatCircle from "../icons/message-chat-circle";
 
 export type App = {
   icon?: ComponentWithAs<"svg", IconProps>;
@@ -76,13 +78,19 @@ export const internalApps: App[] = [
     to: "/groups",
   },
   {
+    title: "中继聊天",
+    description: "基于中继的简单阅后即焚聊天",
+    icon: MessageChatCircle,
+    id: "relay-chat",
+    to: "/relay-chat",
+  },
+  {
     title: "媒体",
     description: "浏览包含媒体的帖子",
     icon: MediaIcon,
     id: "pictures",
     to: "/pictures",
   },
-  // { title: "Podcasts", description: "Social podcasts", icon: Podcast, id: "podcasts", to: "/podcasts" },
   { title: "百科", description: "浏览百科页面", icon: WikiIcon, id: "wiki", to: "/wiki" },
   {
     title: "频道",
@@ -96,7 +104,13 @@ export const internalApps: App[] = [
   { title: "Torrent", description: "浏览 Nostr 网络上的 Torrent", icon: TorrentIcon, id: "torrents", to: "/torrents" },
   { title: "表情包", description: "创建自定义表情包", icon: EmojiPacksIcon, id: "emojis", to: "/emojis" },
   { title: "书签", description: "管理你的书签", icon: BookmarkIcon, id: "bookmarks", to: "/bookmarks" },
-  { title: "列表", description: "浏览和创建列表", icon: ListsIcon, id: "lists", to: "/lists" },
+  {
+    title: "列表",
+    description: "列出用户和笔记",
+    icon: Users01,
+    id: "lists",
+    to: "/lists"
+  },
   { title: "曲目", description: "浏览 Stemstr 曲目", icon: TrackIcon, id: "tracks", to: "/tracks" },
   { title: "视频", description: "浏览视频", icon: VideoIcon, id: "videos", to: "/videos" },
   { title: "文章", description: "浏览文章", icon: ArticleIcon, id: "articles", to: "/articles" },
@@ -160,11 +174,11 @@ export const internalTools: App[] = [
     description: "一个展示帖子修改历史的时间线",
     icon: Edit04,
     id: "corrections",
-    to: "/tools/corrections ",
+    to: "/tools/corrections",
   },
   {
-    title: "noStrudel 用户",
-    description: "发现其他使用 noStrudel 的用户",
+    title: "Nostr.moe Pro 用户",
+    description: "发现其他使用 Nostr.moe Pro 的用户",
     icon: Users03,
     id: "nostrudel-users",
     to: "/tools/nostrudel-users",

@@ -5,7 +5,7 @@ import { nip19 } from "nostr-tools";
 import { ReadonlyAccount } from "applesauce-accounts/accounts";
 import { ReadonlySigner } from "applesauce-signers";
 
-import { DotsMenuButton, MenuIconButtonProps } from "../../../components/dots-menu-button";
+import { DotsMenuButton, MenuIconButtonProps } from "../../../components/menu/dots-menu-button";
 import {
   DirectMessagesIcon,
   CopyToClipboardIcon,
@@ -37,7 +37,7 @@ export const UserProfileMenu = ({
   const { openAddress } = useContext(AppHandlerContext);
   const manager = useAccountManager();
 
-  const loginAsUser = () => {
+  const signinAsUser = () => {
     const existing = manager.getAccountForPubkey(pubkey);
     if (existing) {
       manager.setActive(existing);
@@ -73,7 +73,7 @@ export const UserProfileMenu = ({
         >
           盲点
         </MenuItem>
-        <MenuItem icon={<SpyIcon fontSize="1.5em" />} onClick={() => loginAsUser()}>
+        <MenuItem icon={<SpyIcon fontSize="1.5em" />} onClick={() => signinAsUser()}>
           公钥登录
         </MenuItem>
         <MenuItem

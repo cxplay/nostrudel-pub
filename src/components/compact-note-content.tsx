@@ -1,20 +1,20 @@
-import React, { useMemo, useRef } from "react";
 import { Box, BoxProps, Text } from "@chakra-ui/react";
 import { Root, truncateContent } from "applesauce-content/nast";
+import { EventTemplate, NostrEvent } from "nostr-tools";
+import React, { useMemo, useRef } from "react";
 
-import { DraftNostrEvent, NostrEvent } from "../types/nostr-event";
-import { LightboxProvider } from "./lightbox-provider";
-import { nostrMentions, emojis, hashtags, links } from "applesauce-content/text";
+import { emojis, hashtags, links, nostrMentions } from "applesauce-content/text";
 import { useRenderedContent } from "applesauce-react/hooks";
 import { components } from "./content";
 import { renderGenericUrl } from "./content/links/common";
+import { LightboxProvider } from "./lightbox-provider";
 
 const linkRenderers = [renderGenericUrl];
 
 const CompactNoteContentSymbol = Symbol.for("compact-note-content");
 
 export type NoteContentsProps = {
-  event: NostrEvent | DraftNostrEvent;
+  event: NostrEvent | EventTemplate;
   textOnly?: boolean;
   maxLength?: number;
 };
@@ -44,12 +44,12 @@ export const CompactNoteContent = React.memo(
 
     return (
       <LightboxProvider>
-        <Box whiteSpace="pre-wrap" {...props}>
+        <Box whiteSpace="pre-wrap" role="article" aria-label="Note content" {...props}>
           {content}
           {truncated.current && (
             <>
               <span>...</span>
-              <Text as="span" fontWeight="bold" ml="4">
+              <Text as="span" fontWeight="bold" ml="4" role="button" tabIndex={0} aria-label="显示更多内容">
                 显示更多
               </Text>
             </>

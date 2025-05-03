@@ -1,6 +1,5 @@
 import { Nip07Interface } from "applesauce-signers";
-import { EventTemplate, NostrEvent } from "nostr-tools";
-import { ConnectionState, EventSigner } from "rx-nostr";
+import { EventTemplate, kinds, NostrEvent } from "nostr-tools";
 import { BehaviorSubject } from "rxjs";
 import { createDefer, Deferred } from "applesauce-core/promise";
 import { unixNow } from "applesauce-core/helpers";
@@ -9,6 +8,7 @@ import * as Nostr from "nostr-typedef";
 import accounts from "./accounts";
 import { logger } from "../helpers/debug";
 import localSettings from "./local-settings";
+import { ConnectionState } from "./pool";
 
 export type RelayAuthMode = "always" | "ask" | "never";
 
@@ -26,7 +26,8 @@ export type RelayAuthState =
   | RelayAuthRejectedState
   | RelayAuthSuccessState;
 
-class AuthenticationSigner implements EventSigner {
+/** A wrapper signer class that only signs NIP-42 authentication requests and respects users privacy preferences */
+class AuthenticationSigner {
   protected log = logger.extend("AuthenticationSigner");
 
   relayState$ = new BehaviorSubject<Record<string, RelayAuthState>>({});
@@ -44,7 +45,7 @@ class AuthenticationSigner implements EventSigner {
   relayMode = new Map<string, RelayAuthMode>();
 
   /** manually sign an authenticate request */
-  authenticate(relay: string) {
+  authenticate(relay: string): Deferred<NostrEvent> | undefined {
     const state = this.getRelayState(relay);
 
     if (state?.status === "signing") return state.promise;
@@ -97,7 +98,7 @@ class AuthenticationSigner implements EventSigner {
   }
 
   /** cancel a pending authentication request */
-  cancel(relay: string) {
+  cancel(relay: string): void {
     const state = this.getRelayState(relay);
     if (!state) return;
 
@@ -127,16 +128,15 @@ class AuthenticationSigner implements EventSigner {
   }
 
   /** handle relay state changes */
-  handleRelayConnectionState(packet: { from: string; state: ConnectionState }) {
-    const from = new URL(packet.from).toString();
-
+  handleRelayConnectionState(relay: string, connected: boolean) {
     // if the state is anything but connected, cancel any pending requests
-    if (packet.state !== "connected") this.cancel(from);
+    if (!connected) this.cancel(relay);
   }
 
   /** intercept sign requests and save them for later */
   signEvent<K extends number>(draft: Nostr.EventParameters<K>): Promise<Nostr.Event<K>> {
-    if (!draft.tags) throw new Error("缺少标签");
+    if (draft.kind !== kinds.ClientAuth) throw new Error("这不是一个客户端认证事件");
+    if (!draft.tags) throw new Error("Missing tags");
 
     let relay = draft.tags.find((t) => t[0] === "relay" && t[1])?.[1];
     if (!relay) throw new Error("缺少中继标签");

@@ -11,7 +11,9 @@ export default function Timestamp({ timestamp, ...props }: { timestamp: number }
 
   let display = date.format("ll"); // 使用本地化的 "ll" 格式
 
-  if (now.diff(date, "week") <= 6) {
+  if (date.isAfter(now) || date.isSame(now)) {
+    display = "now";
+  } else if (now.diff(date, "week") <= 6) {
     if (now.diff(date, "d") >= 1) {
       display = Math.round(now.diff(date, "d") * 10) / 10 + `天`;
     } else if (now.diff(date, "h") >= 1) {

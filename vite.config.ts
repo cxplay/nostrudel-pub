@@ -19,11 +19,7 @@ export default defineConfig({
     react(),
     tsconfigPaths(),
     VitePWA({
-      // strategies: "injectManifest",
-      // srcDir: "src",
-      // filename: "worker.ts",
-      registerType: "prompt",
-      // injectRegister: null,
+      registerType: "autoUpdate",
       injectManifest: {
         minify: false,
         sourcemap: true,
@@ -35,12 +31,12 @@ export default defineConfig({
         maximumFileSizeToCacheInBytes: 1024 * 1024 * 8,
       },
       manifest: {
-        name: "noStrudel",
-        short_name: "noStrudel",
-        description: "A sandbox for exploring nostr",
+        name: "Nostr.moe Pro",
+        short_name: "Nostr.moe Pro",
+        description: "由 noStrudel 驱动的 Nostr.moe 社区专业版",
         display: "standalone",
         orientation: "portrait-primary",
-        theme_color: "#8DB600",
+        theme_color: "#FF7BAC",
         categories: ["social"],
         icons: [
           { src: "/favicon.ico", type: "image/x-icon", sizes: "16x16 32x32" },

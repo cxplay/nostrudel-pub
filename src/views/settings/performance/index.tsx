@@ -45,7 +45,6 @@ function VerifyEventSettings() {
 
 export default function PerformanceSettings() {
   const { register, submit, formState } = useSettingsForm();
-  const enableKeyboardShortcuts = useObservable(localSettings.enableKeyboardShortcuts);
 
   return (
     <SimpleView
@@ -120,18 +119,6 @@ export default function PerformanceSettings() {
           <Switch id="showReactions" {...register("showReactions")} />
         </Flex>
         <FormHelperText>启用: 显示笔记的表情回应</FormHelperText>
-      </FormControl>
-      <FormControl>
-        <Flex alignItems="center">
-          <FormLabel htmlFor="enableKeyboardShortcuts" mb="0">
-            启用键盘快捷键
-          </FormLabel>
-          <Switch
-            id="enableKeyboardShortcuts"
-            isChecked={enableKeyboardShortcuts}
-            onChange={(e) => localSettings.enableKeyboardShortcuts.next(e.currentTarget.checked)}
-          />
-        </Flex>
       </FormControl>
       <FormControl>
         <Flex alignItems="center">

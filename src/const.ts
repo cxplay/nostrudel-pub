@@ -1,23 +1,20 @@
 import { EventFactoryClient } from "applesauce-factory";
 import { isSafeRelayURL } from "applesauce-core/helpers/relays";
 import { normalizeURL } from "applesauce-core/helpers";
-import { kinds } from "nostr-tools";
 
 function normalizeRelayURLs(relays: string[]) {
   return relays.filter(isSafeRelayURL).map(normalizeURL);
 }
 
 export const DEFAULT_SEARCH_RELAYS = normalizeRelayURLs([
-  "wss://relay.nostr.band",
-  "wss://search.nos.today",
-  "wss://relay.noswhere.com",
-  "wss://filter.nostr.wine",
+  "wss://relay.nostr.moe",
+  "wss://relay.cxplay.org",
 ]);
 export const WIKI_RELAYS = normalizeRelayURLs(["wss://relay.wikifreedia.xyz/"]);
-export const COMMON_CONTACT_RELAYS = normalizeRelayURLs(["wss://purplepag.es/"]);
+export const DEFAULT_LOOKUP_RELAYS = normalizeRelayURLs(["wss://purplepag.es/", "wss://kindpag.es"]);
 
 export const DEFAULT_SIGNAL_RELAYS = normalizeRelayURLs(["wss://nostrue.com/", "wss://relay.damus.io"]);
-export const DEFAULT_NOSTR_CONNECT_RELAYS = normalizeRelayURLs(["wss://relay.nsec.app/"]);
+export const DEFAULT_NOSTR_CONNECT_RELAY = normalizeURL("wss://relay.nsec.app/");
 
 export const DEFAULT_ICE_SERVERS: RTCIceServer[] = [
   {
@@ -38,6 +35,10 @@ export const DEFAULT_ICE_SERVERS: RTCIceServer[] = [
   },
 ];
 
+export const NOSTR_MOE_RELAYS = normalizeRelayURLs([
+  "wss://relay.nostr.moe/",
+  "wss://relay.cxplay.org/",
+]);
 export const RECOMMENDED_READ_RELAYS = normalizeRelayURLs([
   "wss://relay.cxplay.org/",
   "wss://ditto.pub/relay",
@@ -47,7 +48,8 @@ export const RECOMMENDED_READ_RELAYS = normalizeRelayURLs([
   "wss://relay.mostr.pub/",
   "wss://relay.nostr.band/",
   "wss://relay.westernbtc.com/",
-  "wss://us.nostr.wine/"
+  "wss://us.nostr.wine/",
+  "wss://relay.nostr.moe",
 ]);
 export const RECOMMENDED_WRITE_RELAYS = normalizeRelayURLs([
   "wss://relay.damus.io/",
@@ -55,7 +57,7 @@ export const RECOMMENDED_WRITE_RELAYS = normalizeRelayURLs([
   "wss://purplerelay.com/",
 ]);
 
-export const JAPANESE_RELAYS = normalizeRelayURLs([
+export const RECOMMENDED_JAPANESE_RELAYS = normalizeRelayURLs([
   "wss://r.kojira.io",
   "wss://nrelay-jp.c-stellar.net",
   "wss://nostr.fediverse.jp",
@@ -77,13 +79,11 @@ export const NOSTR_CONNECT_PERMISSIONS = [
   "sign_event:7",
 ];
 
-export const NEVER_ATTACH_CLIENT_TAG = [kinds.EncryptedDirectMessage];
-
 export const NIP_89_CLIENT_APP: EventFactoryClient = {
-  name: "noStrudel",
+  name: "Nostr.moe Pro",
   address: {
-    pubkey: "266815e0c9210dfa324c6cba3573b14bee49da4209a9456f9484e5106cd408a5",
-    identifier: "1686066542546",
+    pubkey: "97eafcb1b8438d56d2a3309c6faf08ae61be618a65c87b6a295549ea773ac29d",
+    identifier: "1743731289",
   },
 };
 

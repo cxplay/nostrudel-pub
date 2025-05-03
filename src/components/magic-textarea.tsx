@@ -1,23 +1,23 @@
-import React, { LegacyRef, forwardRef, useMemo } from "react";
+import { LegacyRef, forwardRef, useMemo } from "react";
 // NOTE: Do not remove Textarea or Input from the imports. they are used
-import { Image, InputProps, Textarea, Input, TextareaProps } from "@chakra-ui/react";
+import { Image, Input, InputProps, Textarea, TextareaProps } from "@chakra-ui/react";
+import { type EmojiMartData } from "@emoji-mart/data";
 import ReactTextareaAutocomplete, {
   ItemComponentProps,
-  TextareaProps as ReactTextareaAutocompleteProps,
   TriggerType,
+  TextareaProps as ReactTextareaAutocompleteProps,
 } from "@webscopeio/react-textarea-autocomplete";
 import "@webscopeio/react-textarea-autocomplete/style.css";
-import { nip19 } from "nostr-tools";
-import { matchSorter } from "match-sorter";
 import { useObservable } from "applesauce-react/hooks";
-import { type EmojiMartData } from "@emoji-mart/data";
+import { matchSorter } from "match-sorter";
+import { nip19 } from "nostr-tools";
 import { useAsync, useLocalStorage } from "react-use";
 
 import { useContextEmojis } from "../providers/global/emoji-provider";
-import UserAvatar from "./user/user-avatar";
-import UserDnsIdentity from "./user/user-dns-identity";
 import { useWebOfTrust } from "../providers/global/web-of-trust-provider";
 import { userSearchDirectory } from "../services/username-search";
+import UserAvatar from "./user/user-avatar";
+import UserDnsIdentity from "./user/user-dns-identity";
 
 // Referencing Textarea and Input so they are not removed from the imports
 [Textarea, Input];
@@ -38,14 +38,15 @@ const Item = ({ entity }: ItemComponentProps<Token>) => {
     const { url, name, char } = entity;
     if (url)
       return (
-        <span>
-          {name}: <Image src={url} h="1.2em" w="1.2em" display="inline-block" verticalAlign="middle" title={name} />
+        <span role="option" aria-label={`Emoji: ${name}`}>
+          {name}:{" "}
+          <Image src={url} h="1.2em" w="1.2em" display="inline-block" verticalAlign="middle" title={name} alt={name} />
         </span>
       );
-    else return <span>{`${name}: ${char}`}</span>;
+    else return <span role="option" aria-label={`Emoji: ${name}`}>{`${name}: ${char}`}</span>;
   } else if (isPersonToken(entity)) {
     return (
-      <span>
+      <span role="option" aria-label={`User: ${entity.names[0]}`}>
         <UserAvatar pubkey={entity.pubkey} size="xs" /> {entity.names[0]}{" "}
         <UserDnsIdentity pubkey={entity.pubkey} onlyIcon />
       </span>
@@ -61,6 +62,7 @@ function output(token: Token) {
   } else return "";
 }
 
+// NOTE: Do not remove this, it is in the text area autocomplete
 const Loading: ReactTextareaAutocompleteProps<
   Token,
   React.TextareaHTMLAttributes<HTMLTextAreaElement>
@@ -165,6 +167,10 @@ const MagicInput = forwardRef<HTMLInputElement, InputProps & { instanceRef?: Leg
         minChar={0}
         trigger={triggers}
         innerRef={ref && (typeof ref === "function" ? ref : (el) => (ref.current = el))}
+        aria-label={props["aria-label"] || "Input with autocomplete"}
+        role="combobox"
+        aria-autocomplete="list"
+        aria-expanded="false"
       />
     );
   },
@@ -184,6 +190,10 @@ const MagicTextArea = forwardRef<HTMLTextAreaElement, TextareaProps & { instance
         minChar={0}
         trigger={triggers}
         innerRef={ref && (typeof ref === "function" ? ref : (el) => (ref.current = el))}
+        aria-label={props["aria-label"] || "Textarea with autocomplete"}
+        role="combobox"
+        aria-autocomplete="list"
+        aria-expanded="false"
       />
     );
   },

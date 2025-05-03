@@ -1,10 +1,10 @@
 import { Button, ButtonProps, useDisclosure } from "@chakra-ui/react";
-import { NostrEvent } from "../../../types/nostr-event";
+import { NostrEvent } from "nostr-tools";
 import ZapModal from "../../../components/event-zap-modal";
 import { getEventUID } from "../../../helpers/nostr/event";
 import { getGoalRelays } from "../../../helpers/nostr/goal";
 import { useReadRelays } from "../../../hooks/use-client-relays";
-import { requestZaps } from "../../../services/event-zaps-loader";
+import { requestZaps } from "../../../services/zaps-loader";
 
 export default function GoalZapButton({
   goal,

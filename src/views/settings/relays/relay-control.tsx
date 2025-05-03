@@ -34,7 +34,7 @@ export default function RelayControl({ url }: { url: string }) {
         title="Toggle Write"
       />
       <IconButton
-        aria-label="Remove Relay"
+        aria-label="移除中继"
         icon={<CloseIcon />}
         size="sm"
         colorScheme="red"

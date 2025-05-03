@@ -1,9 +1,7 @@
+import { getPointerFromTag, isRTag } from "applesauce-core/helpers";
 import dayjs from "dayjs";
-import { kinds } from "nostr-tools";
+import { kinds, NostrEvent } from "nostr-tools";
 import { DecodeResult } from "nostr-tools/nip19";
-import { getPointerFromTag } from "applesauce-core/helpers";
-
-import { NostrEvent, isRTag } from "../../types/nostr-event";
 
 /** @deprecated use kinds.ZapGoal */
 export const GOAL_KIND = kinds.ZapGoal;
@@ -63,7 +61,7 @@ export function getGoalEventPointers(goal: NostrEvent) {
 }
 
 export function validateGoal(goal: NostrEvent) {
-  const amount = getGoalAmount(goal);
+  getGoalAmount(goal);
   const relays = getGoalRelays(goal);
   if (relays.length) throw new Error("zero relays");
   return true;

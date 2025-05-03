@@ -19,10 +19,10 @@ import { kinds } from "nostr-tools";
 
 import { usePeopleListContext } from "../../providers/local/people-list-provider";
 import useUserSets from "../../hooks/use-user-lists";
-import { getListName, getPubkeysFromList } from "../../helpers/nostr/lists";
+import { getListTitle, getPubkeysFromList } from "../../helpers/nostr/lists";
 import { getEventCoordinate, getEventUID } from "../../helpers/nostr/event";
 import useFavoriteLists from "../../hooks/use-favorite-lists";
-import { NostrEvent } from "../../types/nostr-event";
+import { NostrEvent } from "nostr-tools";
 import useUserContactList from "../../hooks/use-user-contact-list";
 import { matchSorter } from "match-sorter";
 import UserAvatar from "../user/user-avatar";
@@ -32,7 +32,7 @@ import { userSearchDirectory } from "../../services/username-search";
 function ListCard({ list, ...props }: { list: NostrEvent } & Omit<ButtonProps, "children`">) {
   return (
     <Button justifyContent="flex-start" {...props}>
-      {getListName(list)}
+      {getListTitle(list)}
     </Button>
   );
 }
@@ -93,7 +93,7 @@ export default function PeopleListSelection({
   return (
     <>
       <Button onClick={modal.onOpen} {...props}>
-        {listEvent ? getListName(listEvent) : selected === "global" ? "全球" : "加载中..."}
+        {listEvent ? getListTitle(listEvent) : selected === "global" ? "全球" : "加载中..."}
       </Button>
       <Modal isOpen={modal.isOpen} onClose={modal.onClose} size="2xl">
         <ModalOverlay />

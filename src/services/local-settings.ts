@@ -14,15 +14,8 @@ import { LocalStorageEntry } from "../classes/local-settings/entry";
 
 // relays
 const readRelays = new ArrayLocalStorageEntry<string>("read-relays", [
+  "wss://relay.nostr.moe",
   "wss://relay.cxplay.org/",
-  "wss://ditto.pub/relay",
-  "wss://nostr-relay.app/",
-  "wss://relay.damus.io/",
-  "wss://relay.momostr.pink/",
-  "wss://relay.mostr.pub/",
-  "wss://relay.nostr.band/",
-  "wss://relay.westernbtc.com/",
-  "wss://us.nostr.wine/"
 ]);
 const writeRelays = new ArrayLocalStorageEntry<string>("write-relays", [
   "wss://relay.damus.io/",
@@ -87,9 +80,6 @@ const ntfyServer = new LocalStorageEntry("ntfy-server", "https://ntfy.sh");
 // cache relay
 const cacheRelayURL = new LocalStorageEntry("cache-relay-url", "");
 
-// bakery
-const bakeryURL = new LocalStorageEntry<string>("bakery-url", "");
-
 const localSettings = {
   readRelays,
   writeRelays,
@@ -109,7 +99,6 @@ const localSettings = {
   deviceId,
   ntfyTopic,
   ntfyServer,
-  bakeryURL,
   cacheRelayURL,
 };
 
