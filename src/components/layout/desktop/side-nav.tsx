@@ -51,8 +51,8 @@ export default function DesktopSideNav({ ...props }: Omit<FlexProps, "children">
           />
           {!collapsed && (
             <>
-              <RelayConnectionButton w="full" aria-label="Manage relay connections" />
-              <PublishLogButton flexShrink={0} aria-label="Publish log" />
+              <RelayConnectionButton w="full" aria-label="管理中继连接" />
+              <PublishLogButton flexShrink={0} aria-label="发布日志" />
             </>
           )}
         </ButtonGroup>
