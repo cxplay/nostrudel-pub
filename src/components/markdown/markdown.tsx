@@ -1,4 +1,3 @@
-import { forwardRef } from "react";
 import {
   Code,
   CodeProps,
@@ -22,16 +21,17 @@ import {
   Tr,
   UnorderedList,
 } from "@chakra-ui/react";
-import Markdown, { Components, defaultUrlTransform, ExtraProps } from "react-markdown";
 import styled from "@emotion/styled";
+import { remarkNostrMentions } from "applesauce-content/markdown";
 import { nip19, NostrEvent } from "nostr-tools";
+import { forwardRef, memo } from "react";
+import Markdown, { Components, defaultUrlTransform, ExtraProps } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import wikiLinkPlugin from "remark-wiki-link";
-import { remarkNostrMentions, NostrMention } from "applesauce-content/markdown";
 
-import WikiLink from "./wiki-link";
-import UserLink from "../user/user-link";
 import { EmbedEventPointer } from "../embed-event";
+import UserLink from "../user/user-link";
+import WikiLink from "./wiki-link";
 
 const StyledMarkdown = styled(Markdown)`
   pre > code {
@@ -175,20 +175,22 @@ function urlTransform(url: string) {
   return defaultUrlTransform(url);
 }
 
-export const CharkaMarkdown = forwardRef<HTMLDivElement, { children: string }>(({ children }, ref) => {
-  return (
-    <div ref={ref}>
-      <StyledMarkdown
-        remarkPlugins={[remarkGfm, wikiLinkPlugin, remarkNostrMentions]}
-        components={components}
-        skipHtml
-        urlTransform={urlTransform}
-      >
-        {children}
-      </StyledMarkdown>
-    </div>
-  );
-});
+export const CharkaMarkdown = memo(
+  forwardRef<HTMLDivElement, { children: string }>(({ children }, ref) => {
+    return (
+      <div ref={ref}>
+        <StyledMarkdown
+          remarkPlugins={[remarkGfm, wikiLinkPlugin, remarkNostrMentions]}
+          components={components}
+          skipHtml
+          urlTransform={urlTransform}
+        >
+          {children}
+        </StyledMarkdown>
+      </div>
+    );
+  }),
+);
 
 export default function MarkdownContent({ event }: { event: NostrEvent }) {
   return <CharkaMarkdown>{event.content}</CharkaMarkdown>;

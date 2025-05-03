@@ -1,5 +1,5 @@
 import { ButtonGroup, ButtonGroupProps, IconButton, IconButtonProps } from "@chakra-ui/react";
-import { AtIcon, LightningIcon, ReplyIcon, RepostIcon } from "../../components/icons";
+import { AtIcon, LightningIcon, QuoteIcon, ReplyIcon, RepostIcon } from "../../components/icons";
 import Heart from "../../components/icons/heart";
 import HelpCircle from "../../components/icons/help-circle";
 
@@ -20,6 +20,7 @@ function ToggleIconButton({ toggle, colorScheme, color, ...props }: IconButtonPr
 type NotificationTypeTogglesPropTypes = Omit<ButtonGroupProps, "children"> & {
   showReplies: Disclosure;
   showMentions: Disclosure;
+  showQuotes: Disclosure;
   showZaps: Disclosure;
   showReposts: Disclosure;
   showReactions: Disclosure;
@@ -29,6 +30,7 @@ type NotificationTypeTogglesPropTypes = Omit<ButtonGroupProps, "children"> & {
 export default function NotificationTypeToggles({
   showReplies,
   showMentions,
+  showQuotes,
   showZaps,
   showReposts,
   showReactions,
@@ -46,10 +48,17 @@ export default function NotificationTypeToggles({
       />
       <ToggleIconButton
         icon={<AtIcon boxSize={5} />}
-        aria-label="切换显示转发消息"
-        title="切换显示转发消息"
+        aria-label="切换显示提及消息"
+        title="切换显示提及消息"
         toggle={showMentions}
         color="purple.400"
+      />
+      <ToggleIconButton
+        icon={<QuoteIcon boxSize={5} />}
+        aria-label="切换显示引用消息"
+        title="切换显示引用消息"
+        toggle={showQuotes}
+        color="teal.400"
       />
       <ToggleIconButton
         icon={<LightningIcon boxSize={5} />}

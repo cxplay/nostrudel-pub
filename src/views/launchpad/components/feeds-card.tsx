@@ -14,8 +14,8 @@ import { Link as RouterLink } from "react-router-dom";
 import { kinds } from "nostr-tools";
 
 import useUserSets from "../../../hooks/use-user-lists";
-import { NostrEvent } from "../../../types/nostr-event";
-import { getListName, getPubkeysFromList } from "../../../helpers/nostr/lists";
+import { NostrEvent } from "nostr-tools";
+import { getListTitle, getPubkeysFromList } from "../../../helpers/nostr/lists";
 import UserAvatar from "../../../components/user/user-avatar";
 import { useActiveAccount } from "applesauce-react/hooks";
 import HoverLinkOverlay from "../../../components/hover-link-overlay";
@@ -31,7 +31,7 @@ function Feed({ list, ...props }: { list: NostrEvent } & Omit<CardProps, "childr
   return (
     <Card as={LinkBox} {...props}>
       <CardHeader p="4" fontWeight="bold">
-        {getListName(list)}
+        {getListTitle(list)}
       </CardHeader>
       <CardBody px="4" pt="0" pb="4" overflow="hidden" display="flex" gap="2" alignItems="center">
         <AvatarGroup>

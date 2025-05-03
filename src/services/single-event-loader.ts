@@ -2,12 +2,18 @@ import _throttle from "lodash.throttle";
 import { SingleEventLoader } from "applesauce-loaders";
 
 import { eventStore } from "./event-store";
-import rxNostr from "./rx-nostr";
+import { nostrRequest } from "./pool";
 import { cacheRequest } from "./cache-relay";
+import localSettings from "./local-settings";
 
-const singleEventLoader = new SingleEventLoader(rxNostr, { cacheRequest });
+const singleEventLoader = new SingleEventLoader(nostrRequest, { cacheRequest });
 
-singleEventLoader.subscribe((packet) => eventStore.add(packet.event, packet.from));
+singleEventLoader.subscribe((event) => eventStore.add(event));
+
+// Set loaders extra relays to app relays
+localSettings.readRelays.subscribe((relays) => {
+  singleEventLoader.extraRelays = relays;
+});
 
 if (import.meta.env.DEV) {
   //@ts-expect-error

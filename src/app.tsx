@@ -48,11 +48,11 @@ import articlesRoutes from "./views/articles/routes";
 import torrentsRoutes from "./views/torrents/routes";
 import channelsRoutes from "./views/channels/routes";
 import groupsRoutes from "./views/groups/routes";
+import relayChatRoutes from "./views/relay-chat/routes";
 import goalsRoutes from "./views/goals/routes";
 import badgesRoutes from "./views/badges/routes";
 import emojisRoutes from "./views/emojis/routes";
 import walletRoutes from "./views/wallet/routes";
-import podcastsRoutes from "./views/podcasts/routes";
 
 // const getScrollKey = (location: Location) => location.pathname + location.search + location.hash;
 
@@ -108,6 +108,7 @@ const router = createBrowserRouter(
         { path: "pictures", children: picturesRoutes },
         { path: "streams", children: streamsRoutes },
         { path: "groups", children: groupsRoutes },
+        { path: "relay-chat", children: relayChatRoutes },
         { path: "tools", children: toolsRoutes },
         { path: "discovery", children: discoveryRoutes },
         { path: "wiki", children: wikiRoutes },
@@ -129,7 +130,6 @@ const router = createBrowserRouter(
         { path: "badges", children: badgesRoutes },
         { path: "emojis", children: emojisRoutes },
         { path: "wallet", children: walletRoutes },
-        { path: "podcasts", children: podcastsRoutes },
       ],
     },
   ],

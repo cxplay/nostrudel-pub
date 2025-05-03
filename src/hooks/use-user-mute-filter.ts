@@ -1,25 +1,25 @@
-import { useCallback, useMemo } from "react";
-import { kinds } from "nostr-tools";
+import { getMutedThings, matchMutes } from "applesauce-core/helpers";
 import { useActiveAccount } from "applesauce-react/hooks";
+import { NostrEvent } from "nostr-tools";
+import { useCallback } from "react";
 
 import useUserMuteList from "./use-user-mute-list";
-import { getPubkeysFromList } from "../helpers/nostr/lists";
-import { NostrEvent } from "../types/nostr-event";
-import { getStreamHost } from "../helpers/nostr/stream";
 
+/** Returns a function that filters events based on the users mute list */
 export default function useUserMuteFilter(pubkey?: string, additionalRelays?: string[], force?: boolean) {
   const account = useActiveAccount();
-  const muteList = useUserMuteList(pubkey || account?.pubkey, additionalRelays, force);
-  const pubkeys = useMemo(() => (muteList ? getPubkeysFromList(muteList).map((p) => p.pubkey) : []), [muteList]);
+  pubkey = pubkey || account?.pubkey;
+
+  const mute = useUserMuteList(pubkey, additionalRelays, force);
+  const muted = mute && getMutedThings(mute);
 
   return useCallback(
     (event: NostrEvent) => {
-      if (event.kind === kinds.LiveEvent) {
-        const host = getStreamHost(event);
-        if (pubkeys.includes(host)) return true;
-      }
-      return pubkeys.includes(event.pubkey);
+      // Never mute the users own events
+      if (event.pubkey === pubkey) return false;
+
+      return muted ? matchMutes(muted, event) : false;
     },
-    [pubkeys],
+    [muted, pubkey],
   );
 }

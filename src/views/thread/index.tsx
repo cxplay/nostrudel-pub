@@ -41,23 +41,39 @@ function ParentNote({ note, level = 0 }: { note: NostrEvent; level?: number }) {
       rounded="none"
       borderColor="var(--chakra-colors-chakra-border-color)"
       ref={ref}
+      role="article"
     >
-      <ExpandableToggleButton toggle={more} aria-label="显示更多" size="sm" float="right" />
+      <ExpandableToggleButton
+        toggle={more}
+        aria-label={more.isOpen ? "收起帖子" : "展开帖子"}
+        size="sm"
+        float="right"
+      />
       <Box float="left" mr="2">
-        <UserAvatarLink pubkey={note.pubkey} size="xs" mr="2" />
+        <UserAvatarLink pubkey={note.pubkey} size="xs" mr="2" aria-label="avatar" />
         <UserLink pubkey={note.pubkey} fontWeight="bold" mr="1" />
         <UserDnsIdentityIcon pubkey={note.pubkey} mr="2" />
-        <Link as={RouterLink} to={`/n/${getSharableEventAddress(note)}`}>
+        <Link
+          as={RouterLink}
+          to={`/n/${getSharableEventAddress(note)}`}
+          aria-label={`Posted at ${new Date(note.created_at * 1000).toLocaleString()}`}
+        >
           <Timestamp timestamp={note.created_at} />
         </Link>
       </Box>
       {more.isOpen ? (
         <TrustProvider trust>
           <br />
-          <TextNoteContents event={note} />
+          <TextNoteContents event={note} aria-expanded="true" />
         </TrustProvider>
       ) : (
-        <Link as={RouterLink} to={`/n/${getSharableEventAddress(note)}`} noOfLines={1} fontStyle="italic">
+        <Link
+          as={RouterLink}
+          to={`/n/${getSharableEventAddress(note)}`}
+          noOfLines={1}
+          fontStyle="italic"
+          aria-expanded="false"
+        >
           {note.content}
         </Link>
       )}
@@ -115,24 +131,11 @@ function ThreadPage({
     }
   }
 
-  const grandparentPointer = focusedPost.parent?.refs.reply?.e;
-
   const parent = getNip10References(focusedPost.event).reply?.e;
 
   return (
     <>
       {parent && <Parents pointer={parent} thread={thread} />}
-      {/* {rootPointer && focusedPost.refs.reply?.e?.id !== rootPointer.id && (
-        <Parents pointer={rootPointer} thread={thread} root={rootPointer} />
-      )}
-      {grandparentPointer && grandparentPointer.id !== rootPointer.id && (
-        <Parents pointer={grandparentPointer} thread={thread} root={rootPointer} />
-      )}
-      {focusedPost.parent ? (
-        <TimelineNote event={focusedPost.parent.event} hideDrawerButton showReplyLine={false} />
-      ) : (
-        focusedPost.refs.reply?.e && <LoadingNostrLink link={{ type: "nevent", data: focusedPost.refs.reply.e }} />
-      )} */}
       <ThreadPost post={focusedPost} initShowReplies focusId={focusId} />
     </>
   );

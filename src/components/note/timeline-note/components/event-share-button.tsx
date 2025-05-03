@@ -1,17 +1,20 @@
-import { Button, IconButton, useDisclosure } from "@chakra-ui/react";
-import { kinds } from "nostr-tools";
+import { Button, ButtonProps, IconButton, useDisclosure } from "@chakra-ui/react";
 import { useActiveAccount } from "applesauce-react/hooks";
+import { kinds, NostrEvent } from "nostr-tools";
 
-import { NostrEvent } from "../../../../types/nostr-event";
-import { RepostIcon } from "../../../icons";
 import useEventCount from "../../../../hooks/use-event-count";
+import { RepostIcon } from "../../../icons";
 import ShareModal from "./share-modal";
 
-export default function EventShareButton({ event, title = "分享事件" }: { event: NostrEvent; title?: string }) {
+export default function EventShareButton({
+  event,
+  title = "分享事件",
+  ...props
+}: Omit<ButtonProps, "children"> & { event: NostrEvent; title?: string }) {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const account = useActiveAccount();
-  const hasShared = useEventCount(
+  const shared = useEventCount(
     account ? { "#e": [event.id], kinds: [kinds.Repost, kinds.GenericRepost], authors: [account.pubkey] } : undefined,
   );
   const shareCount = useEventCount({ "#e": [event.id], kinds: [kinds.Repost, kinds.GenericRepost] });
@@ -23,7 +26,8 @@ export default function EventShareButton({ event, title = "分享事件" }: { ev
           leftIcon={<RepostIcon />}
           onClick={onOpen}
           title={title}
-          colorScheme={hasShared ? "primary" : undefined}
+          colorScheme={shared ? "primary" : undefined}
+          {...props}
         >
           {shareCount}
         </Button>
@@ -33,7 +37,8 @@ export default function EventShareButton({ event, title = "分享事件" }: { ev
           onClick={onOpen}
           aria-label={title}
           title={title}
-          colorScheme={hasShared ? "primary" : undefined}
+          colorScheme={shared ? "primary" : undefined}
+          {...props}
         />
       )}
       {isOpen && <ShareModal isOpen={isOpen} onClose={onClose} event={event} />}

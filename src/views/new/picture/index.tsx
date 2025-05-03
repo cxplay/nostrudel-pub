@@ -1,175 +1,61 @@
-import { useState } from "react";
-import { Button, Flex, Input, Spacer, Switch, useDisclosure, useToast } from "@chakra-ui/react";
-import { nanoid } from "nanoid";
-import { useForm } from "react-hook-form";
+import { Flex, Spinner, Text, useToast } from "@chakra-ui/react";
+import { FileMetadata } from "applesauce-core/helpers";
 import { PicturePostBlueprint } from "applesauce-factory/blueprints";
+import { useEventFactory } from "applesauce-react/hooks";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useActiveAccount, useEventFactory } from "applesauce-react/hooks";
 
-import useCacheForm from "../../../hooks/use-cache-form";
-import { usePublishEvent } from "../../../providers/global/publish-provider";
-import MagicTextArea from "../../../components/magic-textarea";
-import NewMediaSlide from "./new-media-slide";
-import MediaSlide from "./media-slide";
-import { ErrorBoundary } from "../../../components/error-boundary";
-import ZapSplitCreator, { Split } from "../note/zap-split-creator";
-import SimpleView from "../../../components/layout/presets/simple-view";
-import useUploadFile from "../../../hooks/use-upload-file";
-import { getSharableEventAddress } from "../../../services/relay-hints";
+import SimpleView from "~/components/layout/presets/simple-view";
+import useUploadFile from "~/hooks/use-upload-file";
+import { usePublishEvent } from "~/providers/global/publish-provider";
+import { getSharableEventAddress } from "~/services/relay-hints";
+import PicturePostForm, { FormValues } from "./picture-post-form";
 
-type FormValues = {
-  content: string;
-  nsfw: boolean;
-  nsfwReason: string;
-  media: { id: string; alt?: string; file: File }[];
-  split: Split[];
-};
-
-const setOptions = { shouldDirty: true, shouldTouch: true };
-
-export default function NewMediaPostView() {
+export default function NewPictureView() {
   const toast = useToast();
-  const account = useActiveAccount()!;
   const factory = useEventFactory();
   const publish = usePublishEvent();
-  const { uploadFile } = useUploadFile();
+  const uploadFile = useUploadFile();
   const navigate = useNavigate();
 
-  const advanced = useDisclosure();
-
-  const { getValues, reset, formState, handleSubmit, setValue, watch, register } = useForm<FormValues>({
-    mode: "all",
-    defaultValues: { media: [], content: "", nsfw: false, nsfwReason: "", split: [] },
-  });
-
-  watch("content");
-  watch("media");
-  watch("nsfw");
-  watch("split");
-
-  // TODO: cache for needs to save File and Blobs
-  const clearFormCache = useCacheForm(
-    "new-media-post",
-    // @ts-expect-error
-    getValues,
-    reset,
-    formState,
-  );
-
   const [loading, setLoading] = useState("");
-  const submit = handleSubmit(async (values) => {
-    try {
-      const pictures: { url: string; alt?: string }[] = [];
+  const submit = async (values: FormValues) => {
+    const pictures: FileMetadata[] = [];
 
-      let i = 0;
-      for (const media of values.media) {
-        setLoading(`正在上传 ${++i} of ${values.media.length}...`);
+    let i = 0;
+    for (const media of values.media) {
+      setLoading(`正在上传 ${++i} of ${values.media.length}...`);
 
-        // TODO: this should handle NIP-94 tags in the future
-        const url = await uploadFile(media.file);
-        if (url) pictures.push({ url, alt: media.alt });
-      }
-
-      setLoading("正在创建帖子...");
-      let draft = await factory.create(PicturePostBlueprint, pictures, values.content, {
-        contentWarning: values.nsfw ? values.nsfwReason : undefined,
-      });
-
-      setLoading("正在签名帖子...");
-      const signed = await factory.sign(draft);
-
-      setLoading("正在发布帖子...");
-      await publish("发布图片", signed);
-
-      toast({ status: "success", description: "Posted" });
-
-      clearFormCache();
-      navigate(`/pictures/${getSharableEventAddress(signed)}`);
-    } catch (error) {
-      if (error instanceof Error) toast({ status: "error", description: error.message });
+      const picture = await uploadFile.run(media.file);
+      if (picture) pictures.push(picture);
     }
-  });
 
-  const showAdvanced = advanced.isOpen || getValues("nsfw") || getValues("split").length > 0;
+    setLoading("正在创建帖子...");
+    let draft = await factory.create(PicturePostBlueprint, pictures, values.content, {
+      contentWarning: values.nsfw ? values.nsfwReason : undefined,
+    });
+
+    setLoading("正在签名帖子...");
+    const signed = await factory.sign(draft);
+
+    setLoading("正在发布帖子...");
+    await publish("发布图片", signed);
+
+    toast({ status: "success", description: "已发布" });
+
+    navigate(`/pictures/${getSharableEventAddress(signed)}`);
+  };
 
   return (
-    <SimpleView as="form" onSubmit={submit} maxW="4xl" center title="图片帖子">
-      <Flex overflowY="hidden" overflowX="scroll" position="relative" h="md" flexShrink={0} gap="2" pb="2">
-        {getValues("media")
-          .filter((m) => m.file instanceof File)
-          .map((media) => (
-            <ErrorBoundary key={media.id}>
-              <MediaSlide
-                alt={media.alt}
-                file={media.file}
-                onChange={(alt) =>
-                  setValue(
-                    "media",
-                    getValues("media").map((m) => (m.id === media.id ? { ...media, alt } : m)),
-                    setOptions,
-                  )
-                }
-                onRemove={() =>
-                  setValue(
-                    "media",
-                    getValues("media").filter((m) => m.id !== media.id),
-                    setOptions,
-                  )
-                }
-              />
-            </ErrorBoundary>
-          ))}
-        <NewMediaSlide
-          onSelect={(files) =>
-            setValue("media", [...files.map((file) => ({ id: nanoid(6), file })), ...getValues("media")], setOptions)
-          }
-        />
-      </Flex>
-
-      <Flex direction="column" gap="2">
-        <MagicTextArea
-          value={getValues().content}
-          onChange={(e) => setValue("content", e.target.value, setOptions)}
-          rows={3}
-          placeholder="简短描述"
-        />
-
-        <Flex gap="2">
-          <Button variant="ghost" onClick={advanced.onToggle}>
-            高级
-          </Button>
-          <Spacer />
-          {formState.isDirty && (
-            <Button variant="ghost" onClick={() => confirm("清空草稿?") && reset()}>
-              清除
-            </Button>
-          )}
-          <Button type="submit" colorScheme="primary">
-            发布
-          </Button>
+    <SimpleView maxW="4xl" center title="图片帖子">
+      {loading ? (
+        <Flex gap="2" alignItems="center" justifyContent="center" h="full">
+          <Spinner size="lg" />
+          <Text>{loading}</Text>
         </Flex>
-
-        {showAdvanced && (
-          <>
-            <Flex direction={{ base: "column", lg: "row" }} gap="4" mt="2">
-              <Flex gap="2" direction="column" flex={1}>
-                <Switch {...register("nsfw")}>NSFW</Switch>
-                {getValues().nsfw && (
-                  <Input {...register("nsfwReason", { required: true })} placeholder="NSFW 原因" isRequired />
-                )}
-              </Flex>
-
-              <Flex direction="column" flex={1}>
-                <ZapSplitCreator
-                  splits={getValues("split")}
-                  onChange={(splits) => setValue("split", splits, setOptions)}
-                  authorPubkey={account?.pubkey}
-                />
-              </Flex>
-            </Flex>
-          </>
-        )}
-      </Flex>
+      ) : (
+        <PicturePostForm onSubmit={submit} />
+      )}
     </SimpleView>
   );
 }

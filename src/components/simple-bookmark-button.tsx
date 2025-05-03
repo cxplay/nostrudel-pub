@@ -1,6 +1,6 @@
 import { IconButton, IconButtonProps } from "@chakra-ui/react";
+import { NostrEvent } from "nostr-tools";
 
-import { NostrEvent } from "../types/nostr-event";
 import useEventBookmarkActions from "../hooks/use-event-bookmark-actions";
 import { BookmarkIcon, BookmarkedIcon } from "./icons";
 
@@ -16,6 +16,9 @@ export default function SimpleBookmarkButton({
       onClick={toggleBookmark}
       isLoading={isLoading}
       {...props}
+      aria-pressed={isBookmarked}
+      title={props.title || (isBookmarked ? "Remove bookmark" : "Add bookmark")}
+      aria-label={props["aria-label"] || (isBookmarked ? "Remove bookmark" : "Add bookmark")}
     />
   );
 }
