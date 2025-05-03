@@ -11,6 +11,14 @@ import { RelayUrlInput } from "../../../components/relay-url-input";
 import { DEFAULT_NOSTR_CONNECT_RELAY } from "../../../const";
 import { normalizeURL } from "applesauce-core/helpers";
 
+function OpenNoAuth(connectionURL: string) {
+  if (!window.location.search || !window.location.search.includes("noauth") || !connectionURL || connectionURL === "") {
+    return;
+  }
+  const restOfUrl = "https://noauth.nostr.moe/nostrconnect/" + connectionURL.substring(15);
+  window.open(restOfUrl, "_blank");
+}
+
 export default function SigninConnectSignerView() {
   const navigate = useNavigate();
   const urlInputRef = useRef<HTMLInputElement | null>(null);
@@ -48,6 +56,8 @@ export default function SigninConnectSignerView() {
       image: new URL("/apple-touch-icon.png", location.protocol + "//" + location.host).toString(),
     });
   }, [signer]);
+
+  OpenNoAuth(connectionURL);
 
   return (
     <Flex direction="column" gap="2" w="full">
