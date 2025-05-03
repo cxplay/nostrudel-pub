@@ -117,6 +117,18 @@ export default function SigninStartView() {
           h="auto"
           p="4"
           as={RouterLink}
+          to="./connect/signer?noauth"
+          state={location.state}
+          variant="outline"
+        >
+          <Package boxSize={12} />
+          NoAuth
+        </Button>
+        <Button
+          flexDirection="column"
+          h="auto"
+          p="4"
+          as={RouterLink}
           to="./connect"
           state={location.state}
           variant="outline"
