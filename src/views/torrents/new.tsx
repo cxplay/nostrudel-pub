@@ -152,9 +152,9 @@ export default function NewTorrentView() {
 
   const descriptionInput = (
     <FormControl isRequired>
-      <FormLabel>Description</FormLabel>
+      <FormLabel>描述</FormLabel>
       <Textarea
-        placeholder="Description"
+        placeholder="描述"
         rows={smallLayout ? 10 : 25}
         {...register("description", { required: true })}
       />
@@ -163,7 +163,7 @@ export default function NewTorrentView() {
 
   return (
     <VerticalPageLayout as="form" onSubmit={onSubmit}>
-      <Heading size="lg">New Torrent</Heading>
+      <Heading size="lg">新建 Torrent</Heading>
 
       <ButtonGroup>
         <VisuallyHiddenInput
@@ -175,21 +175,21 @@ export default function NewTorrentView() {
             if (file) selectTorrentFile(file);
           }}
         />
-        <Button onClick={() => torrentFileInput.current?.click()}>Import Torrent file</Button>
+        <Button onClick={() => torrentFileInput.current?.click()}>导入 Torrent 文件</Button>
       </ButtonGroup>
 
       <Flex gap="4">
         <Flex gap="2" direction="column" w="full">
           <FormControl isRequired>
-            <FormLabel>Title</FormLabel>
+            <FormLabel>标题</FormLabel>
             <Input type="text" {...register("title", { required: true })} />
           </FormControl>
           <FormControl isRequired>
-            <FormLabel>Info Hash</FormLabel>
+            <FormLabel>哈希信息</FormLabel>
             <Input type="text" {...register("btih", { required: true })} placeholder="hex" />
           </FormControl>
           {smallLayout && descriptionInput}
-          <Heading size="md">Category</Heading>
+          <Heading size="md">分类</Heading>
           <Box {...getRootProps()}>{renderCategories()}</Box>
         </Flex>
         {!smallLayout && (
@@ -248,15 +248,15 @@ export default function NewTorrentView() {
                 )
               }
             >
-              Remove
+              移除
             </Button>
           </Flex>
         ))}
       </Flex>
       <Flex gap="2" justifyContent="flex-end">
-        <Button onClick={() => setValue("files", [...getValues().files, { name: "", size: 0 }])}>Add file info</Button>
+        <Button onClick={() => setValue("files", [...getValues().files, { name: "", size: 0 }])}>添加文件信息</Button>
         <Button type="submit" isLoading={formState.isSubmitting} colorScheme="primary">
-          Publish
+          发布
         </Button>
       </Flex>
     </VerticalPageLayout>
