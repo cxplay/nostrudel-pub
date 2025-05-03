@@ -17,8 +17,8 @@ export default function SimpleBookmarkButton({
       isLoading={isLoading}
       {...props}
       aria-pressed={isBookmarked}
-      title={props.title || (isBookmarked ? "Remove bookmark" : "Add bookmark")}
-      aria-label={props["aria-label"] || (isBookmarked ? "Remove bookmark" : "Add bookmark")}
+      title={props.title || (isBookmarked ? "移除书签" : "添加书签")}
+      aria-label={props["aria-label"] || (isBookmarked ? "移除书签" : "添加书签")}
     />
   );
 }
