@@ -2,10 +2,16 @@ import {
   COMMENT_KIND,
   getEventPointerFromETag,
   getEventPointerFromQTag,
+  getOrComputeCachedValue,
   getZapPayment,
+  isETag,
+  isPTag,
   Mutes,
   processTags,
 } from "applesauce-core/helpers";
+import { TimelineQuery } from "applesauce-core/queries";
+import { getContentPointers } from "applesauce-factory/helpers";
+import { kinds, nip18, nip25, NostrEvent } from "nostr-tools";
 import {
   combineLatest,
   filter,
@@ -18,17 +24,13 @@ import {
   throttleTime,
   timer,
 } from "rxjs";
-import { TimelineQuery, UserMuteQuery } from "applesauce-core/queries";
-import { getContentPointers } from "applesauce-factory/helpers";
-import { kinds, nip18, nip25, NostrEvent } from "nostr-tools";
 
-import localSettings from "./local-settings";
-import singleEventLoader from "./single-event-loader";
-import { eventStore, queryStore } from "./event-store";
+import { getThreadReferences, isReply, isRepost } from "../helpers/nostr/event";
 import { TORRENT_COMMENT_KIND } from "../helpers/nostr/torrents";
 import accounts from "./accounts";
-import { getThreadReferences, isReply, isRepost } from "../helpers/nostr/event";
-import { getPubkeysMentionedInContent } from "../helpers/nostr/post";
+import { eventStore, queryStore } from "./event-store";
+import localSettings from "./local-settings";
+import singleEventLoader from "./single-event-loader";
 
 export const NotificationTypeSymbol = Symbol("notificationType");
 
@@ -44,37 +46,51 @@ export enum NotificationType {
 export type CategorizedEvent = NostrEvent & { [NotificationTypeSymbol]?: NotificationType };
 
 function categorizeEvent(event: NostrEvent, pubkey?: string): CategorizedEvent {
-  const e = event as CategorizedEvent;
+  getOrComputeCachedValue(event, NotificationTypeSymbol, () => {
+    if (event.kind === kinds.Zap) {
+      return NotificationType.Zap;
+    } else if (event.kind === kinds.Reaction) {
+      return NotificationType.Reaction;
+    } else if (isRepost(event)) {
+      return NotificationType.Repost;
+    } else if (event.kind === kinds.EncryptedDirectMessage) {
+      return NotificationType.Message;
+    } else if (
+      event.kind === kinds.ShortTextNote ||
+      event.kind === TORRENT_COMMENT_KIND ||
+      event.kind === kinds.LiveChatMessage ||
+      event.kind === kinds.LongFormArticle
+    ) {
+      // is the pubkey mentioned in any way in the content
+      const isMentioned = pubkey
+        ? getContentPointers(event.content).some(
+            (p) =>
+              // npub mention
+              (p.type === "npub" && p.data === pubkey) ||
+              // nprofile mention
+              (p.type === "nprofile" && p.data.pubkey === pubkey),
+          )
+        : false;
+      const isQuote =
+        // NIP-18 quote
+        event.tags.some((t) => t[0] === "q" && t[3] === pubkey) ||
+        // NIP-10 mention
+        (event.tags.some((t) => isETag(t) && t[3] === "mention") &&
+          event.tags.some((t) => isPTag(t) && t[1] === pubkey && t[3] === "mention")) ||
+        // NIP-19 nevent or note mention
+        getContentPointers(event.content).some(
+          (p) => (p.type === "nevent" && p.data.author === pubkey) || (p.type === "naddr" && p.data.pubkey === pubkey),
+        );
 
-  if (e[NotificationTypeSymbol]) return e;
+      if (isMentioned) return NotificationType.Mention;
+      else if (isQuote) return NotificationType.Quote;
+      else if (isReply(event)) return NotificationType.Reply;
 
-  if (event.kind === kinds.Zap) {
-    e[NotificationTypeSymbol] = NotificationType.Zap;
-  } else if (event.kind === kinds.Reaction) {
-    e[NotificationTypeSymbol] = NotificationType.Reaction;
-  } else if (isRepost(event)) {
-    e[NotificationTypeSymbol] = NotificationType.Repost;
-  } else if (event.kind === kinds.EncryptedDirectMessage) {
-    e[NotificationTypeSymbol] = NotificationType.Message;
-  } else if (
-    event.kind === kinds.ShortTextNote ||
-    event.kind === TORRENT_COMMENT_KIND ||
-    event.kind === kinds.LiveChatMessage ||
-    event.kind === kinds.LongFormArticle
-  ) {
-    // is the pubkey mentioned in any way in the content
-    const isMentioned = pubkey ? getPubkeysMentionedInContent(event.content, true).includes(pubkey) : false;
-    const isQuote =
-      event.tags.some((t) => t[0] === "q" && (t[1] === event.id || t[3] === pubkey)) ||
-      getContentPointers(event.content).some(
-        (p) => (p.type === "nevent" && p.data.id === event.id) || (p.type === "note" && p.data === event.id),
-      );
+      return undefined;
+    }
+  });
 
-    if (isMentioned) e[NotificationTypeSymbol] = NotificationType.Mention;
-    else if (isQuote) e[NotificationTypeSymbol] = NotificationType.Quote;
-    else if (isReply(event)) e[NotificationTypeSymbol] = NotificationType.Reply;
-  }
-  return e;
+  return event as CategorizedEvent;
 }
 
 function filterEvents(events: CategorizedEvent[], pubkey: string, mute?: Mutes): CategorizedEvent[] {
@@ -198,7 +214,7 @@ const notifications$: Observable<CategorizedEvent[]> = combineLatest([accounts.a
         map((timeline) => timeline.map((e) => categorizeEvent(e, account.pubkey))),
       );
 
-    const mute$ = queryStore.createQuery(UserMuteQuery, account.pubkey);
+    const mute$ = queryStore.mutes(account.pubkey);
 
     return combineLatest([timeline$, mute$]).pipe(
       // filter events out by mutes

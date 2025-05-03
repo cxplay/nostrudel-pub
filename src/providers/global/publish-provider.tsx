@@ -1,28 +1,28 @@
-import { PropsWithChildren, createContext, useCallback, useContext, useMemo, useState } from "react";
 import { useToast } from "@chakra-ui/react";
-import { EventTemplate, NostrEvent, UnsignedEvent } from "nostr-tools";
 import { addSeenRelay, mergeRelaySets } from "applesauce-core/helpers";
 import { useActiveAccount } from "applesauce-react/hooks";
-import { OkPacketAgainstEvent } from "rx-nostr";
-import { BehaviorSubject } from "rxjs";
+import { PublishResponse } from "applesauce-relay";
 import { nanoid } from "nanoid";
+import { EventTemplate, NostrEvent, UnsignedEvent } from "nostr-tools";
+import { PropsWithChildren, createContext, useCallback, useContext, useMemo, useState } from "react";
+import { BehaviorSubject } from "rxjs";
 
-import { useSigningContext } from "./signing-provider";
-import { DraftNostrEvent } from "../../types/nostr-event";
+import { useWriteRelays } from "../../hooks/use-client-relays";
+import { useUserOutbox } from "../../hooks/use-user-mailboxes";
 import { getCacheRelay } from "../../services/cache-relay";
 import { eventStore } from "../../services/event-store";
-import { useUserOutbox } from "../../hooks/use-user-mailboxes";
-import { useWriteRelays } from "../../hooks/use-client-relays";
-import rxNostr from "../../services/rx-nostr";
+import localSettings from "../../services/local-settings";
+import pool from "../../services/pool";
+import { useSigningContext } from "./signing-provider";
 
-export type PublishResults = { packets: OkPacketAgainstEvent[]; relays: Record<string, OkPacketAgainstEvent> };
+export type PublishResults = { packets: PublishResponse[]; relays: Record<string, PublishResponse> };
 
 export class PublishLogEntry extends BehaviorSubject<PublishResults> {
   public id = nanoid();
 
   public done = false;
-  public packets: OkPacketAgainstEvent[] = [];
-  public relay: Record<string, OkPacketAgainstEvent> = {};
+  public packets: PublishResponse[] = [];
+  public relay: Record<string, PublishResponse> = {};
 
   constructor(
     public label: string,
@@ -31,19 +31,15 @@ export class PublishLogEntry extends BehaviorSubject<PublishResults> {
   ) {
     super({ packets: [], relays: {} });
 
-    const defaultWriteRelays = Array.from(Object.entries(rxNostr.getDefaultRelays()))
-      .filter(([_, config]) => config.write)
-      .map(([relay]) => relay);
-
-    rxNostr.send(event, { on: { relays: mergeRelaySets(defaultWriteRelays, relays) } }).subscribe({
-      next: (packet) => {
-        if (packet.ok) {
-          addSeenRelay(event, packet.from);
+    pool.event(mergeRelaySets(localSettings.writeRelays.value, relays), event).subscribe({
+      next: (result) => {
+        if (result.ok) {
+          addSeenRelay(event, result.from);
           eventStore.update(event);
         }
 
-        this.packets.push(packet);
-        this.relay[packet.from] = packet;
+        this.packets.push(result);
+        this.relay[result.from] = result;
 
         this.next({ packets: this.packets, relays: this.relay });
       },
@@ -112,7 +108,7 @@ export default function PublishProvider({ children }: PropsWithChildren) {
   const publishEvent = useCallback(
     async (
       label: string,
-      event: DraftNostrEvent | NostrEvent,
+      event: EventTemplate | NostrEvent,
       additionalRelays?: string[],
       quite = true,
       onlyAdditionalRelays = false,

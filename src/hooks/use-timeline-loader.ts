@@ -7,7 +7,7 @@ import { useThrottle } from "react-use";
 import sum from "hash-sum";
 
 import timelineCacheService from "../services/timeline-cache";
-import useForwardSubscription from "./use-forward-subscription";
+import useSimpleSubscription from "./use-forward-subscription";
 
 type Options = {
   eventFilter?: (event: NostrEvent) => boolean;
@@ -20,7 +20,7 @@ export default function useTimelineLoader(
   opts?: Options,
 ) {
   // start a forward subscription while component is mounted
-  useForwardSubscription(relays, filters);
+  useSimpleSubscription(relays, filters);
 
   const eventStore = useEventStore();
   const loader = useMemo(() => {
@@ -29,9 +29,7 @@ export default function useTimelineLoader(
 
   // start and stop loader
   useEffect(() => {
-    const sub = loader?.subscribe((packet) => {
-      eventStore.add(packet.event, packet.from);
-    });
+    const sub = loader?.subscribe((event) => eventStore.add(event));
 
     return () => sub?.unsubscribe();
   }, [eventStore, loader]);

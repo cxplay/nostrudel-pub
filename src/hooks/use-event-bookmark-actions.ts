@@ -1,13 +1,13 @@
-import { useCallback, useState } from "react";
-import { kinds } from "nostr-tools";
 import dayjs from "dayjs";
+import { EventTemplate, kinds, NostrEvent } from "nostr-tools";
+import { getReplaceableAddress, isReplaceable } from "applesauce-core/helpers";
+import { useCallback, useState } from "react";
 
-import { DraftNostrEvent, NostrEvent } from "../types/nostr-event";
-import { useSigningContext } from "../providers/global/signing-provider";
-import userUserBookmarksList from "./use-user-bookmarks-list";
-import { getEventCoordinate, isReplaceable, pointerMatchEvent } from "../helpers/nostr/event";
+import { pointerMatchEvent } from "../helpers/nostr/event";
 import { listAddCoordinate, listAddEvent, listRemoveCoordinate, listRemoveEvent } from "../helpers/nostr/lists";
 import { usePublishEvent } from "../providers/global/publish-provider";
+import { useSigningContext } from "../providers/global/signing-provider";
+import userUserBookmarksList from "./use-user-bookmarks-list";
 
 export default function useEventBookmarkActions(event: NostrEvent) {
   const publish = usePublishEvent();
@@ -22,7 +22,7 @@ export default function useEventBookmarkActions(event: NostrEvent) {
 
   const removeBookmark = useCallback(async () => {
     setLoading(true);
-    let draft: DraftNostrEvent = {
+    let draft: EventTemplate = {
       kind: kinds.BookmarkList,
       content: bookmarkList?.content ?? "",
       tags: bookmarkList?.tags ?? [],
@@ -31,7 +31,7 @@ export default function useEventBookmarkActions(event: NostrEvent) {
 
     if (!isBookmarked) return;
 
-    if (isReplaceable(event.kind)) draft = listRemoveCoordinate(draft, getEventCoordinate(event));
+    if (isReplaceable(event.kind)) draft = listRemoveCoordinate(draft, getReplaceableAddress(event));
     else draft = listRemoveEvent(draft, event);
 
     await publish("Remove Bookmark", draft);
@@ -40,7 +40,7 @@ export default function useEventBookmarkActions(event: NostrEvent) {
 
   const addBookmark = useCallback(async () => {
     setLoading(true);
-    let draft: DraftNostrEvent = {
+    let draft: EventTemplate = {
       kind: kinds.BookmarkList,
       content: bookmarkList?.content ?? "",
       tags: bookmarkList?.tags ?? [],
@@ -48,7 +48,7 @@ export default function useEventBookmarkActions(event: NostrEvent) {
     };
 
     if (isBookmarked) return;
-    if (isReplaceable(event.kind)) draft = listAddCoordinate(draft, getEventCoordinate(event));
+    if (isReplaceable(event.kind)) draft = listAddCoordinate(draft, getReplaceableAddress(event));
     else draft = listAddEvent(draft, event);
 
     await publish("Bookmark Note", draft);

@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Flex,
   Heading,
   Input,
   Modal,
@@ -28,7 +29,7 @@ import singleEventLoader from "../services/single-event-loader";
 import replaceableEventLoader from "../services/replaceable-loader";
 import { AppHandlerContext } from "../providers/route/app-handler-provider";
 import { useObservable } from "applesauce-react/hooks";
-import { connections$ } from "../services/rx-nostr";
+import { connections$ } from "../services/pool";
 
 function SearchOnRelaysModal({
   isOpen,
@@ -38,7 +39,7 @@ function SearchOnRelaysModal({
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState("");
 
-  const discoveredRelays = Object.entries(useObservable(connections$)).reduce<string[]>(
+  const discoveredRelays = Object.entries(useObservable(connections$) ?? {}).reduce<string[]>(
     (arr, [relay, status]) => (status !== "error" ? [...arr, relay] : arr),
     [],
   );
@@ -84,22 +85,27 @@ function SearchOnRelaysModal({
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
                 autoFocus
-                placeholder="Filter relays"
+                placeholder="过滤中继"
+                aria-label="过滤中继"
               />
-              {filtered.map((relay) => (
-                <Button
-                  key={relay}
-                  variant="outline"
-                  w="full"
-                  p="2"
-                  leftIcon={<RelayFavicon relay={relay} size="xs" />}
-                  justifyContent="flex-start"
-                  colorScheme={relays.has(relay) ? "primary" : undefined}
-                  onClick={() => (relays.has(relay) ? actions.remove(relay) : actions.add(relay))}
-                >
-                  {relay}
-                </Button>
-              ))}
+              <Flex direction="column" role="list" aria-label="可用的中继">
+                {filtered.map((relay) => (
+                  <Button
+                    key={relay}
+                    variant="outline"
+                    w="full"
+                    p="2"
+                    leftIcon={<RelayFavicon relay={relay} size="xs" />}
+                    justifyContent="flex-start"
+                    colorScheme={relays.has(relay) ? "primary" : undefined}
+                    onClick={() => (relays.has(relay) ? actions.remove(relay) : actions.add(relay))}
+                    role="listitem"
+                    aria-pressed={relays.has(relay)}
+                  >
+                    {relay}
+                  </Button>
+                ))}
+              </Flex>
             </>
           )}
         </ModalBody>
@@ -176,6 +182,8 @@ export default function LoadingNostrLink({ link }: { link: nip19.DecodeResult })
         fontFamily="monospace"
         whiteSpace="pre"
         onClick={details.onToggle}
+        aria-expanded={details.isOpen}
+        aria-controls="nostr-link-details"
       >
         [{details.isOpen ? "-" : "+"}]
         <Text as="span" isTruncated>
@@ -183,15 +191,28 @@ export default function LoadingNostrLink({ link }: { link: nip19.DecodeResult })
         </Text>
       </Button>
       {details.isOpen && (
-        <Box px="2" fontFamily="monospace" color="GrayText" fontWeight="bold" fontSize="sm">
-          <Text>种类: {link.type}</Text>
+        <Box
+          id="nostr-link-details"
+          px="2"
+          fontFamily="monospace"
+          color="GrayText"
+          fontWeight="bold"
+          fontSize="sm"
+          role="region"
+          aria-label="链接详情"
+        >
+          <Text>Type: {link.type}</Text>
           {renderDetails()}
           <ButtonGroup variant="link" size="sm" my="1">
-            <Button leftIcon={<SearchIcon />} colorScheme="primary" onClick={search.onOpen}>
-              查找
+            <Button leftIcon={<SearchIcon />} colorScheme="primary" onClick={search.onOpen} aria-label="查找事件">
+              Find
             </Button>
-            <Button leftIcon={<ExternalLinkIcon />} onClick={() => openAddress(address)}>
-              打开
+            <Button
+              leftIcon={<ExternalLinkIcon />}
+              onClick={() => openAddress(address)}
+              aria-label="在新窗口打开"
+            >
+              Open
             </Button>
           </ButtonGroup>
         </Box>

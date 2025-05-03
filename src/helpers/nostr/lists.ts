@@ -1,9 +1,8 @@
 import dayjs from "dayjs";
 import { EventTemplate, NostrEvent, kinds } from "nostr-tools";
 import { isAddressPointerInList, isEventPointerInList, isProfilePointerInList } from "applesauce-core/helpers/lists";
-import { mergeRelaySets } from "applesauce-core/helpers";
+import { isDTag, isPTag, isRTag, mergeRelaySets } from "applesauce-core/helpers";
 
-import { PTag, isDTag, isPTag, isRTag } from "../../types/nostr-event";
 import { getEventCoordinate, replaceOrAddSimpleTag } from "./event";
 
 export const USER_GROUPS_LIST_KIND = 10009;
@@ -32,8 +31,7 @@ export const SET_KINDS = [
   kinds.Curationsets,
 ];
 
-/** @deprecated this should be moved out to applesauce-list */
-export function getListName(event: NostrEvent) {
+export function getListTitle(event: NostrEvent) {
   if (event.kind === kinds.Contacts) return "关注";
   if (event.kind === kinds.Mutelist) return "静音";
   if (event.kind === kinds.Pinlist) return "置顶";
@@ -49,16 +47,16 @@ export function getListName(event: NostrEvent) {
   );
 }
 
-/** @deprecated this should be moved out to applesauce-factory */
+/** @deprecated use factory.modifyEvent instead */
 export function setListName(draft: EventTemplate, name: string) {
   replaceOrAddSimpleTag(draft, "name", name);
 }
 
-/** @deprecated this should be moved out to applesauce-factory */
 export function getListDescription(event: NostrEvent) {
   return event.tags.find((t) => t[0] === "description")?.[1];
 }
-/** @deprecated this should be moved out to applesauce-factory */
+
+/** @deprecated use factory.modifyEvent instead */
 export function setListDescription(draft: EventTemplate, description: string) {
   replaceOrAddSimpleTag(draft, "description", description);
 }
@@ -120,15 +118,6 @@ export function isEventInList(list?: NostrEvent, event?: NostrEvent) {
   } else return isEventPointerInList(list, event.id);
 }
 
-export function createEmptyContactList(): EventTemplate {
-  return {
-    created_at: dayjs().unix(),
-    content: "",
-    tags: [],
-    kind: kinds.Contacts,
-  };
-}
-
 /** @deprecated */
 export function listAddPerson(
   list: NostrEvent | EventTemplate,
@@ -137,7 +126,7 @@ export function listAddPerson(
   petname?: string,
 ): EventTemplate {
   if (list.tags.some((t) => t[0] === "p" && t[1] === pubkey)) throw new Error("Person already in list");
-  const pTag: PTag = ["p", pubkey, relay ?? "", petname ?? ""];
+  const pTag: string[] = ["p", pubkey, relay ?? "", petname ?? ""];
   while (pTag[pTag.length - 1] === "") pTag.pop();
 
   return {

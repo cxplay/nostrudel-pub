@@ -1,12 +1,14 @@
-import { ReactNode, useRef } from "react";
 import { Flex, FlexProps } from "@chakra-ui/react";
+import { ReactNode } from "react";
 
-import SimpleHeader from "./simple-header";
 import useScrollRestoreRef from "../../../hooks/use-scroll-restore";
+import { ErrorBoundary } from "../../error-boundary";
+import SimpleHeader from "./simple-header";
 
 export default function SimpleView({
   children,
   actions,
+  icon,
   title,
   as,
   flush,
@@ -18,6 +20,7 @@ export default function SimpleView({
 }: Omit<FlexProps, "title"> & {
   flush?: boolean;
   actions?: ReactNode;
+  icon?: ReactNode;
   title?: ReactNode;
   center?: boolean;
   scroll?: boolean;
@@ -50,15 +53,19 @@ export default function SimpleView({
       overflow="hidden"
       {...props}
     >
-      <SimpleHeader title={title}>{actions}</SimpleHeader>
+      <SimpleHeader title={title} icon={icon}>
+        {actions}
+      </SimpleHeader>
 
-      {scroll ? (
-        <Flex flex={1} overflowY="auto" overflowX="hidden" direction="column" ref={ref}>
-          {content}
-        </Flex>
-      ) : (
-        content
-      )}
+      <ErrorBoundary>
+        {scroll ? (
+          <Flex flex={1} overflowY="auto" overflowX="hidden" direction="column" ref={ref}>
+            {content}
+          </Flex>
+        ) : (
+          content
+        )}
+      </ErrorBoundary>
     </Flex>
   );
 }

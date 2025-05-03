@@ -57,22 +57,30 @@ export function InvoiceModalContent({ invoice, onPaid }: CommonProps) {
 
   return (
     <Flex gap="2" direction="column">
-      {showQr.isOpen && <QrCodeSvg content={invoice} maxW="4in" mx="auto" />}
+      {showQr.isOpen && <QrCodeSvg content={invoice} maxW="4in" mx="auto" aria-label="复刻二维码" />}
       <Flex gap="2">
-        <Input value={invoice} userSelect="all" onChange={() => {}} />
+        <Input value={invoice} userSelect="all" onChange={() => {}} aria-label="闪电网络发票" readOnly />
         <IconButton
           icon={<QrCodeIcon boxSize={6} />}
           aria-label="显示二维码"
           onClick={showQr.onToggle}
           variant="solid"
           size="md"
+          aria-pressed={showQr.isOpen}
         />
         <CopyIconButton value={invoice} aria-label="复制发票" variant="solid" size="md" />
       </Flex>
       <Flex gap="2">
         {window.webln && (
-          <Button onClick={() => payWithWebLn(invoice)} flex={1} variant="solid" size="md" isLoading={payingWebLn}>
-            Pay with WebLN
+          <Button
+            onClick={() => payWithWebLn(invoice)}
+            flex={1}
+            variant="solid"
+            size="md"
+            isLoading={payingWebLn}
+            aria-label="Pay with WebLN"
+          >
+            使用 WebLN 支付
           </Button>
         )}
         <Button
@@ -82,6 +90,7 @@ export function InvoiceModalContent({ invoice, onPaid }: CommonProps) {
           variant="solid"
           size="md"
           isLoading={payingApp}
+          aria-label="在闪电应用中打开"
         >
           打开应用
         </Button>
@@ -100,7 +109,7 @@ export default function InvoiceModal({
     <Modal onClose={onClose} {...props}>
       <ModalOverlay />
       <ModalContent>
-        <ModalBody padding="4">
+        <ModalBody padding="4" role="region" aria-label="付款选项">
           <InvoiceModalContent
             invoice={invoice}
             onPaid={() => {

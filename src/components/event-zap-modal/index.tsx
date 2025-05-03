@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Modal,
   ModalBody,
@@ -8,25 +7,31 @@ import {
   ModalOverlay,
   ModalProps,
 } from "@chakra-ui/react";
-import dayjs from "dayjs";
-import { kinds } from "nostr-tools";
-import { getObservableValue } from "applesauce-core/observable";
-import { getInboxes, getInvoice, getOutboxes, mergeRelaySets } from "applesauce-core/helpers";
+import {
+  getInboxes,
+  getInvoice,
+  getOutboxes,
+  getReplaceableAddress,
+  isDTag,
+  isReplaceable,
+  mergeRelaySets,
+} from "applesauce-core/helpers";
 import { getZapSplits } from "applesauce-core/helpers/zap";
+import { getObservableValue } from "applesauce-core/observable";
+import dayjs from "dayjs";
+import { EventTemplate, kinds, NostrEvent } from "nostr-tools";
+import { useState } from "react";
 
-import { DraftNostrEvent, NostrEvent, isDTag } from "../../types/nostr-event";
-import { unique } from "../../helpers/array";
-import relayScoreboardService from "../../services/relay-scoreboard";
-import { getEventCoordinate, isReplaceable } from "../../helpers/nostr/event";
-import { EmbedProps } from "../embed-event";
-import InputStep from "./input-step";
-import lnurlMetadataService from "../../services/lnurl-metadata";
-import signingService from "../../services/signing";
-import PayStep from "./pay-step";
-import UserLink from "../user/user-link";
-import { getEventRelayHints } from "../../services/relay-hints";
-import { eventStore, queryStore } from "../../services/event-store";
 import accounts from "../../services/accounts";
+import { eventStore, queryStore } from "../../services/event-store";
+import lnurlMetadataService from "../../services/lnurl-metadata";
+import { getEventRelayHints } from "../../services/relay-hints";
+import relayScoreboardService from "../../services/relay-scoreboard";
+import signingService from "../../services/signing";
+import { EmbedProps } from "../embed-event";
+import UserLink from "../user/user-link";
+import InputStep from "./input-step";
+import PayStep from "./pay-step";
 
 export type PayRequest = { invoice?: string; pubkey: string; error?: any };
 
@@ -83,7 +88,7 @@ export async function getPayRequestForPubkey(
   const additional = additionalRelays ? relayScoreboardService.getRankedRelays(additionalRelays) : [];
 
   // create zap request
-  const zapRequest: DraftNostrEvent = {
+  const zapRequest: EventTemplate = {
     kind: kinds.ZapRequest,
     created_at: dayjs().unix(),
     content: comment ?? "",
@@ -97,7 +102,7 @@ export async function getPayRequestForPubkey(
   // attach "e" or "a" tag
   if (event) {
     if (isReplaceable(event.kind) && event.tags.some(isDTag)) {
-      zapRequest.tags.push(["a", getEventCoordinate(event)]);
+      zapRequest.tags.push(["a", getReplaceableAddress(event)]);
     } else zapRequest.tags.push(["e", event.id]);
   }
 
