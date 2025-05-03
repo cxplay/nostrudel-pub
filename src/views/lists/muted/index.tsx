@@ -35,7 +35,7 @@ function UserCard({ pubkey, ...props }: { pubkey: string } & Omit<CardProps, "ch
           icon={<TrashIcon boxSize={5} />}
           onClick={remove.run}
           isLoading={remove.loading}
-          aria-label="Remove from muted list"
+          aria-label="从静音列表中移除"
           variant="ghost"
           colorScheme="red"
         />

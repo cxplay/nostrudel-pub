@@ -70,7 +70,7 @@ function UserCard({ pubkey, list }: { pubkey: string; list: NostrEvent }) {
           <ButtonGroup>
             <SimpleUserFollowButton pubkey={pubkey} variant="outline" />
             <IconButton
-              aria-label="Remove from list"
+              aria-label="从列表中移除"
               icon={<TrashIcon />}
               colorScheme="red"
               variant="ghost"
