@@ -1,7 +1,4 @@
-import { Button, Card, Flex, Heading, Text } from "@chakra-ui/react";
-import { unixNow } from "applesauce-core/helpers";
-import { RelayTimelineLoader } from "applesauce-loaders";
-import { useObservable } from "applesauce-react/hooks";
+import { Box, Button, Card, Flex, Heading, Text } from "@chakra-ui/react";
 
 import {
   ArcElement,
@@ -16,14 +13,16 @@ import {
   Tooltip,
 } from "chart.js";
 
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { createTimelineLoader } from "applesauce-loaders/loaders";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import EventKindsPieChart from "../../../components/charts/event-kinds-pie-chart";
 import EventKindsTable from "../../../components/charts/event-kinds-table";
 import VerticalPageLayout from "../../../components/vertical-page-layout";
 import { getSortedKinds } from "../../../helpers/nostr/event";
 import { useAppTitle } from "../../../hooks/use-app-title";
+import useForceUpdate from "../../../hooks/use-force-update";
 import { eventStore } from "../../../services/event-store";
-import { nostrRequest } from "../../../services/pool";
+import pool from "../../../services/pool";
 
 ChartJS.register(
   ArcElement,
@@ -41,31 +40,30 @@ ChartJS.register(
 export default function RelayDetailsTab({ relay }: { relay: string }) {
   useAppTitle(`${relay} - Details`);
 
-  const last = useRef(unixNow());
+  const update = useForceUpdate();
   const events = useRef(new Map());
 
-  const loader = useMemo(() => new RelayTimelineLoader(nostrRequest, relay, [{}], { limit: 500 }), [relay]);
+  const [loading, setLoading] = useState(false);
+  const loader = useMemo(() => createTimelineLoader(pool, [relay], [{}], { limit: 500, eventStore }), [relay]);
 
-  // start the loader
-  useEffect(() => {
-    const sub = loader.subscribe((event) => {
-      events.current.set(event.id, event);
-      last.current = event.created_at;
-
-      eventStore.add(event);
+  const loadMore = useCallback(() => {
+    setLoading(true);
+    loader().subscribe({
+      next: (event) => {
+        events.current.set(event.id, event);
+      },
+      complete: () => {
+        setLoading(false);
+        update();
+      },
     });
-
-    return () => sub.unsubscribe();
   }, [loader]);
 
   // load first batch when mounted
-  useEffect(() => loader.next(), [loader]);
+  useEffect(() => {
+    loadMore();
+  }, [loadMore]);
 
-  const loadMore = useCallback(() => {
-    loader.next(-Infinity);
-  }, [loader]);
-
-  const loading = useObservable(loader.loading$);
   const kinds = getSortedKinds(Array.from(events.current.values()));
 
   return (
@@ -77,9 +75,11 @@ export default function RelayDetailsTab({ relay }: { relay: string }) {
         </Button>
       </Flex>
       <Flex wrap="wrap" gap="4" alignItems="flex-start">
-        <Card p="2" w="50%">
+        <Card p="2">
           <Heading size="sm">Events by kind</Heading>
-          <EventKindsPieChart kinds={kinds} />
+          <Box maxH="50vh">
+            <EventKindsPieChart kinds={kinds} />
+          </Box>
         </Card>
         <Card p="2" minW="xs">
           <EventKindsTable kinds={kinds} />

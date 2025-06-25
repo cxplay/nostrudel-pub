@@ -8,7 +8,7 @@ import useStreamGoal from "../../../../hooks/use-stream-goal";
 import useUserMuteFilter from "../../../../hooks/use-user-mute-filter";
 import useClientSideMuteFilter from "../../../../hooks/use-client-side-mute-filter";
 import { useReadRelays } from "../../../../hooks/use-client-relays";
-import { useAdditionalRelayContext } from "../../../../providers/local/additional-relay-context";
+import { useAdditionalRelayContext } from "../../../../providers/local/additional-relay";
 import { getStreamEndTime, getStreamHost, getStreamStartTime } from "../../../../helpers/nostr/stream";
 
 export default function useStreamChatTimeline(stream: NostrEvent) {
@@ -18,7 +18,7 @@ export default function useStreamChatTimeline(stream: NostrEvent) {
   const starts = getStreamStartTime(stream);
   const ends = getStreamEndTime(stream);
 
-  const hostMuteFilter = useUserMuteFilter(host, [], true);
+  const hostMuteFilter = useUserMuteFilter(host);
   const muteFilter = useClientSideMuteFilter();
 
   const eventFilter = useCallback(

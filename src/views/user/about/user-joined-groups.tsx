@@ -1,7 +1,7 @@
 import { Button, Flex, Heading, SimpleGrid, useDisclosure } from "@chakra-ui/react";
 import { encodeGroupPointer } from "applesauce-core/helpers/groups";
 
-import { useAdditionalRelayContext } from "../../../providers/local/additional-relay-context";
+import { useAdditionalRelayContext } from "../../../providers/local/additional-relay";
 import { ErrorBoundary } from "../../../components/error-boundary";
 import { useBreakpointValue } from "../../../providers/global/breakpoint-provider";
 import useUserGroupsList from "../../../hooks/use-user-groups-list";
@@ -9,7 +9,7 @@ import RouterLink from "../../../components/router-link";
 
 export default function UserJoinedGroups({ pubkey }: { pubkey: string }) {
   const contextRelays = useAdditionalRelayContext();
-  const { pointers: groups } = useUserGroupsList(pubkey, contextRelays, true);
+  const { pointers: groups } = useUserGroupsList(pubkey, contextRelays);
   const columns = useBreakpointValue({ base: 1, lg: 2, xl: 3 }) ?? 1;
   const showAll = useDisclosure();
 

@@ -12,7 +12,7 @@ import {
   LinkBox,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useObservable } from "applesauce-react/hooks";
+import { useObservableEagerState } from "applesauce-react/hooks";
 import { NostrEvent } from "nostr-tools";
 import { memo } from "react";
 import { Link as RouterLink } from "react-router-dom";
@@ -22,7 +22,7 @@ import useEventIntersectionRef from "../../../hooks/use-event-intersection-ref";
 import useAppSettings from "../../../hooks/use-user-app-settings";
 import { useBreakpointValue } from "../../../providers/global/breakpoint-provider";
 import { ExpandProvider } from "../../../providers/local/expanded";
-import { TrustProvider } from "../../../providers/local/trust-provider";
+import { ContentSettingsProvider } from "../../../providers/local/content-settings";
 import localSettings from "../../../services/local-settings";
 import { getSharableEventAddress } from "../../../services/relay-hints";
 import ReplyForm from "../../../views/thread/components/reply-form";
@@ -33,7 +33,7 @@ import Timestamp from "../../timestamp";
 import UserAvatarLink from "../../user/user-avatar-link";
 import UserLink from "../../user/user-link";
 import EventZapButton from "../../zap/event-zap-button";
-import BookmarkEventButton from "../bookmark-event";
+import BookmarkEventButton from "../bookmark-button";
 import EventQuoteButton from "../event-quote-button";
 import NoteMenu from "../note-menu";
 import NotePublishedUsing from "../note-published-using";
@@ -66,7 +66,7 @@ export function TimelineNote({
   ...props
 }: TimelineNoteProps) {
   const { showReactions } = useAppSettings();
-  const hideZapBubbles = useObservable(localSettings.hideZapBubbles);
+  const hideZapBubbles = useObservableEagerState(localSettings.hideZapBubbles);
   const replyForm = useDisclosure();
 
   const ref = useEventIntersectionRef(event);
@@ -78,7 +78,7 @@ export function TimelineNote({
   );
 
   return (
-    <TrustProvider event={event}>
+    <ContentSettingsProvider event={event}>
       <ExpandProvider>
         <Flex
           direction="column"
@@ -142,7 +142,7 @@ export function TimelineNote({
           onSubmitted={replyForm.onClose}
         />
       )}
-    </TrustProvider>
+    </ContentSettingsProvider>
   );
 }
 

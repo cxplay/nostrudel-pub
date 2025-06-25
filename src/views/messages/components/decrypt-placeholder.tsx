@@ -1,61 +1,72 @@
-import { useEffect, useState } from "react";
-import { Alert, AlertDescription, AlertIcon, Button, ButtonProps } from "@chakra-ui/react";
+import { Alert, AlertDescription, AlertIcon, Button } from "@chakra-ui/react";
+import { useObservableEagerState } from "applesauce-react/hooks";
 import { NostrEvent } from "nostr-tools";
+import { useEffect, useState } from "react";
 
-import { UnlockIcon } from "../../../components/icons";
 import DebugEventButton from "../../../components/debug-modal/debug-event-button";
-import useAppSettings from "../../../hooks/use-user-app-settings";
-import { useKind4Decrypt } from "../../../hooks/use-kind4-decryption";
+import { UnlockIcon } from "../../../components/icons";
+import { useLegacyMessagePlaintext } from "../../../hooks/use-legacy-message-plaintext";
+import localSettings from "../../../services/local-settings";
 
 export default function DecryptPlaceholder({
   children,
   message,
-  ...props
 }: {
   children: (decrypted: string) => JSX.Element;
   message: NostrEvent;
-} & Omit<ButtonProps, "children">): JSX.Element {
-  const { autoDecryptDMs } = useAppSettings();
+}): JSX.Element {
+  const autoDecryptMessages = useObservableEagerState(localSettings.autoDecryptMessages);
   const [loading, setLoading] = useState(false);
-  const { requestDecrypt, plaintext, error } = useKind4Decrypt(message);
+  const { unlock, plaintext, error } = useLegacyMessagePlaintext(message);
 
   const decrypt = async () => {
     setLoading(true);
     try {
-      await requestDecrypt();
+      await unlock();
     } catch (e) {}
     setLoading(false);
   };
 
   // auto decrypt
   useEffect(() => {
-    if (autoDecryptDMs && !plaintext && !error) {
+    if (autoDecryptMessages && !plaintext && !error) {
       setLoading(true);
-      requestDecrypt()
+      unlock()
         .catch(() => {})
         .finally(() => {
           setLoading(false);
         });
     }
-  }, [autoDecryptDMs, error, plaintext]);
+  }, [autoDecryptMessages, error, plaintext]);
 
   if (plaintext) {
     return children(plaintext);
   }
+
   if (error) {
     return (
-      <Alert status="error">
+      <Alert status="error" borderRadius="md" maxW="lg">
         <AlertIcon />
-        <AlertDescription>{error.message}</AlertDescription>
-        <DebugEventButton event={message} size="sm" ml="auto" mr="2" />
+        <AlertDescription flex="1">{error.message}</AlertDescription>
+        <DebugEventButton event={message} size="sm" mr="2" />
         <Button isLoading={loading} leftIcon={<UnlockIcon />} onClick={decrypt} size="sm">
           重试
         </Button>
       </Alert>
     );
   }
+
   return (
-    <Button onClick={decrypt} isLoading={loading} leftIcon={<UnlockIcon />} width="full" {...props}>
+    <Button
+      onClick={decrypt}
+      isLoading={loading}
+      leftIcon={<UnlockIcon />}
+      size="sm"
+      variant="ghost"
+      border="1px dashed"
+      w="full"
+      maxW="lg"
+    >
       解密
     </Button>
   );

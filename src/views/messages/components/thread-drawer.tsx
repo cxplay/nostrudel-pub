@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Button,
   Card,
@@ -19,20 +18,22 @@ import {
 } from "@chakra-ui/react";
 import { NostrEvent } from "nostr-tools";
 
+import { isLegacyMessageLocked, unlockLegacyMessage } from "applesauce-core/helpers";
+import { useActiveAccount } from "applesauce-react/hooks";
+import ThreadButton from "../../../components/message/thread-button";
+import Timestamp from "../../../components/timestamp";
 import UserAvatar from "../../../components/user/user-avatar";
 import UserLink from "../../../components/user/user-link";
-import DecryptPlaceholder from "./decrypt-placeholder";
-import Timestamp from "../../../components/timestamp";
-import { Thread, useThreadsContext } from "../../../providers/local/thread-provider";
-import ThreadButton from "../../../components/message/thread-button";
-import SendMessageForm from "./send-message-form";
 import { groupMessages } from "../../../helpers/nostr/dms";
-import DirectMessageBlock from "./direct-message-block";
-import decryptionCacheService from "../../../services/decryption-cache";
+import useAsyncAction from "../../../hooks/use-async-action";
+import { Thread, useThreadsContext } from "../../../providers/local/thread-provider";
+import DecryptPlaceholder from "./decrypt-placeholder";
+import DirectMessageGroup from "./direct-message-group";
+import SendMessageForm from "./send-message-form";
 
 function MessagePreview({ message, ...props }: { message: NostrEvent } & Omit<TextProps, "children">) {
   return (
-    <DecryptPlaceholder message={message} variant="link" py="4" px="6rem" zIndex={1}>
+    <DecryptPlaceholder message={message}>
       {(plaintext) => (
         <Text isTruncated {...props}>
           {plaintext}
@@ -81,14 +82,14 @@ function ListThreads() {
 }
 
 function ThreadMessages({ thread, pubkey }: { thread: Thread; pubkey: string }) {
-  const grouped = groupMessages(thread.messages, 5, true);
+  const grouped = groupMessages(thread.messages, 5);
 
   return (
     <>
       <Flex h="0" flex={1} overflowX="hidden" overflowY="scroll" direction="column" gap="2">
-        {thread.root && <DirectMessageBlock messages={[thread.root]} showThreadButton={false} />}
+        {thread.root && <DirectMessageGroup messages={[thread.root]} />}
         {grouped.map((group) => (
-          <DirectMessageBlock key={group.id} messages={group.events} showThreadButton={false} />
+          <DirectMessageGroup key={group[0].id} messages={group} />
         ))}
       </Flex>
       <SendMessageForm flexShrink={0} pubkey={pubkey} rootId={thread.rootId} />
@@ -102,32 +103,24 @@ export default function ThreadDrawer({
   ...props
 }: Omit<DrawerProps, "children"> & { threadId: string; pubkey: string }) {
   const { threads, getRoot } = useThreadsContext();
+  const account = useActiveAccount();
 
   const thread = threads[threadId];
-  const [loading, setLoading] = useState(false);
-  const decryptAll = async () => {
-    if (!thread) return <Spinner />;
+  const decryptAll = useAsyncAction(async () => {
+    if (!thread || !account) return;
 
-    const promises = thread.messages
-      .map((message) => {
-        const container = decryptionCacheService.getOrCreateContainer(message.id, "nip04", pubkey, message.content);
-        if (container.plaintext.value === undefined) return decryptionCacheService.requestDecrypt(container);
-      })
-      .filter(Boolean);
-
+    // Decrypt root message
     if (thread.root) {
-      const rootContainer = decryptionCacheService.getOrCreateContainer(
-        thread.root.id,
-        "nip04",
-        pubkey,
-        thread.root.content,
-      );
-      if (rootContainer.plaintext.value === undefined) decryptionCacheService.requestDecrypt(rootContainer);
+      await unlockLegacyMessage(thread.root, account.pubkey, account);
     }
 
-    setLoading(true);
-    Promise.all(promises).finally(() => setLoading(false));
-  };
+    // Decrypt all messages
+    for (const message of thread.messages) {
+      if (isLegacyMessageLocked(message)) {
+        await unlockLegacyMessage(message, account.pubkey, account);
+      }
+    }
+  }, [thread, account]);
 
   const renderContent = () => {
     if (threadId === "list") return <ListThreads />;
@@ -142,9 +135,9 @@ export default function ThreadDrawer({
       <DrawerContent bgColor="var(--chakra-colors-chakra-body-bg)">
         <DrawerCloseButton />
         <DrawerHeader p="2" display="flex" gap="4">
-          <Text>线程</Text>
-          <Button size="sm" onClick={decryptAll} isLoading={loading}>
-            解密所有
+          <Text>Threads</Text>
+          <Button size="sm" onClick={decryptAll.run} isLoading={decryptAll.loading}>
+            Decrypt All
           </Button>
         </DrawerHeader>
 
