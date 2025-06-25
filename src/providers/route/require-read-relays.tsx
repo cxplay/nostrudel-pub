@@ -19,7 +19,7 @@ export default function RequireReadRelays({ children }: PropsWithChildren) {
             <Link as={RouterLink} to="/relays/app">
               应用中继
             </Link>
-            配置! 阅读和发布笔记将无法使用!
+            配置! 阅读和笔记发布功能将无法使用!
           </Text>
           <Spacer />
           <Button as={RouterLink} to="/relays/app" size="sm" colorScheme="primary">
