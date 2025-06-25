@@ -1,12 +1,12 @@
-import { Button, ButtonGroup, Flex, LinkBox, LinkOverlay, Text } from "@chakra-ui/react";
-import { kinds, nip19 } from "nostr-tools";
+import { Button, ButtonGroup, Flex, IconButton, LinkBox, LinkOverlay, Text } from "@chakra-ui/react";
+import { useActiveAccount } from "applesauce-react/hooks";
+import { NostrEvent, kinds, nip19 } from "nostr-tools";
 import { useMemo } from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
 
-import { useActiveAccount } from "applesauce-react/hooks";
-import { CheckIcon } from "../../components/icons";
+import { CheckIcon, SettingsIcon } from "../../components/icons";
 import SimpleParentView from "../../components/layout/presets/simple-parent-view";
 import RequireActiveAccount from "../../components/router/require-active-account";
 import Timestamp from "../../components/timestamp";
@@ -16,7 +16,7 @@ import UserName from "../../components/user/user-name";
 import { KnownConversation, groupIntoConversations, hasResponded, identifyConversation } from "../../helpers/nostr/dms";
 import { truncateId } from "../../helpers/string";
 import useEventIntersectionRef from "../../hooks/use-event-intersection-ref";
-import { useKind4Decrypt } from "../../hooks/use-kind4-decryption";
+import { useLegacyMessagePlaintext } from "../../hooks/use-legacy-message-plaintext";
 import useRouteStateValue from "../../hooks/use-route-state-value";
 import useScrollRestoreRef from "../../hooks/use-scroll-restore";
 import { useTimelineCurserIntersectionCallback } from "../../hooks/use-timeline-cursor-intersection-callback";
@@ -25,7 +25,7 @@ import useUserContacts from "../../hooks/use-user-contacts";
 import useUserMailboxes from "../../hooks/use-user-mailboxes";
 import useUserMutes from "../../hooks/use-user-mutes";
 import IntersectionObserverProvider from "../../providers/local/intersection-observer";
-import { NostrEvent } from "nostr-tools";
+import RequireDecryptionCache from "../../providers/route/require-decryption-cache";
 
 export function useDirectMessagesTimeline(pubkey?: string) {
   const mailboxes = useUserMailboxes(pubkey);
@@ -45,7 +45,7 @@ export function useDirectMessagesTimeline(pubkey?: string) {
 function MessagePreview({ message, pubkey }: { message: NostrEvent; pubkey: string }) {
   const ref = useEventIntersectionRef(message);
 
-  const { plaintext } = useKind4Decrypt(message);
+  const { plaintext } = useLegacyMessagePlaintext(message);
   return (
     <Text isTruncated ref={ref}>
       {plaintext || "<已加密>"}
@@ -83,8 +83,8 @@ function MessagesHomePage() {
   const { value: filter, setValue: setFilter } = useRouteStateValue<"contacts" | "other" | "muted">("tab", "contacts");
 
   const account = useActiveAccount()!;
-  const contacts = useUserContacts(account?.pubkey, undefined, true)?.map((p) => p.pubkey);
-  const mutes = useUserMutes(account.pubkey, undefined, true);
+  const contacts = useUserContacts(account.pubkey)?.map((p) => p.pubkey);
+  const mutes = useUserMutes(account.pubkey);
 
   const { timeline: messages, loader } = useDirectMessagesTimeline(account.pubkey);
 
@@ -113,7 +113,22 @@ function MessagesHomePage() {
   const scroll = useScrollRestoreRef("chats");
 
   return (
-    <SimpleParentView path="/messages" width="md" title="消息" scroll={false}>
+    <SimpleParentView
+      path="/messages"
+      width="md"
+      title="消息"
+      scroll={false}
+      actions={
+        <IconButton
+          as={RouterLink}
+          to="/settings/messages"
+          aria-label="设置"
+          icon={<SettingsIcon boxSize={5} />}
+          variant="ghost"
+          ms="auto"
+        />
+      }
+    >
       <ButtonGroup p="2" size="sm" variant="outline">
         <Button onClick={() => setFilter("contacts")} variant={filter === "contacts" ? "solid" : "outline"}>
           联系人
@@ -151,7 +166,9 @@ function MessagesHomePage() {
 export default function MessagesHomeView() {
   return (
     <RequireActiveAccount>
-      <MessagesHomePage />
+      <RequireDecryptionCache>
+        <MessagesHomePage />
+      </RequireDecryptionCache>
     </RequireActiveAccount>
   );
 }

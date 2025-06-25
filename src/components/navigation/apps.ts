@@ -259,14 +259,6 @@ export const externalTools: App[] = [
     isExternal: true,
   },
   {
-    id: "blossom.hzrd149.com",
-    title: "Blossom Drive",
-    description: "上传和管理 blob",
-    to: "https://blossom.hzrd149.com/",
-    image: "https://blossom.hzrd149.com/pwa-192x192.png",
-    isExternal: true,
-  },
-  {
     id: "bouquet.slidestr.net",
     title: "Bouquet",
     description: "在多个服务器中管理你的  blob",

@@ -1,11 +1,13 @@
-import { lazy, VideoHTMLAttributes } from "react";
-import styled from "@emotion/styled";
 import { Box, BoxProps } from "@chakra-ui/react";
+import styled from "@emotion/styled";
+import { getHashFromURL } from "blossom-client-sdk";
+import { lazy, VideoHTMLAttributes } from "react";
 
 import { isStreamURL, isVideoURL } from "../../../helpers/url";
-import useAppSettings from "../../../hooks/use-user-app-settings";
-import useElementTrustBlur from "../../../hooks/use-element-trust-blur";
-import ExpandableEmbed from "../components/expandable-embed";
+import useMediaBlur from "../../../hooks/use-media-blur";
+import ExpandableEmbed from "../components/content-embed";
+import { BlobDetailsButton } from "./common";
+
 const LiveVideoPlayer = lazy(() => import("../../live-video-player"));
 
 const StyledVideo = styled.video`
@@ -18,27 +20,22 @@ export function TrustVideo({
   src,
   ...props
 }: { src: string } & VideoHTMLAttributes<HTMLVideoElement> & Omit<BoxProps, "children">) {
-  const { blurImages } = useAppSettings();
-  const { onClick, handleEvent, style } = useElementTrustBlur();
+  const { onClick, handleEvent, style } = useMediaBlur();
 
-  return (
-    <Box
-      as={StyledVideo}
-      src={src}
-      controls
-      style={blurImages ? style : undefined}
-      onClick={blurImages ? onClick : undefined}
-      onPlay={blurImages ? handleEvent : undefined}
-      {...props}
-    />
-  );
+  return <Box as={StyledVideo} src={src} controls style={style} onClick={onClick} onPlay={handleEvent} {...props} />;
 }
 
 export function renderVideoUrl(match: URL) {
   if (!isVideoURL(match)) return null;
 
+  const hash = getHashFromURL(match);
+
   return (
-    <ExpandableEmbed label="视频" url={match}>
+    <ExpandableEmbed
+      label="视频"
+      url={match}
+      actions={hash ? <BlobDetailsButton src={match} original={hash} zIndex={1} /> : undefined}
+    >
       <TrustVideo src={match.toString()} maxH="lg" w="auto" />
     </ExpandableEmbed>
   );

@@ -1,10 +1,16 @@
-import { useMemo, useState } from "react";
 import { Button, Card, CardBody, CardHeader, CardProps, Flex, Heading, Link, LinkBox, Text } from "@chakra-ui/react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { nip19 } from "nostr-tools";
+import { useMemo, useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 
-import KeyboardShortcut from "../../../components/keyboard-shortcut";
+import { unlockLegacyMessage } from "applesauce-core/helpers";
 import { useActiveAccount } from "applesauce-react/hooks";
+import { NostrEvent } from "nostr-tools";
+import HoverLinkOverlay from "../../../components/hover-link-overlay";
+import Timestamp from "../../../components/timestamp";
+import UserAvatar from "../../../components/user/user-avatar";
+import UserDnsIdentity from "../../../components/user/user-dns-identity";
+import UserName from "../../../components/user/user-name";
 import {
   KnownConversation,
   groupIntoConversations,
@@ -12,18 +18,11 @@ import {
   identifyConversation,
   sortConversationsByLastReceived,
 } from "../../../helpers/nostr/dms";
-import { NostrEvent } from "nostr-tools";
-import UserAvatar from "../../../components/user/user-avatar";
-import HoverLinkOverlay from "../../../components/hover-link-overlay";
-import UserName from "../../../components/user/user-name";
-import UserDnsIdentity from "../../../components/user/user-dns-identity";
-import Timestamp from "../../../components/timestamp";
-import { useKind4Decrypt } from "../../../hooks/use-kind4-decryption";
-import decryptionCacheService from "../../../services/decryption-cache";
+import { useLegacyMessagePlaintext } from "../../../hooks/use-legacy-message-plaintext";
 import { useDirectMessagesTimeline } from "../../messages";
 
 function MessagePreview({ message, pubkey }: { message: NostrEvent; pubkey: string }) {
-  const { plaintext } = useKind4Decrypt(message);
+  const { plaintext } = useLegacyMessagePlaintext(message);
   return <Text isTruncated>{plaintext || "<Encrypted>"}</Text>;
 }
 
@@ -48,7 +47,6 @@ function Conversation({ conversation }: { conversation: KnownConversation }) {
 }
 
 export default function DMsCard({ ...props }: Omit<CardProps, "children">) {
-  const navigate = useNavigate();
   const account = useActiveAccount()!;
 
   const { timeline: messages } = useDirectMessagesTimeline(account.pubkey);
@@ -72,13 +70,7 @@ export default function DMsCard({ ...props }: Omit<CardProps, "children">) {
         const last = conversation.messages.find((m) => m.pubkey === conversation.correspondent);
         if (!last) return;
 
-        const container = decryptionCacheService.getOrCreateContainer(
-          last.id,
-          "nip04",
-          conversation.correspondent,
-          last.content,
-        );
-        return decryptionCacheService.requestDecrypt(container);
+        return unlockLegacyMessage(last, account.pubkey, account);
       })
       .filter(Boolean);
 
@@ -97,7 +89,6 @@ export default function DMsCard({ ...props }: Omit<CardProps, "children">) {
         <Button variant="link" isLoading={loading} ml="auto" onClick={decrypt}>
           解密
         </Button>
-        <KeyboardShortcut letter="m" requireMeta onPress={() => navigate("/dm")} />
       </CardHeader>
       <CardBody overflow="hidden" pt="0" display="flex" flexDirection="column" px="0">
         {conversations.slice(0, 4).map((conversation) => (

@@ -11,7 +11,7 @@ export const DEFAULT_SEARCH_RELAYS = normalizeRelayURLs([
   "wss://relay.cxplay.org",
 ]);
 export const WIKI_RELAYS = normalizeRelayURLs(["wss://relay.wikifreedia.xyz/"]);
-export const DEFAULT_LOOKUP_RELAYS = normalizeRelayURLs(["wss://purplepag.es/", "wss://kindpag.es"]);
+export const DEFAULT_LOOKUP_RELAYS = normalizeRelayURLs(["wss://purplepag.es/"]);
 
 export const DEFAULT_SIGNAL_RELAYS = normalizeRelayURLs(["wss://nostrue.com/", "wss://relay.damus.io"]);
 export const DEFAULT_NOSTR_CONNECT_RELAY = normalizeURL("wss://relay.nsec.app/");
@@ -39,10 +39,9 @@ export const NOSTR_MOE_RELAYS = normalizeRelayURLs([
   "wss://relay.nostr.moe/",
   "wss://relay.cxplay.org/",
 ]);
-export const RECOMMENDED_READ_RELAYS = normalizeRelayURLs([
+export const RECOMMENDED_RELAYS = normalizeRelayURLs([
   "wss://relay.cxplay.org/",
   "wss://ditto.pub/relay",
-  "wss://nostr-relay.app/",
   "wss://relay.damus.io/",
   "wss://relay.momostr.pink/",
   "wss://relay.mostr.pub/",
@@ -50,11 +49,6 @@ export const RECOMMENDED_READ_RELAYS = normalizeRelayURLs([
   "wss://relay.westernbtc.com/",
   "wss://us.nostr.wine/",
   "wss://relay.nostr.moe",
-]);
-export const RECOMMENDED_WRITE_RELAYS = normalizeRelayURLs([
-  "wss://relay.damus.io/",
-  "wss://nos.lol/",
-  "wss://purplerelay.com/",
 ]);
 
 export const RECOMMENDED_JAPANESE_RELAYS = normalizeRelayURLs([
@@ -87,6 +81,9 @@ export const NIP_89_CLIENT_APP: EventFactoryClient = {
   },
 };
 
+export const SOCIAL_GRAPH_DOWNLOAD_URL =
+  "https://raw.githubusercontent.com/mmalmi/nostr-social-graph/refs/heads/master/data/socialGraph.json";
+export const SOCIAL_GRAPH_FALLBACK_PUBKEY = "713978c3094081b34fcf2f5491733b0c22728cd3b7a6946519d40f5f08598af8";
 export const SUPPORT_PUBKEY = "713978c3094081b34fcf2f5491733b0c22728cd3b7a6946519d40f5f08598af8";
 
 export const TENOR_API_KEY = import.meta.env.VITE_TENOR_API_KEY as string | undefined;

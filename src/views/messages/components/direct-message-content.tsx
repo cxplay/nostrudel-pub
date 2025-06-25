@@ -1,7 +1,8 @@
+import React from "react";
 import { Box, BoxProps } from "@chakra-ui/react";
 import { useRenderedContent } from "applesauce-react/hooks";
-
 import { NostrEvent } from "nostr-tools";
+
 import {
   renderAppleMusicUrl,
   renderGenericUrl,
@@ -19,11 +20,11 @@ import {
   renderWavlakeUrl,
   renderYoutubeURL,
 } from "../../../components/content/links";
-import { TrustProvider } from "../../../providers/local/trust-provider";
+import { ContentSettingsProvider } from "../../../providers/local/content-settings";
 import { LightboxProvider } from "../../../components/lightbox-provider";
 import { renderAudioUrl } from "../../../components/content/links/audio";
 import { components } from "../../../components/content";
-import { useKind4Decrypt } from "../../../hooks/use-kind4-decryption";
+import { useLegacyMessagePlaintext } from "../../../hooks/use-legacy-message-plaintext";
 
 const DirectMessageContentSymbol = Symbol.for("direct-message-content");
 const linkRenderers = [
@@ -50,18 +51,18 @@ export default function DirectMessageContent({
   text,
   children,
   ...props
-}: { event: NostrEvent; text: string } & BoxProps) {
-  const { plaintext } = useKind4Decrypt(event);
+}: { event: NostrEvent; text: string; children?: React.ReactNode } & BoxProps) {
+  const { plaintext } = useLegacyMessagePlaintext(event);
   const content = useRenderedContent(plaintext, components, { linkRenderers, cacheKey: DirectMessageContentSymbol });
 
   return (
-    <TrustProvider event={event}>
+    <ContentSettingsProvider event={event}>
       <LightboxProvider>
         <Box whiteSpace="pre-wrap" {...props}>
           {content}
           {children}
         </Box>
       </LightboxProvider>
-    </TrustProvider>
+    </ContentSettingsProvider>
   );
 }

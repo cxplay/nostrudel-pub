@@ -1,12 +1,12 @@
 import { Alert, AlertIcon, Button, ButtonGroup, Flex, IconButton, Link, Spacer, useDisclosure } from "@chakra-ui/react";
-import { ThreadItem } from "applesauce-core/queries";
+import { ThreadItem } from "applesauce-core/models";
 import { memo, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 import { ReplyIcon } from "../../../components/icons";
 import Expand01 from "../../../components/icons/expand-01";
 import Minus from "../../../components/icons/minus";
-import BookmarkEventButton from "../../../components/note/bookmark-event";
+import BookmarkEventButton from "../../../components/note/bookmark-button";
 import EventQuoteButton from "../../../components/note/event-quote-button";
 import NoteMenu from "../../../components/note/note-menu";
 import NotePublishedUsing from "../../../components/note/note-published-using";
@@ -28,10 +28,11 @@ import useEventIntersectionRef from "../../../hooks/use-event-intersection-ref";
 import useThreadColorLevelProps from "../../../hooks/use-thread-color-level-props";
 import useAppSettings from "../../../hooks/use-user-app-settings";
 import { useBreakpointValue } from "../../../providers/global/breakpoint-provider";
-import { TrustProvider } from "../../../providers/local/trust-provider";
+import { ContentSettingsProvider } from "../../../providers/local/content-settings";
 import { getSharableEventAddress } from "../../../services/relay-hints";
 import DetailsTabs from "./details-tabs";
 import ReplyForm from "./reply-form";
+import SeenOnRelaysButton from "../../../components/note/seen-on-relays-button";
 
 export type ThreadItemProps = {
   post: ThreadItem;
@@ -94,14 +95,16 @@ function ThreadPost({ post, initShowReplies, focusId, level = -1 }: ThreadItemPr
   );
 
   const renderContent = () => {
+    const override = focusId === post.event.id ? false : undefined;
+
     return isMuted && !alwaysShow ? (
       muteAlert
     ) : (
       <>
         <NoteCommunityMetadata event={post.event} pl="2" />
-        <TrustProvider trust={focusId === post.event.id ? true : undefined} event={post.event}>
+        <ContentSettingsProvider blurMedia={override} hideEmbeds={override} event={post.event}>
           <TextNoteContents event={post.event} pl="2" />
-        </TrustProvider>
+        </ContentSettingsProvider>
       </>
     );
   };
@@ -123,6 +126,7 @@ function ThreadPost({ post, initShowReplies, focusId, level = -1 }: ThreadItemPr
       <ButtonGroup size="sm" variant="ghost">
         <NoteProxyLink event={post.event} />
         <BookmarkEventButton event={post.event} aria-label="书签" />
+        <SeenOnRelaysButton event={post.event} />
         <NoteMenu event={post.event} aria-label="更多选项" />
       </ButtonGroup>
     </Flex>

@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Spinner } from "@chakra-ui/react";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, matchRoutes, Outlet, RouterProvider } from "react-router-dom";
 
 import GlobalStyles from "./styles";
 
@@ -17,7 +17,6 @@ import NostrLinkView from "./views/link";
 import HomeView from "./views/home";
 import ThreadView from "./views/thread";
 import SupportView from "./views/support";
-import ProfileView from "./views/profile";
 import SearchView from "./views/search";
 import LaunchpadView from "./views/launchpad";
 import NotificationsView from "./views/notifications";
@@ -54,7 +53,9 @@ import badgesRoutes from "./views/badges/routes";
 import emojisRoutes from "./views/emojis/routes";
 import walletRoutes from "./views/wallet/routes";
 
-// const getScrollKey = (location: Location) => location.pathname + location.search + location.hash;
+// Redirect old hash routing
+const hashPath = window.location.hash.match(/^#(\/.+)/);
+if (hashPath) window.history.replaceState({}, "", hashPath[1]);
 
 const RootPage = () => {
   useSetColorMode();
@@ -94,7 +95,6 @@ const router = createBrowserRouter(
         { path: "notes", Component: HomeView },
         { path: "new", children: newRoutes },
         { path: "launchpad", Component: LaunchpadView },
-        { path: "profile", Component: ProfileView },
         { path: "messages", children: messagesRoutes },
         { path: "user/:pubkey", children: userRoutes },
         { path: "u/:pubkey", children: userRoutes },

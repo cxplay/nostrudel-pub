@@ -1,26 +1,26 @@
-import { Link as RouterLink } from "react-router-dom";
 import {
+  Button,
   Flex,
   FormControl,
-  FormLabel,
-  Switch,
   FormHelperText,
+  FormLabel,
   Input,
-  Select,
-  Textarea,
   Link,
-  Button,
+  Select,
+  Switch,
+  Textarea,
 } from "@chakra-ui/react";
-import { useObservable } from "applesauce-react/hooks";
+import { useObservableEagerState } from "applesauce-react/hooks";
+import { Link as RouterLink } from "react-router-dom";
 
+import SimpleView from "../../../components/layout/presets/simple-view";
 import localSettings from "../../../services/local-settings";
 import useSettingsForm from "../use-settings-form";
-import SimpleView from "../../../components/layout/presets/simple-view";
 
 export default function DisplaySettings() {
   const { register, submit, formState } = useSettingsForm();
 
-  const hideZapBubbles = useObservable(localSettings.hideZapBubbles);
+  const hideZapBubbles = useObservableEagerState(localSettings.hideZapBubbles);
 
   return (
     <SimpleView
@@ -100,17 +100,6 @@ export default function DisplaySettings() {
       </FormControl>
       <FormControl>
         <Flex alignItems="center">
-          <FormLabel htmlFor="blurImages" mb="0">
-            模糊陌生人的媒体附件
-          </FormLabel>
-          <Switch id="blurImages" {...register("blurImages")} />
-        </Flex>
-        <FormHelperText>
-          <span>启用: 你没有关注的用户发布的媒体文件会被添加模糊遮罩</span>
-        </FormHelperText>
-      </FormControl>
-      <FormControl>
-        <Flex alignItems="center">
           <FormLabel htmlFor="hideUsernames" mb="0">
             隐藏用户名 (佚名模式)
           </FormLabel>
@@ -164,24 +153,6 @@ export default function DisplaySettings() {
         </Flex>
         <FormHelperText>
           <span>启用: 对含有 NIP-36 (内容警告) 标记的笔记显示警告</span>
-        </FormHelperText>
-      </FormControl>
-      <FormControl>
-        <FormLabel htmlFor="muted-words" mb="0">
-          静音关键词
-        </FormLabel>
-        <Textarea
-          id="muted-words"
-          {...register("mutedWords")}
-          placeholder="热狗, 火腿肠, 香肠..."
-          maxW="2xl"
-        />
-        <FormHelperText>
-          <span>
-            如果笔记中包含这些单词, 短语或标签那么将会被隐藏. 以逗号分隔, 不区分大小写.
-          </span>
-          <br />
-          <span>要注意的是, 如果你添加了常用的词语, 可能会让时间线上所有的笔记被隐藏.</span>
         </FormHelperText>
       </FormControl>
     </SimpleView>

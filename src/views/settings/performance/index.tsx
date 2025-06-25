@@ -1,24 +1,25 @@
 import {
+  Button,
   Flex,
   FormControl,
-  FormLabel,
-  Switch,
+  FormErrorMessage,
   FormHelperText,
+  FormLabel,
+  Heading,
   Input,
   Link,
-  FormErrorMessage,
   Select,
-  Button,
+  Switch,
 } from "@chakra-ui/react";
-import { useObservable } from "applesauce-react/hooks";
+import { useObservableEagerState } from "applesauce-react/hooks";
 
-import { safeUrl } from "../../../helpers/parse";
-import useSettingsForm from "../use-settings-form";
-import localSettings from "../../../services/local-settings";
 import SimpleView from "../../../components/layout/presets/simple-view";
+import { safeUrl } from "../../../helpers/parse";
+import localSettings from "../../../services/local-settings";
+import useSettingsForm from "../use-settings-form";
 
 function VerifyEventSettings() {
-  const verifyEventMethod = useObservable(localSettings.verifyEventMethod);
+  const verifyEventMethod = useObservableEagerState(localSettings.verifyEventMethod);
 
   return (
     <>
@@ -67,19 +68,6 @@ export default function PerformanceSettings() {
       }
     >
       <FormControl>
-        <Flex alignItems="center">
-          <FormLabel htmlFor="proxy-user-media" mb="0">
-            代理用户资料图片
-          </FormLabel>
-          <Switch id="proxy-user-media" {...register("proxyUserMedia")} />
-        </Flex>
-        <FormHelperText>
-          <span>启用: 使用 media.nostr.band 去获取最小的用户资料图片 (节约大约 50Mb 数据)</span>
-          <br />
-          <span>副作用: 一些用户资料图片可能已经过时或者直接无法加载</span>
-        </FormHelperText>
-      </FormControl>
-      <FormControl>
         <FormLabel htmlFor="imageProxy" mb="0">
           图片代理服务
         </FormLabel>
@@ -104,15 +92,6 @@ export default function PerformanceSettings() {
       </FormControl>
       <FormControl>
         <Flex alignItems="center">
-          <FormLabel htmlFor="autoShowMedia" mb="0">
-           显示嵌入
-          </FormLabel>
-          <Switch id="autoShowMedia" {...register("autoShowMedia")} />
-        </Flex>
-        <FormHelperText>禁用: 嵌入的内容会显示一个展开按钮</FormHelperText>
-      </FormControl>
-      <FormControl>
-        <Flex alignItems="center">
           <FormLabel htmlFor="showReactions" mb="0">
             显示回应
           </FormLabel>
@@ -120,15 +99,7 @@ export default function PerformanceSettings() {
         </Flex>
         <FormHelperText>启用: 显示笔记的表情回应</FormHelperText>
       </FormControl>
-      <FormControl>
-        <Flex alignItems="center">
-          <FormLabel htmlFor="autoDecryptDMs" mb="0">
-            自动解密私信
-          </FormLabel>
-          <Switch id="autoDecryptDMs" {...register("autoDecryptDMs")} />
-        </Flex>
-        <FormHelperText>启用: 自动解密私聊消息</FormHelperText>
-      </FormControl>
+
       <VerifyEventSettings />
     </SimpleView>
   );

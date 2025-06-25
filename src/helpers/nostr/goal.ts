@@ -1,7 +1,38 @@
-import { getPointerFromTag, isRTag } from "applesauce-core/helpers";
+import {
+  DecodeResult,
+  getAddressPointerFromATag,
+  getEventPointerFromETag,
+  getProfilePointerFromPTag,
+  isRTag,
+} from "applesauce-core/helpers";
 import dayjs from "dayjs";
 import { kinds, NostrEvent } from "nostr-tools";
-import { DecodeResult } from "nostr-tools/nip19";
+import { decode } from "nostr-tools/nip19";
+
+/** @deprecated */
+export function getPointerFromTag(tag: string[]): ReturnType<typeof decode> | null {
+  try {
+    switch (tag[0]) {
+      case "e":
+        return { type: "nevent", data: getEventPointerFromETag(tag) };
+
+      case "a":
+        return {
+          type: "naddr",
+          data: getAddressPointerFromATag(tag),
+        };
+
+      case "p":
+        return { type: "nprofile", data: getProfilePointerFromPTag(tag) };
+
+      // NIP-18 quote tags
+      case "q":
+        return { type: "nevent", data: getEventPointerFromETag(tag) };
+    }
+  } catch (error) {}
+
+  return null;
+}
 
 /** @deprecated use kinds.ZapGoal */
 export const GOAL_KIND = kinds.ZapGoal;

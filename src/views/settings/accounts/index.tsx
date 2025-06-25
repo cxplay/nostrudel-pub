@@ -77,7 +77,7 @@ export default function AccountSettings() {
         </Box>
 
         <ButtonGroup ms="auto">
-          <Button as={RouterLink} to="/profile" variant="ghost">
+          <Button as={RouterLink} to="/settings/profile" variant="ghost">
             编辑资料
           </Button>
           <Button onClick={signout}>注销</Button>

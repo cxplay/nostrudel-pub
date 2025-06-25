@@ -1,4 +1,4 @@
-import { useOutletContext, Link as RouterLink } from "react-router-dom";
+import { ChatIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -17,13 +17,13 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { nip19 } from "nostr-tools";
-import { ChatIcon } from "@chakra-ui/icons";
 import { parseLNURLOrAddress, parseNIP05Address } from "applesauce-core/helpers";
+import { useObservableState } from "applesauce-react/hooks";
+import { nip19 } from "nostr-tools";
+import { useMemo } from "react";
+import { Link as RouterLink, useOutletContext } from "react-router-dom";
 
-import { truncatedId } from "../../../helpers/nostr/event";
-import { useAdditionalRelayContext } from "../../../providers/local/additional-relay-context";
-import useUserProfile from "../../../hooks/use-user-profile";
+import { CopyIconButton } from "../../../components/copy-icon-button";
 import {
   ChevronDownIcon,
   ChevronUpIcon,
@@ -32,26 +32,29 @@ import {
   LightningIcon,
   VerifiedIcon,
 } from "../../../components/icons";
-import { CopyIconButton } from "../../../components/copy-icon-button";
-import { QrIconButton } from "../components/share-qr-button";
-import UserDnsIdentity from "../../../components/user/user-dns-identity";
-import UserAvatar from "../../../components/user/user-avatar";
-import { UserFollowButton } from "../../../components/user/user-follow-button";
-import UserZapButton from "../components/user-zap-button";
-import { UserProfileMenu } from "../components/user-profile-menu";
-import { useSharableProfileId } from "../../../hooks/use-shareable-profile-id";
-import UserProfileBadges from "./user-profile-badges";
-import UserPinnedEvents from "./user-pinned-events";
-import UserStatsAccordion from "./user-stats-accordion";
-import UserJoinedChannels from "./user-joined-channels";
-import { getTextColor } from "../../../helpers/color";
-import UserName from "../../../components/user/user-name";
-import { useUserDNSIdentity } from "../../../hooks/use-user-dns-identity";
+import Share07 from "../../../components/icons/share-07";
 import UserAboutContent from "../../../components/user/user-about-content";
-import UserRecentEvents from "./user-recent-events";
-import { useUserAppSettings } from "../../../hooks/use-user-app-settings";
-import UserJoinedGroups from "./user-joined-groups";
+import UserAvatar from "../../../components/user/user-avatar";
+import UserDnsIdentity from "../../../components/user/user-dns-identity";
+import { UserFollowButton } from "../../../components/user/user-follow-button";
+import UserName from "../../../components/user/user-name";
+import { getTextColor } from "../../../helpers/color";
+import { truncatedId } from "../../../helpers/nostr/event";
+import { useSharableProfileId } from "../../../hooks/use-shareable-profile-id";
+import { useUserDNSIdentity } from "../../../hooks/use-user-dns-identity";
+import useUserProfile from "../../../hooks/use-user-profile";
+import { useAdditionalRelayContext } from "../../../providers/local/additional-relay";
+import { socialGraph$ } from "../../../services/social-graph";
 import DNSIdentityWarning from "../../settings/dns-identity/identity-warning";
+import { QrIconButton } from "../components/share-qr-button";
+import { UserProfileMenu } from "../components/user-profile-menu";
+import UserZapButton from "../components/user-zap-button";
+import UserJoinedChannels from "./user-joined-channels";
+import UserJoinedGroups from "./user-joined-groups";
+import UserPinnedEvents from "./user-pinned-events";
+import UserProfileBadges from "./user-profile-badges";
+import UserRecentEvents from "./user-recent-events";
+import UserStatsAccordion from "./user-stats-accordion";
 
 export default function UserAboutTab() {
   const expanded = useDisclosure();
@@ -59,11 +62,10 @@ export default function UserAboutTab() {
   const contextRelays = useAdditionalRelayContext();
   const colorModal = useDisclosure();
 
-  const metadata = useUserProfile(pubkey, contextRelays);
+  const metadata = useUserProfile({ pubkey, relays: contextRelays });
   const npub = nip19.npubEncode(pubkey);
   const nprofile = useSharableProfileId(pubkey);
   const pubkeyColor = "#" + pubkey.slice(0, 6);
-  const settings = useUserAppSettings(pubkey);
 
   const parsedNip05 = metadata?.nip05 ? parseNIP05Address(metadata.nip05) : undefined;
   const nip05URL = parsedNip05
@@ -71,6 +73,12 @@ export default function UserAboutTab() {
     : undefined;
 
   const identity = useUserDNSIdentity(pubkey);
+
+  const socialGraph = useObservableState(socialGraph$);
+  const followedBy = useMemo(
+    () => socialGraph && Array.from(socialGraph.followedByFriends(pubkey)).sort(() => Math.random() - 0.5),
+    [pubkey, socialGraph],
+  );
 
   return (
     <Flex
@@ -177,19 +185,26 @@ export default function UserAboutTab() {
             </Link>
           </Flex>
         )}
-        {npub && (
-          <Flex gap="2">
-            <KeyIcon boxSize="1.2em" />
-            <Text>{truncatedId(npub, 10)}</Text>
-            <CopyIconButton value={npub} title="复制 npub 公钥" aria-label="复制 npub 公钥" size="xs" />
-            <QrIconButton pubkey={pubkey} title="显示二维码" aria-label="显示二维码" size="xs" />
-          </Flex>
-        )}
+        <Flex gap="2">
+          <KeyIcon boxSize="1.2em" />
+          <Text>{truncatedId(npub, 10)}</Text>
+          <CopyIconButton value={npub} title="复制 npub 公钥" aria-label="复制 npub 公钥" size="xs" variant="ghost" />
+          <QrIconButton pubkey={pubkey} title="显示二维码" aria-label="显示二维码" size="xs" variant="ghost" />
+        </Flex>
 
-        {settings?.primaryColor && (
+        {followedBy && followedBy.length > 0 && (
           <Flex gap="2">
-            <Box w="5" h="5" backgroundColor={settings.primaryColor} rounded="full" />
-            <Text>noStrudel 主题色</Text>
+            <Share07 boxSize="1.2em" />
+            <Text>
+              正在被{" "}
+              {followedBy.slice(0, 3).map((pubkey, i, arr) => (
+                <>
+                  <UserName pubkey={pubkey} fontWeight="normal" />
+                  <span>{i < arr.length - 1 && ", "}</span>
+                </>
+              ))}
+              {followedBy.length > 3 && ` 以及其他 ${followedBy.length - 3} 个你已关注的用户关注`}
+            </Text>
           </Flex>
         )}
       </Flex>
@@ -231,7 +246,6 @@ export default function UserAboutTab() {
           Nostree
         </Button>
       </Flex>
-      <UserJoinedGroups pubkey={pubkey} />
       <UserJoinedChannels pubkey={pubkey} />
 
       <Modal isOpen={colorModal.isOpen} onClose={colorModal.onClose} size="2xl">

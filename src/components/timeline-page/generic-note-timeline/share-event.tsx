@@ -1,14 +1,14 @@
 import { Flex, Heading, Text } from "@chakra-ui/react";
-import { parseSharedEvent } from "applesauce-core/helpers/share";
+import { getEmbededSharedEvent } from "applesauce-core/helpers/share";
 import { kinds, nip18, NostrEvent } from "nostr-tools";
 import { memo, useEffect } from "react";
 
 import useEventIntersectionRef from "../../../hooks/use-event-intersection-ref";
 import useSingleEvent from "../../../hooks/use-single-event";
 import useUserMuteFilter from "../../../hooks/use-user-mute-filter";
-import { TrustProvider } from "../../../providers/local/trust-provider";
+import { ContentSettingsProvider } from "../../../providers/local/content-settings";
 import { eventStore } from "../../../services/event-store";
-import { EmbedEvent } from "../../embed-event";
+import { EmbedEventCard } from "../../embed-event/card";
 import LoadingNostrLink from "../../loading-nostr-link";
 import NoteMenu from "../../note/note-menu";
 import TimelineNote from "../../note/timeline-note";
@@ -18,14 +18,14 @@ import UserLink from "../../user/user-link";
 
 function ShareEvent({ event }: { event: NostrEvent }) {
   const muteFilter = useUserMuteFilter();
-  const hardCodedNote = parseSharedEvent(event);
+  const hardCodedNote = getEmbededSharedEvent(event);
 
   useEffect(() => {
     if (hardCodedNote) eventStore.add(hardCodedNote);
   }, [hardCodedNote]);
 
   const pointer = nip18.getRepostedEventPointer(event);
-  const loadedNote = useSingleEvent(pointer?.id, pointer?.relays);
+  const loadedNote = useSingleEvent(pointer);
   const note = hardCodedNote || loadedNote;
 
   const ref = useEventIntersectionRef(event);
@@ -33,7 +33,7 @@ function ShareEvent({ event }: { event: NostrEvent }) {
   if ((note && muteFilter(note)) || !pointer) return null;
 
   return (
-    <TrustProvider event={event}>
+    <ContentSettingsProvider event={event}>
       <Flex gap="2" direction="column" ref={ref}>
         <Flex gap="2" alignItems="center" pl="1">
           <UserAvatar pubkey={event.pubkey} size="xs" />
@@ -50,10 +50,10 @@ function ShareEvent({ event }: { event: NostrEvent }) {
           // NOTE: tell the note not to register itself with the intersection observer. since this is an older note it will break the order of the timeline
           <TimelineNote event={note} showReplyButton registerIntersectionEntity={false} />
         ) : (
-          <EmbedEvent event={note} />
+          <EmbedEventCard event={note} />
         )}
       </Flex>
-    </TrustProvider>
+    </ContentSettingsProvider>
   );
 }
 
