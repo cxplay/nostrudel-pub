@@ -1,9 +1,9 @@
 import { Button, Flex, Heading, useDisclosure } from "@chakra-ui/react";
 import { getCoordinateFromAddressPointer, isEventPointer } from "applesauce-core/helpers";
 
-import { useAdditionalRelayContext } from "../../../providers/local/additional-relay-context";
+import { useAdditionalRelayContext } from "../../../providers/local/additional-relay";
 import useUserPinList from "../../../hooks/use-user-pin-list";
-import { EmbedEventPointer } from "../../../components/embed-event";
+import { EmbedEventPointerCard } from "../../../components/embed-event/card";
 
 export default function UserPinnedEvents({ pubkey }: { pubkey: string }) {
   const contextRelays = useAdditionalRelayContext();
@@ -18,7 +18,7 @@ export default function UserPinnedEvents({ pubkey }: { pubkey: string }) {
         Pinned
       </Heading>
       {(showAll.isOpen ? pointers : pointers.slice(0, 2)).map((pointer) => (
-        <EmbedEventPointer
+        <EmbedEventPointerCard
           key={isEventPointer(pointer) ? pointer.id : getCoordinateFromAddressPointer(pointer)}
           pointer={isEventPointer(pointer) ? { type: "nevent", data: pointer } : { type: "naddr", data: pointer }}
         />

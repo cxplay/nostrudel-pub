@@ -56,10 +56,18 @@ type AppSettingsV12 = Omit<AppSettingsV11, "showSignatureVerification" | "versio
   mirrorBlobsOnShare: boolean;
 };
 
-export type AppSettings = AppSettingsV12;
+type AppSettingsV13 = Omit<AppSettingsV12, "version" | "mutedWords" | "autoShowMedia" | "blurImages"> & {
+  version: 13;
+};
 
-export const defaultSettings: AppSettings = {
-  version: 12,
+type AppSettingsV14 = Omit<AppSettingsV13, "version" | "autoDecryptDMs" | "proxyUserMedia"> & {
+  version: 14;
+};
+
+export type AppSettings = AppSettingsV14;
+
+export const DEFAULT_APP_SETTINGS: AppSettings = {
+  version: 14,
 
   // display
   theme: "default",
@@ -67,21 +75,17 @@ export const defaultSettings: AppSettings = {
   primaryColor: "#FF7BAC",
   maxPageWidth: "none",
   showPubkeyColor: "avatar",
-  blurImages: true,
   hideUsernames: false,
   removeEmojisInUsernames: false,
-  autoShowMedia: true,
   showContentWarning: true,
   loadOpenGraphData: true,
 
   // posting
   noteDifficulty: null,
-  proxyUserMedia: false,
   mirrorBlobsOnShare: false,
 
   // performance
   showReactions: true,
-  autoDecryptDMs: false,
 
   mediaUploadService: "nostr.build",
 

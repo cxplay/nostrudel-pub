@@ -1,54 +1,54 @@
-import { useRef, useState } from "react";
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalBody,
-  Flex,
-  Button,
-  Box,
-  Heading,
-  useDisclosure,
-  Input,
-  Switch,
-  ModalProps,
-  FormLabel,
-  FormControl,
-  FormHelperText,
-  Link,
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  ModalCloseButton,
   Alert,
   AlertIcon,
+  Box,
+  Button,
   ButtonGroup,
+  Flex,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Heading,
+  Input,
+  Link,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalOverlay,
+  ModalProps,
+  Slider,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderTrack,
+  Switch,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
+import { Emoji, getEventPointerFromQTag, processTags, ZapSplit } from "applesauce-core/helpers";
+import { useActiveAccount, useEventFactory, useEventStore, useObservableEagerState } from "applesauce-react/hooks";
 import { UnsignedEvent } from "nostr-tools";
-import { useAsync, useThrottle } from "react-use";
-import { useActiveAccount, useEventFactory, useObservable } from "applesauce-react/hooks";
-import { Emoji, ZapSplit } from "applesauce-core/helpers";
+import { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useThrottle } from "react-use";
 
-import { ChevronDownIcon, ChevronUpIcon } from "../icons";
-import { PublishLogEntryDetails } from "../../views/task-manager/publish-log/entry-details";
-import { TrustProvider } from "../../providers/local/trust-provider";
-import MagicTextArea, { RefType } from "../magic-textarea";
-import { useContextEmojis } from "../../providers/global/emoji-provider";
-import ZapSplitCreator from "../../views/new/note/zap-split-creator";
 import useCacheForm from "../../hooks/use-cache-form";
-import useTextAreaUploadFile, { useTextAreaInsertTextWithForm } from "../../hooks/use-textarea-upload-file";
-import MinePOW from "../pow/mine-pow";
-import useAppSettings from "../../hooks/use-user-app-settings";
-import { ErrorBoundary } from "../error-boundary";
-import { PublishLogEntry, usePublishEvent } from "../../providers/global/publish-provider";
-import { TextNoteContents } from "../note/timeline-note/text-note-contents";
-import localSettings from "../../services/local-settings";
 import useLocalStorageDisclosure from "../../hooks/use-localstorage-disclosure";
-import InsertGifButton from "../gif/insert-gif-button";
+import useTextAreaUploadFile, { useTextAreaInsertTextWithForm } from "../../hooks/use-textarea-upload-file";
+import useAppSettings from "../../hooks/use-user-app-settings";
+import { useContextEmojis } from "../../providers/global/emoji-provider";
+import { PublishLogEntry, usePublishEvent } from "../../providers/global/publish-provider";
+import { ContentSettingsProvider } from "../../providers/local/content-settings";
+import localSettings from "../../services/local-settings";
 import InsertImageButton from "../../views/new/note/insert-image-button";
+import ZapSplitCreator from "../../views/new/note/zap-split-creator";
+import { PublishLogEntryDetails } from "../../views/task-manager/publish-log/entry-details";
+import { ErrorBoundary } from "../error-boundary";
+import InsertGifButton from "../gif/insert-gif-button";
+import { ChevronDownIcon, ChevronUpIcon } from "../icons";
+import MagicTextArea, { RefType } from "../magic-textarea";
+import { TextNoteContents } from "../note/timeline-note/text-note-contents";
+import MinePOW from "../pow/mine-pow";
 
 type FormValues = {
   content: string;
@@ -72,12 +72,13 @@ export default function PostModal({
   const publish = usePublishEvent();
   const account = useActiveAccount()!;
   const { noteDifficulty } = useAppSettings();
-  const addClientTag = useObservable(localSettings.addClientTag);
+  const addClientTag = useObservableEagerState(localSettings.addClientTag);
   const promptAddClientTag = useLocalStorageDisclosure("prompt-add-client-tag", true);
   const [miningTarget, setMiningTarget] = useState(0);
   const [publishEntry, setPublishEntry] = useState<PublishLogEntry>();
   const emojis = useContextEmojis();
   const moreOptions = useDisclosure();
+  const eventStore = useEventStore();
 
   const factory = useEventFactory();
   const [draft, setDraft] = useState<UnsignedEvent>();
@@ -103,7 +104,7 @@ export default function PostModal({
   // cache form to localStorage
   useCacheForm<FormValues>(cacheFormKey, getValues, reset, formState);
 
-  const getDraft = async (values = getValues()) => {
+  const createDraft = async (values = getValues()) => {
     // build draft using factory
     let draft = await factory.note(values.content, {
       emojis: emojis.filter((e) => !!e.url) as Emoji[],
@@ -116,28 +117,26 @@ export default function PostModal({
     return unsigned;
   };
 
-  // throttle update the draft every 500ms
-  const throttleValues = useThrottle(getValues(), 500);
-  const { value: preview } = useAsync(() => getDraft(), [throttleValues]);
-
   const textAreaRef = useRef<RefType | null>(null);
   const insertText = useTextAreaInsertTextWithForm(textAreaRef, getValues, setValue);
   const { onPaste } = useTextAreaUploadFile(insertText);
 
-  const publishPost = async (unsigned?: UnsignedEvent) => {
-    unsigned = unsigned || draft || (await getDraft());
+  const publishPost = async (unsigned: UnsignedEvent) => {
+    // Broadcast quoted events
+    const pointers = processTags(unsigned.tags, (t) => (t[0] === "q" ? getEventPointerFromQTag(t) : undefined));
+    const events = pointers.map((p) => eventStore.getEvent(p.id)).filter((t) => !!t);
+    for (const event of events) publish("Broadcast event", event);
 
+    // Publish the note
     const pub = await publish("Post", unsigned);
     if (pub) setPublishEntry(pub);
   };
   const submit = handleSubmit(async (values) => {
-    if (values.difficulty > 0) {
-      setMiningTarget(values.difficulty);
-    } else {
-      const unsigned = await getDraft(values);
-      publishPost(unsigned);
-    }
+    if (values.difficulty > 0) setMiningTarget(values.difficulty);
+    else publishPost(await createDraft(values));
   });
+
+  const preview = useThrottle(getValues().content, 500);
 
   const canSubmit = getValues().content.length > 0;
 
@@ -160,7 +159,7 @@ export default function PostModal({
             draft={draft}
             targetPOW={miningTarget}
             onCancel={() => setMiningTarget(0)}
-            onSkip={publishPost}
+            onSkip={() => publishPost(draft)}
             onComplete={publishPost}
           />
         </ModalBody>
@@ -184,14 +183,14 @@ export default function PostModal({
               if ((e.ctrlKey || e.metaKey) && e.key === "Enter") submit();
             }}
           />
-          {preview && preview.content.length > 0 && (
+          {preview && preview.length > 0 && (
             <Box>
               <Heading size="sm">预览:</Heading>
               <Box borderWidth={1} borderRadius="md" p="2">
                 <ErrorBoundary>
-                  <TrustProvider trust>
+                  <ContentSettingsProvider blurMedia={false}>
                     <TextNoteContents event={preview} />
-                  </TrustProvider>
+                  </ContentSettingsProvider>
                 </ErrorBoundary>
               </Box>
             </Box>

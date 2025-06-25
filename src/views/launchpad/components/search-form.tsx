@@ -1,16 +1,16 @@
+import { Card, Flex, FlexProps, Input, InputGroup, InputRightElement, useDisclosure } from "@chakra-ui/react";
+import { useObservableState } from "applesauce-react/hooks";
+import { matchSorter } from "match-sorter";
+import { nip19 } from "nostr-tools";
 import { FormEventHandler, useCallback, useEffect, useRef, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { Card, Flex, FlexProps, Input, InputGroup, InputRightElement, useDisclosure } from "@chakra-ui/react";
-import { matchSorter } from "match-sorter";
 import { useAsync, useKeyPressEvent, useThrottle } from "react-use";
-import { nip19 } from "nostr-tools";
-import { useObservable } from "applesauce-react/hooks";
 
+import KeyboardShortcut from "../../../components/keyboard-shortcut";
 import UserAvatar from "../../../components/user/user-avatar";
 import UserName from "../../../components/user/user-name";
-import KeyboardShortcut from "../../../components/keyboard-shortcut";
-import { useWebOfTrust } from "../../../providers/global/web-of-trust-provider";
 import { userSearchDirectory } from "../../../services/username-search";
+import { sortByDistanceAndConnections } from "../../../services/social-graph";
 
 function UserOption({ pubkey }: { pubkey: string }) {
   return (
@@ -22,8 +22,7 @@ function UserOption({ pubkey }: { pubkey: string }) {
 }
 
 export default function SearchForm({ ...props }: Omit<FlexProps, "children">) {
-  const webOfTrust = useWebOfTrust();
-  const directory = useObservable(userSearchDirectory);
+  const directory = useObservableState(userSearchDirectory);
   const navigate = useNavigate();
   const autoComplete = useDisclosure();
   const ref = useRef<HTMLInputElement | null>(null);
@@ -36,14 +35,12 @@ export default function SearchForm({ ...props }: Omit<FlexProps, "children">) {
     return matchSorter(directory ?? [], queryThrottle.trim(), {
       keys: ["names"],
       sorter: (items) =>
-        webOfTrust
-          ? webOfTrust.sortByDistanceAndConnections(
-              items.sort((a, b) => b.rank - a.rank),
-              (i) => i.item.pubkey,
-            )
-          : items,
+        sortByDistanceAndConnections(
+          items.sort((a, b) => b.rank - a.rank),
+          (i) => i.item.pubkey,
+        ),
     }).slice(0, 10);
-  }, [queryThrottle, webOfTrust]);
+  }, [queryThrottle]);
   useEffect(() => {
     if (localUsers.length > 0 && !autoComplete.isOpen) autoComplete.onOpen();
   }, [localUsers, autoComplete.isOpen]);

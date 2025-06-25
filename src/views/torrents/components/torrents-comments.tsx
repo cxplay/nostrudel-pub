@@ -9,8 +9,7 @@ import {
   useBreakpointValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import { ThreadItem, ThreadQuery } from "applesauce-core/queries";
-import { useStoreQuery } from "applesauce-react/hooks";
+import { ThreadItem, ThreadModel } from "applesauce-core/models";
 import { NostrEvent } from "nostr-tools";
 import { memo, useState } from "react";
 
@@ -34,9 +33,10 @@ import useThreadTimelineLoader from "../../../hooks/use-thread-timeline-loader";
 import { useTimelineCurserIntersectionCallback } from "../../../hooks/use-timeline-cursor-intersection-callback";
 import useAppSettings from "../../../hooks/use-user-app-settings";
 import IntersectionObserverProvider from "../../../providers/local/intersection-observer";
-import { TrustProvider } from "../../../providers/local/trust-provider";
+import { ContentSettingsProvider } from "../../../providers/local/content-settings";
 import ReplyForm from "../../thread/components/reply-form";
 import TorrentCommentMenu from "./torrent-comment-menu";
+import { useEventModel } from "applesauce-react/hooks";
 
 export const ThreadPost = memo(({ post, level = -1 }: { post: ThreadItem; level?: number }) => {
   const { showReactions } = useAppSettings();
@@ -89,9 +89,9 @@ export const ThreadPost = memo(({ post, level = -1 }: { post: ThreadItem; level?
       muteAlert
     ) : (
       <>
-        <TrustProvider event={post.event}>
+        <ContentSettingsProvider event={post.event}>
           <TextNoteContents event={post.event} pl="2" />
-        </TrustProvider>
+        </ContentSettingsProvider>
       </>
     );
   };
@@ -157,7 +157,7 @@ export default function TorrentComments({ torrent }: { torrent: NostrEvent }) {
   const readRelays = useReadRelays();
   const { timeline } = useThreadTimelineLoader(torrent, readRelays, [TORRENT_COMMENT_KIND]);
 
-  const thread = useStoreQuery(ThreadQuery, [torrent.id]);
+  const thread = useEventModel(ThreadModel, [torrent.id]);
 
   const callback = useTimelineCurserIntersectionCallback(timeline);
 

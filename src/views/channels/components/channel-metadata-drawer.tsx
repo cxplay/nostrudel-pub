@@ -30,7 +30,7 @@ import UserDnsIdentity from "../../../components/user/user-dns-identity";
 import ChannelJoinButton from "./channel-join-button";
 import { ExternalLinkIcon } from "../../../components/icons";
 import { useReadRelays } from "../../../hooks/use-client-relays";
-import { useAdditionalRelayContext } from "../../../providers/local/additional-relay-context";
+import { useAdditionalRelayContext } from "../../../providers/local/additional-relay";
 
 function UserCard({ pubkey }: { pubkey: string }) {
   return (
@@ -63,7 +63,7 @@ export default function ChannelMetadataDrawer({
   channel,
   ...props
 }: Omit<DrawerProps, "children"> & { channel: NostrEvent }) {
-  const metadata = useChannelMetadata(channel.id);
+  const metadata = useChannelMetadata(channel);
   const relays = useReadRelays(useAdditionalRelayContext());
 
   return (

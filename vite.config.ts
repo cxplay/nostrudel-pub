@@ -19,15 +19,25 @@ export default defineConfig({
     react(),
     tsconfigPaths(),
     VitePWA({
+      strategies: "injectManifest",
+      srcDir: "src/sw/worker",
+      filename: "sw.ts",
       registerType: "autoUpdate",
+      devOptions: {
+        enabled: true,
+        type: "module",
+        navigateFallback: "index.html",
+      },
       injectManifest: {
         minify: false,
         sourcemap: true,
-        // This increase the cache limit to 4mB
+        // This increase the cache limit to 8mB
         maximumFileSizeToCacheInBytes: 1024 * 1024 * 8,
+        // Ensure index.html is included in the manifest
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,json,woff,woff2}"],
       },
       workbox: {
-        // This increase the cache limit to 4mB
+        // This increase the cache limit to 8mB
         maximumFileSizeToCacheInBytes: 1024 * 1024 * 8,
       },
       manifest: {
@@ -48,28 +58,6 @@ export default defineConfig({
         lang: "en",
         start_url: "/",
         scope: "/",
-        shortcuts: [
-          {
-            name: "Notes",
-            url: "/",
-            description: "",
-          },
-          {
-            name: "Notifications",
-            url: "/notifications",
-            description: "",
-          },
-          {
-            name: "Messages",
-            url: "/messages",
-            description: "",
-          },
-          {
-            name: "Streams",
-            url: "/streams",
-            description: "",
-          },
-        ],
         protocol_handlers: [
           {
             protocol: "web+nostr",
