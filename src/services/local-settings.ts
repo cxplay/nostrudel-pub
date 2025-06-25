@@ -8,12 +8,12 @@ import {
   NullableNumberLocalStorageEntry,
   NumberLocalStorageEntry,
 } from "../classes/local-settings/types";
-import { DEFAULT_LOOKUP_RELAYS, DEFAULT_SIGNAL_RELAYS } from "../const";
+import { DEFAULT_LOOKUP_RELAYS, DEFAULT_SIGNAL_RELAYS, NOSTR_MOE_RELAYS } from "../const";
 import { type RelayAuthMode } from "./authentication-signer";
 
 // Relays
-const readRelays = new ArrayLocalStorageEntry<string>("read-relays", []);
-const writeRelays = new ArrayLocalStorageEntry<string>("write-relays", []);
+const readRelays = new ArrayLocalStorageEntry<string>("read-relays", NOSTR_MOE_RELAYS);
+const writeRelays = new ArrayLocalStorageEntry<string>("write-relays", NOSTR_MOE_RELAYS);
 const lookupRelays = new ArrayLocalStorageEntry<string>("lookup-relays", DEFAULT_LOOKUP_RELAYS);
 
 // IndexedDB Relay
