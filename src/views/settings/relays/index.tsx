@@ -143,7 +143,7 @@ export default function AppRelaysView() {
         预设
       </Heading>
       <Text fontStyle="italic" color="gray.500">
-        These are the recommended relays presets for the app. They are used for everything in the app.
+        这部分是应用推荐的中继预设, 用于应用中的所有功能.
       </Text>
       <SimpleGrid columns={{ base: 1, lg: 2, xl: 3 }} spacing="2">
         <RelaySetCard label="Nostr.moe" read={NOSTR_MOE_RELAYS} write={NOSTR_MOE_RELAYS} />
@@ -153,7 +153,7 @@ export default function AppRelaysView() {
 
       {/* Index Relays */}
       <Heading size="md" mt="4">
-        Index Relays
+        索引中继
       </Heading>
       <Text fontStyle="italic" color="gray.500">
         索引或检索中继是用于查找用户配置, 用户信箱配置和其他重要信息的特殊中继.
@@ -183,7 +183,7 @@ export default function AppRelaysView() {
           localSettings.lookupRelays.next(Array.from(DEFAULT_LOOKUP_RELAYS));
         }}
       >
-        Reset to defaults
+        重置到默认值
       </Button>
 
       {lookupRelays.length === 0 && (
